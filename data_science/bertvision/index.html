@@ -55,42 +55,51 @@
       </header>
 <section>
 
-            <p><a href="https://cbenge509.github.io/"><img src="https://cbenge509.github.io/images/arrow_back.png?raw=true" width="30" /></a></p>
+            <p><a href="https://cbenge509.github.io/"><img src="/../images/arrow_back.png?raw=true" width="30" /></a></p>
 
             <!-- START HERE-->
-            <p><a href="https://github.com/cbenge509/dsbowl_2018"><img src="https://cbenge509.github.io/images/dsbowl2018_top.png?raw=true" /></a></p>
-            <h2 id="graduate-income-prediction"><a href="https://github.com/cbenge509/dsbowl_2018">Find the Nuclei, Speed the Time to Cures</a></h2>
-            <p><strong>Kaggle | Machine Learning Competition</strong><br><i>Top 12% (IOU: 0.41553)</i></p>
+            <p><a href="https://github.com/cbenge509/BERTVision"><img src="/../images/bertvision.png?raw=true" align="center"/></a></p>
+            <h2 id="graduate-income-prediction"><a href="https://github.com/cbenge509/BERTVision">BERTVision : <i>A Novel NLP Modeling Technique</i></a></h2>
+            <p><strong>UC Berkeley | Natural Language Processing</strong><br><i> Improving span annotation and classification task performance using parameter-efficient model architectures trained on BERT’s hidden state activations.<br><br>w/ William Casey King, PhD (Yale University) <b>|</b> Siduo Jiang (U.C. Berkeley)</i></p>
+            <h3><a href="https://github.com/cbenge509/BERTVision/blob/master/paper/external%20version/BERTVision.pdf"> >>> Read our paper here <<< </a></h3>
             <hr />
 
             <h4 id="project-description">Project Description</h4>
-            <p>Kaggle's annual Data Science Bowl for 2018 was an <a href="https://en.wikipedia.org/wiki/Image_segmentation">instance segmentation</a> competition aimed at improving the state-of-the-art in nuclei detection from electron microscopy images.  My presentations on this competition are <a href="https://github.com/cbenge509/dsbowl_2018/tree/master/presentation">available in my repo</a>.</p>
+            <p>We present a highly parameter-efficient approach for Question Answering (QA) that significantly reduces the need for extended BERT fine-tuning. Our best model achieves maximal BERT performance at a fraction of the training time and GPU/TPU expense.</p>
+
+            <h4 id="motivation">Model Architecture</h4>
+            Our model extracts layer embeddings from BERT, normally discarded during inferencing, and learns from a lightly fine-tuned BERT at a fraction of the GPU/TPU expense while maintaining or exceeding BERTs performance.<br><br>
+            <img src="/../images/BERTVision_QA_Model.png" width=350><br><br>
+
+            <h4 id="motivation">Data Pipeline : Span Annotation</h4>
+            After fine-tuning BERT at a minimal level, we capture the inferenced embeddings for each example and store them as 3 dimensional arrays (386, 1024, 25).  These arrays are then contracted across the channel dimension using a simple linear transform using learned weights  From there typical modeling approachs, such as convolution, are applied and a prediction for the start and end span are produced.<br><br>
+            <img src="/../images/Data_Pipeline_Span_Annotation.png"><br><br>
+
+            <h4 id="motivation">Data Pipeline : Classification</h4>
+            The dataset we used for the project is the SQuAD 2.0 Q&amp;A data, which consists of both questions and span answers as well as questions that cannot be answered.  For this latter problem, we focus our models on the task of identifying whether or not a question is answerable in the form of a binary classification task.<br><br>
+            <img src="/../images/Data_Pipeline_Binary_Classification.png"><br><br>
+
+            <h4 id="motivation">Results</h4>
+            Our best models use less than 1% of the significantly-sized BERT-Large (~335M parameters), while achieving at-or-better results than BERT on both Q&amp;A span annotation and classification tasks.  We were able to achieve these results with both minimal fine-tuning (1 epoch or less) and less training data.<br><br>
+            <table>
+                <tr>
+                    <td><<img src="/../images/QnA_BERT_Training_Performance_plot.png"></td><td><<img src="/../images/BinaryClassification_BERT_Training_Performance_plot.png"></td>
+                </tr>
+            </table>
 
             <h4 id="skills">Skills</h4>
-            <p>Data Augmentation, Computer Vision, Image Processing, Instance Segmentation, Convolutional Neural Networks</p>
+            <p>Natural Language Processing, Q&amp;A Span Annotation, Classification, BERT, Transformers, Convolutional Neural Networks, Ensembling</p>
 
             <h4 id="tools">Tools</h4>
-            <p>Python, Pandas, NumPy, Keras, TensorFlow, Matplotlib, Seaborn, CV2, JSON</p>
+            <p>Python, Jupyter, Pandas, NumPy, Keras, TensorFlow, LaTeX</p>
             <hr />
 
-            <h4 id="motivation">Motivation</h4>
-
-            <p>Kaggle's annual Data Science Bowl for 2018 was a computer vision (instance segmentation) challenge; the mission was to write a better nuclei detector [for a variety of images generated by heterogeneous electron microscopy technologies] than the current state-of-the-art.  In addition to evaluating models appropriate for this challenge, custom performance metrics were developed as Mean IOU is not available out of the box.</p>
-
-            <p>Images came in a variety of shapes and varying degrees of quality and coloration.  Some were fluouresced, some grayscale, others were taken with dyes, some had artifacts on the slide that obscured portions of the cells, and so on.  Additionally, the cells under consideration came from a wide variety of species and organisms.  Cells were presented in various states: normal, apoptotic, karyorrhexic, no-to-severe blebbing, and so on.</p>
-
-            <p>To further compound the challenge, only 670 images were provided and labels on at least 15%-20% of the data was factually incorrect or missing entirely.  Manual modification of label masks and data augmentation were required to generate accurate and sufficent data for final prediction.</p>
+            <p><a href="https://github.com/cbenge509/BERTVision"><img src="/../images/BERTVision_Development_PIpeline.png" /></a></p>
             <hr />
-
-            <p><a href="https://github.com/cbenge509/dsbowl_2018"><img src="https://cbenge509.github.io/images/dsbowl2018_bottom.png?raw=true" /></a></p>
-            <hr />
-            <p style="font-size:11px">See the complete project in my <a href="https://github.com/cbenge509/dsbowl_2018">GitHub repository.</a></p>
+            <p style="font-size:11px">See the complete project in my <a href="https://github.com/cbenge509/BERTVision">GitHub repository.</a></p>
 
         </section>
 
-        <footer>
-            <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-        </footer>
     </div>
     <script src="https://cbenge509.github.io/assets/js/scale.fix.js"></script>
   </body>
