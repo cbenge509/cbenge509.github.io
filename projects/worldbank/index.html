@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Cris Benge | Honors & Awards</title>
-    <meta name="description" content="Cris Benge | Honors & Awards">
+    <title>Cris Benge | Portfolio | World Bank Document Classification</title>
+    <meta name="description" content="Cris Benge | Portfolio | World Bank Document Classification">
 
     <!-- Bootstrap & MDB -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha512-MoRNloxbStBcD8z3M/2BmnT+rg4IsMxPkXaGh2zD6LGNNFE80W3onsAhRcMAMrSoyWL9xD7Ert0men7vR8LUZg==" crossorigin="anonymous">
@@ -85,10 +85,8 @@
               </li>
 
               <!-- Awards -->
-              <li class="nav-item active">
-                <a class="nav-link" href="/publications/">awards
-                  <span class="sr-only">(current)</span>
-                </a>
+              <li class="nav-item ">
+                <a class="nav-link" href="/publications/">awards</a>
               </li>
               
               <!-- Skills -->
@@ -119,46 +117,42 @@
       <div class="post">
 
         <header class="post-header">
-          <h1 class="post-title">honors</h1>
-          <p class="post-description">Machine learning competition placements.</p>
+          <h2 id="graduate-income-prediction"><a href="https://github.com/cbenge509/wb2019" target="_blank">Identifying Topics of World Bank Publications</a></h2>
+          <p>
+            <strong>DrivenData | Machine Learning Competition</strong><br><i>1st place (F1-micro: 0.6925)</i>
+          </p>
+          </p>
+          <hr />
         </header>
 
-        <article class="news">
+        <article>
 
-          <table>
-            <tbody>
-              <tr style="padding:10px">
-                <td style="padding:10px">2019</td>
-                <td style="padding:10px"><b>1st place</b> : February, 2019 DrivenData Machine Learning Competition :: Identifying World Bank Pulbication Topics (NLP, multi-label, multi-class)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2018</td>
-                <td style="padding:10px"><b>Top 12% solution</b> : 2018 Kaggle Data Science Bowl :: Find the Nuclei in Divergent Images to Advance Medical Discovery (Vision, instance segmentation)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2017</td>
-                <td style="padding:10px"><b>13th place</b> : December, 2017 Kaggle Machine Learning Competition :: Predicting Future Sales for 1C Company (Regression, Time-Series)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2017</td>
-                <td style="padding:10px"><b>1st place</b> : October, 2017 DrivenData Machine Learning Competition :: Predicting College Graduate Earnings (Regression)</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- Content -->
+          <p><a href="https://github.com/cbenge509/wb2019" target="_blank"><img src="https://cbenge509.github.io/images/worldbank_top.png?raw=true" class="card-img-top" /></a></p>
+          <hr />
 
-          <br>
-          <h1 id="post-title">microsoft awards</h1>
-          <br>
+          <h4 id="project-description">Project Description</h4>
+          <p>Multi-label, multi-class classification NLP machine learning competition; topic identification of World Bank publications.</p>
 
-          <table>
-            <tbody>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_platinum.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_champion.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_hero.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_better_together.png" width = "150" /></td>
-              </tr>
-            </tbody>
-          </table>
+          <h4 id="skills">Skills</h4>
+          <p>Natural Language Processing, Classification, Multi-Label, Stemming, TF-IDF, LSTM / GRU, Neural Network (Dense), Over/Under Sampling, SMOTE, Word2Vec / Glove / Custom Word Embeddings, Adversarial Validation</p>
+
+          <h4 id="tools">Tools</h4>
+          <p>Python, Pandas, NumPy, Keras, TensorFlow, Matplotlib, Seaborn, NLTK, Plotly, LightGBM</p>
+          <hr />
+
+          <h4 id="motivation">Motivation</h4>
+
+          <p>The World Bank is an international financial institution that, in addition to providing loans and grants to governments, studies and publishes on the nuances of economic conditions and inequality.  Many of their publications are classified into one or more categories, such as: Macroeconomics, Private Sector, Poverty Reduction, Law and Development, Technology, etc.  For this challenge, competitors were provided with 18,660 training examples of publications in a raw format and asked to predict the label(s) for 18,738 test samples.</p>
+
+          <p>Adversarial validation was used to ensure that the distribution of test and train datasets were similiar enough to make reasonable inference from.  A significant amount of clean-up was required to make use of the data for tokenization; many documents were missing spaces creating extremely large run-on-words - effort was made utilizing probabilistic distribution models to segment words.  Class-imbalance was a significant problem in the train dataset; random oversampling produced better cross validation scores but overfit and generalized poorly.  SMOTE was leveraged to better effect for this problem though some overfitting persisted.</p>
+
+          <p>Various modeling techniques were tried, including TF-IDF driven trees and dense neural networks on popular word embeddings (Glove/Word2Vec); however, a custom vocabulary performed best.  Transformer models were evaluated but had marginal impact on results and were thus abandoned for simpler models.  In the end, the key insight that advantaged me over the other competitors was a shockingly simple insight missed by all others:  The organizers had slipped ~4k observations from train into the test dataset.  It's not clear if this was intentional or inadvertent - but by holding those observations out from prediction and simply passing the labels in post-prediction I was able to move from #2 to #1 spot in the final week.</p>
+          <hr />
+
+          <p><a href="https://github.com/cbenge509/wb2019" target="_blank"><img src="https://cbenge509.github.io/images/worldbank_bottom.png?raw=true" class="card-img-top" /></a></p>
+          <hr />
+          <p>See the complete project in my <a href="https://github.com/cbenge509/wb2019">GitHub repository.</a></p>
 
         </article>
       </div>

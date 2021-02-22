@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Cris Benge | Honors & Awards</title>
-    <meta name="description" content="Cris Benge | Honors & Awards">
+    <title>Cris Benge | Portfolio | College Outcomes Prediction</title>
+    <meta name="description" content="Cris Benge | Portfolio | College Outcomes Prediction">
 
     <!-- Bootstrap & MDB -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha512-MoRNloxbStBcD8z3M/2BmnT+rg4IsMxPkXaGh2zD6LGNNFE80W3onsAhRcMAMrSoyWL9xD7Ert0men7vR8LUZg==" crossorigin="anonymous">
@@ -85,10 +85,8 @@
               </li>
 
               <!-- Awards -->
-              <li class="nav-item active">
-                <a class="nav-link" href="/publications/">awards
-                  <span class="sr-only">(current)</span>
-                </a>
+              <li class="nav-item ">
+                <a class="nav-link" href="/publications/">awards</a>
               </li>
               
               <!-- Skills -->
@@ -119,46 +117,41 @@
       <div class="post">
 
         <header class="post-header">
-          <h1 class="post-title">honors</h1>
-          <p class="post-description">Machine learning competition placements.</p>
+          <h2 id="graduate-income-prediction"><a href="https://github.com/cbenge509/DataScienceCapstone_Oct2017" target="_blank">Predicting College Graduate Earnings</a></h2>
+          <p>
+            <strong>DrivenData | Machine Learning Competition</strong><br><i>1st place win (RMSE: 2.9796)</i>
+          </p>
+          <hr />
         </header>
 
-        <article class="news">
+        <article>
 
-          <table>
-            <tbody>
-              <tr style="padding:10px">
-                <td style="padding:10px">2019</td>
-                <td style="padding:10px"><b>1st place</b> : February, 2019 DrivenData Machine Learning Competition :: Identifying World Bank Pulbication Topics (NLP, multi-label, multi-class)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2018</td>
-                <td style="padding:10px"><b>Top 12% solution</b> : 2018 Kaggle Data Science Bowl :: Find the Nuclei in Divergent Images to Advance Medical Discovery (Vision, instance segmentation)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2017</td>
-                <td style="padding:10px"><b>13th place</b> : December, 2017 Kaggle Machine Learning Competition :: Predicting Future Sales for 1C Company (Regression, Time-Series)</td>
-              </tr>
-              <tr style="padding:10px">
-                <td style="padding:10px">2017</td>
-                <td style="padding:10px"><b>1st place</b> : October, 2017 DrivenData Machine Learning Competition :: Predicting College Graduate Earnings (Regression)</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- Content -->
+          <p><a href="https://github.com/cbenge509/DataScienceCapstone_Oct2017" target="_blank"><img src="https://cbenge509.github.io/images/graduate_income_model.png?raw=true" class="card-img-top" /></a></p>
+          <hr />
 
-          <br>
-          <h1 id="post-title">microsoft awards</h1>
-          <br>
+          <h4 id="project-description">Project Description</h4>
+          <p>Regression analysis and prediction of college earnings N years following graduation over anonymized college graduate data provided by the <a href="https://collegescorecard.ed.gov/" target="_blank">U.S. Department of Education: College Scorecard</a>.</p>
 
-          <table>
-            <tbody>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_platinum.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_champion.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_hero.png" width = "150" /></td>
-                <td style="padding:10px"><img src="https://cbenge509.github.io/images/msft_better_together.png" width = "150" /></td>
-              </tr>
-            </tbody>
-          </table>
+          <h4 id="skills">Skills</h4>
+          <p>Data Analysis, Data Cleaning, Regression, Feature Interactions & Selection, Ensemble Methods, Generalized Stacking, Written Communication</p>
+
+          <h4 id="tools">Tools</h4>
+          <p>Python, Pandas, NumPy, Matplotlib, Jupyter, Seaborn, AdaBoost, Extra Trees and Random Forest, Gradient Boosted Decision Trees, Microsoft LightGBM, XGBoost</p>
+          <hr />
+
+          <h4 id="motivation">Motivation</h4>
+
+          <p>Potential earning-power is a motivating factor for many college students, but the critical educational institution characteristics that contribute most to financial success are not well advertised. In this machine learning competition hosted in 2017 by DrivenData, competitors were asked to evaluate 17,107 post-collegiate outcomes across 297 independent variables and construct a model that predicts 9,912 test samples.  Competitors model performance was evaluated via the lowest root mean squared error.</p>
+
+          <p>There were many interesting findings in the data; though school name and location were anonymized - it was fairly easy to identify the typical Ivy League schools through significantly higher tuition costs, high-rates of legacy parental attendance, and well above-average SAT scores.  Though it was not surprising that these students often had the highest income outcomes post-graduation, the best positive indicator for high-tier income was the school status of 'public, nonprofit' and the presence of Ph.D. programs.  Surprisingly, the best signal for low-tier earnings outcomes was the presence of a 2-or-4 year culinary program and a 'private, for-profit' status.</p>
+
+          <p>The greatest improvements to model performance were: (a) the use of generalized stacking of seven tree-based models (with a linear meta-model), (b) manual synthezation of quadratic feature interactions, (c) careful interpolation of missing data through a separate regressor, (d) clipping of outliers, (e) removal of duplicate observations in the training dataset, and (f) derivation of new features that captured ordinal rank of anonymized states and student demographics.</p>
+          <hr />
+
+          <p><a href="https://github.com/cbenge509/DataScienceCapstone_Oct2017" target="_blank"><img src="https://cbenge509.github.io/images/graduate_income_tree.png?raw=true" class="card-img-top" /></a></p>
+          <hr />
+          <p>See the complete project in my <a href="https://github.com/cbenge509/DataScienceCapstone_Oct2017" target="_blank">GitHub repository.</a></p>
 
         </article>
       </div>
