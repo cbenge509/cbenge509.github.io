@@ -1,0 +1,124 @@
+# Workflow Status - BMad Method Brownfield
+# This tracks progress through BMM methodology phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2026-01-01"
+project: "cbenge509.github.io"
+project_type: "portfolio-website"
+user_description: "Enhance and redesign existing GitHub portfolio site"
+selected_track: "method"
+field_type: "brownfield"
+workflow_path: "method-brownfield.yaml"
+
+# ═══════════════════════════════════════════════════════════════
+# WORKFLOW STATUS
+# ═══════════════════════════════════════════════════════════════
+
+workflow_status:
+
+  # ─────────────────────────────────────────────────────────────
+  # PREREQUISITE: Documentation (Brownfield Required)
+  # ─────────────────────────────────────────────────────────────
+  prerequisite:
+    - id: document-project
+      status: "docs/index.md"
+      agent: analyst
+      command: /bmad:bmm:workflows:document-project
+      purpose: "Understand existing codebase before planning"
+      completed: "2026-01-01"
+      outputs:
+        - "docs/index.md"
+        - "docs/architecture.md"
+        - "docs/tech-stack.md"
+        - "docs/development.md"
+        - "docs/content-guide.md"
+        - "docs/project-scan-report.json"
+
+  # ─────────────────────────────────────────────────────────────
+  # PHASE 0: Discovery (Optional - User Selected)
+  # ─────────────────────────────────────────────────────────────
+  phase_0_discovery:
+    - id: brainstorming
+      status: optional
+      agent: analyst
+      command: /bmad:core:workflows:brainstorming
+      note: "User requested"
+
+    - id: research
+      status: optional
+      agent: analyst
+      command: /bmad:bmm:workflows:research
+      note: "User requested"
+
+  # ─────────────────────────────────────────────────────────────
+  # PHASE 1: Planning
+  # ─────────────────────────────────────────────────────────────
+  phase_1_planning:
+    - id: prd
+      status: "_bmad-output/planning-artifacts/prd.md"
+      agent: pm
+      command: /bmad:bmm:workflows:create-prd
+      output: "PRD focused on new features/changes"
+      completed: "2026-01-01"
+
+    - id: create-ux-design
+      status: "_bmad-output/planning-artifacts/ux-design-specification.md"
+      condition: if_has_ui
+      agent: ux-designer
+      command: /bmad:bmm:workflows:create-ux-design
+      completed: "2026-01-02"
+      outputs:
+        - "_bmad-output/planning-artifacts/ux-design-specification.md"
+        - "_bmad-output/planning-artifacts/color-theme-visualizer.html"
+        - "_bmad-output/planning-artifacts/color-variations-visualizer.html"
+        - "_bmad-output/planning-artifacts/typography-visualizer.html"
+        - "_bmad-output/planning-artifacts/ux-design-directions.html"
+
+  # ─────────────────────────────────────────────────────────────
+  # PHASE 2: Solutioning
+  # ─────────────────────────────────────────────────────────────
+  phase_2_solutioning:
+    - id: create-architecture
+      status: recommended
+      agent: architect
+      command: /bmad:bmm:workflows:create-architecture
+      note: "HIGHLY RECOMMENDED: Focused solution design prevents agent confusion"
+
+    - id: create-epics-and-stories
+      status: required
+      agent: pm
+      command: /bmad:bmm:workflows:create-epics-and-stories
+
+    - id: test-design
+      status: recommended
+      agent: tea
+      command: /bmad:bmm:workflows:testarch-test-design
+      note: "System-level testability review"
+
+    - id: implementation-readiness
+      status: required
+      agent: architect
+      command: /bmad:bmm:workflows:check-implementation-readiness
+      note: "Gate check: Validates PRD + Architecture + Epics + UX"
+
+  # ─────────────────────────────────────────────────────────────
+  # PHASE 3: Implementation
+  # ─────────────────────────────────────────────────────────────
+  phase_3_implementation:
+    - id: sprint-planning
+      status: required
+      agent: sm
+      command: /bmad:bmm:workflows:sprint-planning
+      note: "Creates sprint-status.yaml for implementation tracking"

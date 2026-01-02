@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Directions - Cris Benge Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --color-bg: #ffffff;
+      --color-surface: #f8fafc;
+      --color-text: #1a1a1a;
+      --color-text-secondary: #6b7280;
+      --color-accent: #2563eb;
+      --color-accent-hover: #1d4ed8;
+    }
+
+    .dark {
+      --color-bg: #0a0a0a;
+      --color-surface: #171717;
+      --color-text: #fafafa;
+      --color-text-secondary: #9ca3af;
+      --color-accent: #3b82f6;
+      --color-accent-hover: #60a5fa;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .app-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 2rem;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .app-header h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      color: #0f172a;
+    }
+
+    .header-controls {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .mode-toggle {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .mode-toggle button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mode-toggle button.active {
+      background: #0f172a;
+      color: white;
+      border-color: #0f172a;
+    }
+
+    /* Navigation */
+    .direction-nav {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.75rem 2rem;
+      z-index: 999;
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .direction-nav button {
+      padding: 0.5rem 1rem;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .direction-nav button.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    .direction-nav button:hover:not(.active) {
+      border-color: #2563eb;
+      color: #2563eb;
+    }
+
+    /* Main content */
+    .main-content {
+      padding-top: 120px;
+    }
+
+    /* Design Direction Container */
+    .direction-container {
+      display: none;
+      min-height: calc(100vh - 120px);
+    }
+
+    .direction-container.active {
+      display: block;
+    }
+
+    /* Direction Preview Frame */
+    .preview-frame {
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: calc(100vh - 120px);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Direction Info Bar */
+    .direction-info {
+      background: var(--color-surface);
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(128,128,128,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .direction-info h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      color: var(--color-text);
+    }
+
+    .direction-info p {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* ============================================
+       DIRECTION 1: CENTERED MINIMAL
+       ============================================ */
+    .d1-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+
+    .d1-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+    }
+
+    .d1-hero .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.375rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .d1-hero .role {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .d1-credentials {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .d1-credential {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-surface);
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .d1-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .d1-cta button {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d1-cta .primary {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+    }
+
+    .d1-cta .secondary {
+      background: transparent;
+      border: 2px solid var(--color-text);
+      color: var(--color-text);
+    }
+
+    .d1-projects {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .d1-projects h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .d1-featured-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .d1-featured-card {
+      background: var(--color-surface);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .d1-featured-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .d1-featured-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .d1-featured-card p {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .d1-featured-card .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* ============================================
+       DIRECTION 2: LEFT-ALIGNED BOLD
+       ============================================ */
+    .d2-hero {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .d2-hero-content {
+      max-width: 700px;
+    }
+
+    .d2-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .d2-hero .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .d2-hero .role {
+      font-size: 1.125rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .d2-credentials {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .d2-credential {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+      background: var(--color-surface);
+      border-radius: 6px;
+      font-weight: 500;
+      border-left: 3px solid var(--color-accent);
+    }
+
+    .d2-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .d2-cta button {
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d2-cta .primary {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+    }
+
+    .d2-cta .secondary {
+      background: transparent;
+      border: 2px solid var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .d2-projects {
+      padding: 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .d2-projects h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .d2-projects .subtitle {
+      color: var(--color-text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .d2-featured-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .d2-featured-item {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem;
+      background: var(--color-surface);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .d2-featured-item:hover {
+      transform: translateX(8px);
+    }
+
+    .d2-featured-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      min-width: 3rem;
+    }
+
+    .d2-featured-content h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .d2-featured-content p {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .d2-featured-tag {
+      margin-left: auto;
+      font-size: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ============================================
+       DIRECTION 3: SPLIT HERO
+       ============================================ */
+    .d3-hero {
+      min-height: 70vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .d3-hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      border-right: 1px solid var(--color-surface);
+    }
+
+    .d3-hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 4rem;
+      background: var(--color-surface);
+    }
+
+    .d3-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .d3-hero .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+    }
+
+    .d3-hero .role {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .d3-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .d3-cta button {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d3-cta .primary {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+    }
+
+    .d3-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    .d3-stat h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .d3-stat p {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+
+    .d3-projects {
+      padding: 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .d3-projects h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .d3-project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .d3-project-card {
+      background: var(--color-surface);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .d3-project-card:hover {
+      border-color: var(--color-accent);
+      transform: translateY(-2px);
+    }
+
+    .d3-project-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 0.375rem;
+    }
+
+    .d3-project-card p {
+      font-size: 0.75rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .d3-project-card .tag {
+      font-size: 0.625rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* ============================================
+       DIRECTION 4: CARD-BASED MODERN
+       ============================================ */
+    .d4-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 4rem 2rem;
+    }
+
+    .d4-hero-card {
+      background: var(--color-surface);
+      border-radius: 24px;
+      padding: 4rem;
+      max-width: 800px;
+      text-align: center;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.05);
+    }
+
+    .d4-hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .d4-hero .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .d4-hero .role {
+      color: var(--color-text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .d4-credentials {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .d4-credential {
+      font-size: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      background: var(--color-bg);
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .d4-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .d4-cta button {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      padding: 0.875rem 2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .d4-cta .primary {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+    }
+
+    .d4-cta .secondary {
+      background: var(--color-bg);
+      border: none;
+      color: var(--color-text);
+    }
+
+    .d4-projects {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .d4-projects h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.75rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .d4-project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .d4-project-card {
+      background: var(--color-surface);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s;
+    }
+
+    .d4-project-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .d4-project-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .d4-project-card p {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .d4-project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .d4-project-footer .tag {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.75rem;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+
+    .d4-project-footer .arrow {
+      color: var(--color-accent);
+      font-size: 1.25rem;
+    }
+
+    /* ============================================
+       NAVIGATION (Sticky for all directions)
+       ============================================ */
+    .preview-nav {
+      position: sticky;
+      top: 0;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-surface);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .preview-nav .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+
+    .preview-nav .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .preview-nav .nav-link {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .preview-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-accent);
+      transition: width 0.3s;
+    }
+
+    .preview-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .preview-nav .nav-link:hover {
+      color: var(--color-text);
+    }
+
+    .preview-nav .theme-toggle {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: 1px solid var(--color-surface);
+      background: var(--color-bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.875rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .d3-hero {
+        grid-template-columns: 1fr;
+      }
+      .d3-hero-right {
+        border-right: none;
+        border-top: 1px solid var(--color-surface);
+      }
+      .d1-featured-grid,
+      .d4-project-grid {
+        grid-template-columns: 1fr;
+      }
+      .d3-project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .d3-project-grid {
+        grid-template-columns: 1fr;
+      }
+      .d2-featured-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+      .d2-featured-tag {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Design Directions Explorer</h1>
+    <div class="header-controls">
+      <div class="mode-toggle">
+        <button id="lightBtn" class="active" onclick="setMode('light')">Light</button>
+        <button id="darkBtn" onclick="setMode('dark')">Dark</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="direction-nav">
+    <button class="active" onclick="showDirection(1)">1. Centered Minimal</button>
+    <button onclick="showDirection(2)">2. Left-Aligned Bold</button>
+    <button onclick="showDirection(3)">3. Split Hero + Stats</button>
+    <button onclick="showDirection(4)">4. Card-Based Modern</button>
+  </nav>
+
+  <main class="main-content">
+    <!-- DIRECTION 1: Centered Minimal -->
+    <div class="direction-container active" id="direction1">
+      <div class="preview-frame">
+        <div class="direction-info">
+          <div>
+            <h2>Direction 1: Centered Minimal</h2>
+            <p>Clean, symmetric, Apple-inspired restraint. Hero is centered with generous whitespace.</p>
+          </div>
+        </div>
+
+        <nav class="preview-nav">
+          <span class="logo">Cris Benge</span>
+          <div class="nav-links">
+            <span class="nav-link">Projects</span>
+            <span class="nav-link">Publications</span>
+            <span class="nav-link">About</span>
+          </div>
+          <button class="theme-toggle">☀</button>
+        </nav>
+
+        <section class="d1-hero">
+          <h1>Cris Benge</h1>
+          <p class="tagline">Leader. Builder. Winner.</p>
+          <p class="role">Head of Federal Innovation, Google</p>
+          <div class="d1-credentials">
+            <span class="d1-credential">Columbia MS</span>
+            <span class="d1-credential">Berkeley MIDS</span>
+            <span class="d1-credential">TS/SCI Clearance</span>
+          </div>
+          <div class="d1-cta">
+            <button class="primary">Connect on LinkedIn</button>
+            <button class="secondary">View Projects</button>
+          </div>
+        </section>
+
+        <section class="d1-projects">
+          <h2>Featured Projects</h2>
+          <div class="d1-featured-grid">
+            <div class="d1-featured-card">
+              <h3>BERTVision</h3>
+              <p>High-performance BERT compression achieving 40x speedup with minimal accuracy loss. Published research with production deployment.</p>
+              <span class="tag">Technical</span>
+            </div>
+            <div class="d1-featured-card">
+              <h3>World Bank NLP</h3>
+              <p>1st Place DrivenData competition. Multi-label classification for World Bank project categorization.</p>
+              <span class="tag">Winner</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- DIRECTION 2: Left-Aligned Bold -->
+    <div class="direction-container" id="direction2">
+      <div class="preview-frame">
+        <div class="direction-info">
+          <div>
+            <h2>Direction 2: Left-Aligned Bold</h2>
+            <p>Strong left alignment with larger typography. Projects as numbered list for hierarchy.</p>
+          </div>
+        </div>
+
+        <nav class="preview-nav">
+          <span class="logo">CB</span>
+          <div class="nav-links">
+            <span class="nav-link">Work</span>
+            <span class="nav-link">Research</span>
+            <span class="nav-link">Contact</span>
+          </div>
+          <button class="theme-toggle">☀</button>
+        </nav>
+
+        <section class="d2-hero">
+          <div class="d2-hero-content">
+            <h1>Cris Benge</h1>
+            <p class="tagline">Leader. Builder. Winner.</p>
+            <p class="role">Head of Federal Innovation at Google. Building AI systems that matter. Columbia MS, Berkeley MIDS, still shipping code.</p>
+            <div class="d2-credentials">
+              <span class="d2-credential">Columbia MS</span>
+              <span class="d2-credential">Berkeley MIDS</span>
+              <span class="d2-credential">TS/SCI</span>
+            </div>
+            <div class="d2-cta">
+              <button class="primary">Let's Connect</button>
+              <button class="secondary">View Work</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="d2-projects">
+          <h2>Featured Work</h2>
+          <p class="subtitle">Selected projects demonstrating technical depth and competitive excellence</p>
+          <div class="d2-featured-list">
+            <div class="d2-featured-item">
+              <span class="d2-featured-number">01</span>
+              <div class="d2-featured-content">
+                <h3>BERTVision</h3>
+                <p>High-performance BERT compression for production NLP</p>
+              </div>
+              <span class="d2-featured-tag">Technical</span>
+            </div>
+            <div class="d2-featured-item">
+              <span class="d2-featured-number">02</span>
+              <div class="d2-featured-content">
+                <h3>World Bank Classification</h3>
+                <p>1st Place DrivenData — Multi-label NLP classification</p>
+              </div>
+              <span class="d2-featured-tag">Winner</span>
+            </div>
+            <div class="d2-featured-item">
+              <span class="d2-featured-number">03</span>
+              <div class="d2-featured-content">
+                <h3>Facial Keypoints Detection</h3>
+                <p>2nd Place Kaggle — Computer vision deep learning</p>
+              </div>
+              <span class="d2-featured-tag">Winner</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- DIRECTION 3: Split Hero -->
+    <div class="direction-container" id="direction3">
+      <div class="preview-frame">
+        <div class="direction-info">
+          <div>
+            <h2>Direction 3: Split Hero + Stats</h2>
+            <p>Two-column hero with stats panel. Immediately shows credentials with numbers.</p>
+          </div>
+        </div>
+
+        <nav class="preview-nav">
+          <span class="logo">Cris Benge</span>
+          <div class="nav-links">
+            <span class="nav-link">Projects</span>
+            <span class="nav-link">Publications</span>
+            <span class="nav-link">Awards</span>
+          </div>
+          <button class="theme-toggle">☀</button>
+        </nav>
+
+        <section class="d3-hero">
+          <div class="d3-hero-left">
+            <h1>Cris Benge</h1>
+            <p class="tagline">Leader. Builder. Winner.</p>
+            <p class="role">Head of Federal Innovation, Google. Senior AI leader who still ships code.</p>
+            <div class="d3-cta">
+              <button class="primary">Connect</button>
+            </div>
+          </div>
+          <div class="d3-hero-right">
+            <div class="d3-stats">
+              <div class="d3-stat">
+                <h4>9+</h4>
+                <p>Featured Projects</p>
+              </div>
+              <div class="d3-stat">
+                <h4>3</h4>
+                <p>Competition Wins</p>
+              </div>
+              <div class="d3-stat">
+                <h4>2</h4>
+                <p>Master's Degrees</p>
+              </div>
+              <div class="d3-stat">
+                <h4>5+</h4>
+                <p>Publications</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="d3-projects">
+          <h2>Featured Projects</h2>
+          <div class="d3-project-grid">
+            <div class="d3-project-card">
+              <h3>BERTVision</h3>
+              <p>BERT compression research</p>
+              <span class="tag">Technical</span>
+            </div>
+            <div class="d3-project-card">
+              <h3>World Bank NLP</h3>
+              <p>1st Place DrivenData</p>
+              <span class="tag">Winner</span>
+            </div>
+            <div class="d3-project-card">
+              <h3>Facial Keypoints</h3>
+              <p>2nd Place Kaggle</p>
+              <span class="tag">Winner</span>
+            </div>
+            <div class="d3-project-card">
+              <h3>Future Sales</h3>
+              <p>13th Place Kaggle</p>
+              <span class="tag">Competition</span>
+            </div>
+            <div class="d3-project-card">
+              <h3>ArXiV Analysis</h3>
+              <p>Data visualization</p>
+              <span class="tag">Research</span>
+            </div>
+            <div class="d3-project-card">
+              <h3>Crime Statistics</h3>
+              <p>Statistical inference</p>
+              <span class="tag">Research</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- DIRECTION 4: Card-Based Modern -->
+    <div class="direction-container" id="direction4">
+      <div class="preview-frame">
+        <div class="direction-info">
+          <div>
+            <h2>Direction 4: Card-Based Modern</h2>
+            <p>Hero contained in a card. Rounded, soft, approachable modern feel.</p>
+          </div>
+        </div>
+
+        <nav class="preview-nav">
+          <span class="logo">CB</span>
+          <div class="nav-links">
+            <span class="nav-link">Work</span>
+            <span class="nav-link">About</span>
+            <span class="nav-link">Contact</span>
+          </div>
+          <button class="theme-toggle">☀</button>
+        </nav>
+
+        <section class="d4-hero">
+          <div class="d4-hero-card">
+            <h1>Cris Benge</h1>
+            <p class="tagline">Leader. Builder. Winner.</p>
+            <p class="role">Head of Federal Innovation, Google</p>
+            <div class="d4-credentials">
+              <span class="d4-credential">Columbia MS</span>
+              <span class="d4-credential">Berkeley MIDS</span>
+              <span class="d4-credential">TS/SCI Clearance</span>
+              <span class="d4-credential">9+ Projects</span>
+            </div>
+            <div class="d4-cta">
+              <button class="primary">Connect on LinkedIn</button>
+              <button class="secondary">Explore Work</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="d4-projects">
+          <h2>Featured Projects</h2>
+          <div class="d4-project-grid">
+            <div class="d4-project-card">
+              <h3>BERTVision</h3>
+              <p>High-performance BERT compression achieving 40x speedup with minimal accuracy loss.</p>
+              <div class="d4-project-footer">
+                <span class="tag">Technical</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+            <div class="d4-project-card">
+              <h3>World Bank Classification</h3>
+              <p>1st Place DrivenData. Multi-label NLP for World Bank project categorization.</p>
+              <div class="d4-project-footer">
+                <span class="tag">Winner</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+            <div class="d4-project-card">
+              <h3>Facial Keypoints Detection</h3>
+              <p>2nd Place Kaggle. Computer vision with deep learning for facial landmark detection.</p>
+              <div class="d4-project-footer">
+                <span class="tag">Winner</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+            <div class="d4-project-card">
+              <h3>College Outcomes</h3>
+              <p>1st Place DrivenData. Regression modeling for educational outcome prediction.</p>
+              <div class="d4-project-footer">
+                <span class="tag">Winner</span>
+                <span class="arrow">→</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let currentMode = 'light';
+    let currentDirection = 1;
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('lightBtn').classList.toggle('active', mode === 'light');
+      document.getElementById('darkBtn').classList.toggle('active', mode === 'dark');
+
+      document.querySelectorAll('.preview-frame').forEach(frame => {
+        frame.classList.toggle('dark', mode === 'dark');
+      });
+
+      // Update theme toggle icons
+      document.querySelectorAll('.theme-toggle').forEach(btn => {
+        btn.textContent = mode === 'light' ? '☀' : '☾';
+      });
+    }
+
+    function showDirection(num) {
+      currentDirection = num;
+
+      // Update nav buttons
+      document.querySelectorAll('.direction-nav button').forEach((btn, i) => {
+        btn.classList.toggle('active', i === num - 1);
+      });
+
+      // Show/hide containers
+      document.querySelectorAll('.direction-container').forEach((container, i) => {
+        container.classList.toggle('active', i === num - 1);
+      });
+    }
+  </script>
+</body>
+</html>
