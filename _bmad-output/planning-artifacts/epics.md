@@ -234,9 +234,9 @@ This document provides the complete epic and story breakdown for cbenge509.githu
 
 ---
 
-### Epic 5: Content Migration & Quality Assurance
+### Epic 5: Complete & Polished Portfolio Experience
 
-**Goal:** All existing content (9 projects, publications, education, etc.) migrated, new patents added, CI/CD pipeline operational, and the site meets all quality targets.
+**Goal:** Visitors experience a complete portfolio with all content (9 projects, publications, patents, credentials) accurately presented, fast-loading pages, and a flawless experience across all devices and browsers.
 
 **NFRs Covered:** NFR1-NFR23 (all 23 NFRs)
 
@@ -256,9 +256,9 @@ This document provides the complete epic and story breakdown for cbenge509.githu
 
 ### Story 1.1: Project Initialization & Tooling
 
-**As a** developer,
-**I want** a properly initialized Astro 5.x project with Tailwind CSS v4 and TypeScript strict mode,
-**So that** I have a solid foundation with modern tooling for building the portfolio.
+**As a** visitor (indirectly),
+**I want** the portfolio built on a modern, optimized tech stack (Astro 5.x, Tailwind CSS v4, TypeScript),
+**So that** I experience fast page loads, consistent styling, and reliable functionality across all pages.
 
 **Acceptance Criteria:**
 
@@ -287,9 +287,9 @@ src/
 
 ### Story 1.2: Content Collection Schemas
 
-**As a** developer,
-**I want** Zod-validated content collection schemas for all portfolio content types,
-**So that** content is type-safe and validated at build time.
+**As a** visitor (indirectly),
+**I want** all portfolio content (projects, publications, patents, education) validated and structured consistently,
+**So that** I never encounter missing information, broken links, or inconsistent formatting across content types.
 
 **Acceptance Criteria:**
 
@@ -314,9 +314,9 @@ src/
 
 ### Story 1.3: Design System Foundation
 
-**As a** developer,
-**I want** a design system with typography, colors, and spacing tokens configured,
-**So that** all components use consistent, documented design values.
+**As a** visitor,
+**I want** the portfolio to have consistent, professional typography, colors, and spacing throughout,
+**So that** I experience a cohesive, polished design that reinforces Cris's attention to detail and quality.
 
 **Acceptance Criteria:**
 
@@ -452,6 +452,12 @@ src/
 - Visible focus indicators
 - Keyboard accessibility
 
+**Given** JavaScript fails to load or is disabled
+**When** I view the navigation
+**Then** all navigation links remain functional (static HTML fallback)
+**And** the mobile menu displays as visible links (no hidden hamburger)
+**And** the theme toggle is hidden or shows default theme
+
 ---
 
 ### Story 1.7: Hero Section with Signature Animation
@@ -486,6 +492,12 @@ src/
 **Then** the layout remains left-aligned and readable
 **And** all text is legible (minimum 16px body)
 **And** CTA buttons are full-width and ≥44px touch target
+
+**Given** custom fonts fail to load (network error, blocked, etc.)
+**When** the hero renders
+**Then** system fonts display via font-display: swap
+**And** the layout remains intact (no text invisible period)
+**And** the hero passes the 3-second test with fallback fonts
 
 ---
 
@@ -652,6 +664,14 @@ src/
 **Then** a friendly message displays: "Projects coming soon"
 **And** the page layout remains valid
 **And** no build errors occur
+
+**Given** a single project file has invalid schema (missing required field, wrong type)
+**When** the build runs
+**Then** build fails with clear error message identifying:
+- The specific file with the error
+- The field that failed validation
+- The expected vs actual value
+**And** other valid projects are not affected in error output
 
 ---
 
@@ -997,9 +1017,9 @@ src/
 
 ---
 
-## Epic 5: Content Migration & Quality Assurance
+## Epic 5: Complete & Polished Portfolio Experience
 
-**Goal:** All existing content (9 projects, publications, education, etc.) migrated, new patents added, CI/CD pipeline operational, and the site meets all quality targets.
+**Goal:** Visitors experience a complete portfolio with all content (9 projects, publications, patents, credentials) accurately presented, fast-loading pages, and a flawless experience across all devices and browsers.
 
 ### Story 5.1: Content Migration
 
