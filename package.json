@@ -1,0 +1,37 @@
+{
+  "name": "cbenge509.github.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cbenge509/cbenge509.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/cbenge509/cbenge509.github.io/issues"
+  },
+  "homepage": "https://github.com/cbenge509/cbenge509.github.io#readme",
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "gts": "^7.0.0",
+    "typescript": "^5.6.3",
+    "@types/node": "^22.7.5"
+  }
+}

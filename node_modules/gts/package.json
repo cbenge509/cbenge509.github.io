@@ -1,0 +1,91 @@
+{
+  "name": "gts",
+  "version": "7.0.0",
+  "description": "Google TypeScript Style",
+  "repository": "google/gts",
+  "main": "build/src/index.js",
+  "bin": {
+    "gts": "build/src/cli.js"
+  },
+  "files": [
+    "CHANGELOG.md",
+    "build/src",
+    "build/template",
+    "build/eslint.config.js",
+    "build/eslint.ignores.js",
+    ".prettierrc.json",
+    "tsconfig-google.json",
+    "tsconfig.json",
+    "eslint.config.js",
+    "eslint.ignores.js"
+  ],
+  "scripts": {
+    "build": "npm run compile",
+    "clean": "node -e \"require('fs').rmSync('./build', { recursive: true, force: true })\"",
+    "compile": "tsc",
+    "postcompile": "ncp template build/template",
+    "lint": "eslint '**/*.ts'",
+    "prepare": "npm run compile",
+    "test": "c8 mocha build/test/test-*.js",
+    "system-test": "c8 mocha build/test/kitchen.js",
+    "pretest": "npm run compile",
+    "presystem-test": "npm run compile",
+    "license-check": "jsgl --local .",
+    "fix": "eslint --fix '**/*.ts'"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "typescript",
+    "linter",
+    "formatter",
+    "google"
+  ],
+  "author": "Google Inc.",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@eslint/js": "^9.37.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
+    "chalk": "^4.1.2",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^17.23.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "execa": "^5.0.0",
+    "inquirer": "^7.3.3",
+    "json5": "^2.1.3",
+    "meow": "^9.0.0",
+    "ncp": "^2.0.0",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.46.1",
+    "write-file-atomic": "^6.0.0"
+  },
+  "devDependencies": {
+    "@npm/types": "^2.0.0",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/eslint": "^9.0.0",
+    "@types/fs-extra": "^11.0.0",
+    "@types/inquirer": "^8.0.0",
+    "@types/json5": "2.2.0",
+    "@types/mocha": "^10.0.0",
+    "@types/ncp": "^2.0.4",
+    "@types/node": "^22.7.5",
+    "@types/sinon": "^21.0.0",
+    "@types/tmp": "^0.2.0",
+    "@types/write-file-atomic": "^4.0.0",
+    "c8": "^10.1.2",
+    "cross-spawn": "^7.0.3",
+    "fs-extra": "^11.0.0",
+    "inline-fixtures": "^1.1.0",
+    "js-green-licenses": "^4.0.0",
+    "mocha": "^11.0.0",
+    "sinon": "^21.0.0",
+    "tmp": "0.2.4",
+    "typescript": "^5.6.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=5"
+  }
+}
