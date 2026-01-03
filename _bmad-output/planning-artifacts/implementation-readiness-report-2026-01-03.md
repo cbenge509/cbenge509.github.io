@@ -349,15 +349,25 @@ The project documentation is comprehensive, well-aligned, and follows best pract
 |----------|-------|--------|
 | 🔴 Critical | 0 | N/A |
 | 🟠 Major | 0 | N/A |
-| 🟡 Minor | 3 | Low - do not block implementation |
+| 🟡 Minor | 0 | All 3 resolved (see below) |
 
-### Minor Concerns (Non-Blocking)
+### Minor Concerns - RESOLVED
 
-1. **Epic 5 Framing**: Consider reframing to be more user-centric if desired (e.g., "Complete Portfolio Experience with All Content"). Current framing is acceptable for a QA/migration epic.
+All 3 minor concerns have been addressed (2026-01-03):
 
-2. **Error Handling ACs**: Some stories could benefit from more explicit error state acceptance criteria. Consider adding during story refinement before implementation.
+1. **Epic 5 Framing**: ✅ RESOLVED
+   - Reframed from "Content Migration & Quality Assurance" to "Complete & Polished Portfolio Experience"
+   - Goal now focuses on visitor experience with complete content and flawless performance
 
-3. **Developer Stories in Epic 1**: Stories 1.1-1.3 are developer-focused. This is appropriate for a foundation epic and does not require changes.
+2. **Error Handling ACs**: ✅ RESOLVED
+   - Story 1.6: Added JavaScript failure fallback for navigation
+   - Story 1.7: Added font loading failure handling with font-display: swap
+   - Story 2.2: Added schema validation error messaging requirements
+
+3. **Developer Stories in Epic 1**: ✅ RESOLVED
+   - Story 1.1: Reframed to visitor benefit (fast loads, consistent styling)
+   - Story 1.2: Reframed to visitor benefit (no missing info, consistent formatting)
+   - Story 1.3: Reframed to visitor benefit (cohesive, polished design)
 
 ### Critical Issues Requiring Immediate Action
 
@@ -386,7 +396,7 @@ The project documentation is comprehensive, well-aligned, and follows best pract
 
 ### Final Note
 
-This assessment identified **3 minor issues** across **1 category** (Epic Quality). All issues are non-blocking and represent opportunities for improvement rather than defects. The project documentation demonstrates exceptional quality with:
+This assessment originally identified **3 minor issues** across **1 category** (Epic Quality). All 3 issues have been **resolved** as of 2026-01-03. The project documentation now demonstrates exceptional quality with:
 
 - Complete requirements coverage (32 FRs + 23 NFRs + 12 ARCH + 15 UX)
 - Explicit traceability matrices
