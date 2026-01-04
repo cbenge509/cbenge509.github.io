@@ -45,8 +45,10 @@ _This file contains critical rules and patterns that AI agents must follow when 
 
 ### Fonts (Self-Hosted via @fontsource)
 - Inter (body): 400, 500, 600 weights
-- Space Grotesk (display): 400, 700 weights
+- Space Grotesk (display): 400, 600, 700 weights
 - JetBrains Mono (code): 400 weight
+
+**Font Import Rule:** Always audit font weight usage against imports. If design specifies weight 600, ensure `@import '@fontsource/space-grotesk/600.css'` exists.
 
 ### Utilities
 - `cn()` utility combining clsx + tailwind-merge for class composition
@@ -189,6 +191,21 @@ test/
 - Test animation *presence* (class exists), not timing
 - Clear localStorage in `beforeEach` for theme isolation
 
+**CRITICAL: Accessibility E2E Tests (Learned from Epic 1):**
+```typescript
+// ALWAYS disable animations in axe-core tests to catch contrast issues
+test.beforeEach(async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+});
+
+test('page passes accessibility audit', async ({ page }) => {
+  await page.goto('/');
+  const results = await new AxeBuilder({ page }).analyze();
+  expect(results.violations).toEqual([]);
+});
+```
+Animation opacity at 0 during axe-core scan can mask contrast violations. Always emulate reduced motion.
+
 ### Code Quality & Style Rules
 
 **Naming Conventions:**
@@ -217,6 +234,16 @@ test/
 - Global reduced-motion safety net in `global.css`
 - Semantic HTML with proper heading hierarchy (h1 → h2 → h3)
 - All images require descriptive `alt` text
+
+**Touch Target Rules (Learned from Epic 1):**
+- Minimum 44x44px touch area for all interactive elements
+- Use Tailwind preset classes: `min-h-11` (44px), NOT `min-h-[44px]`
+- Arbitrary values like `[44px]` can result in 43.19px due to rendering
+
+**Hidden Element Accessibility (Learned from Epic 1):**
+- Containers with `aria-hidden="true"` must also have `tabindex="-1"` on all focusable children
+- Toggle `tabindex` via JavaScript when container visibility changes
+- Example: Mobile menu links need `tabindex="-1"` when menu is closed
 
 **Comment Guidelines:**
 | Scenario | Comment? |
@@ -407,6 +434,7 @@ npm audit --audit-level=high || exit 1
 - **Image Optimization:** Only works with relative imports, not aliases
 - **Content Validation:** Zod schemas fail build on invalid frontmatter
 - **Reduced Motion:** Global CSS safety net catches missed animations
+- **Canonical URL (Learned from Epic 1):** Never use `Astro.url.href` for canonical URLs - it returns localhost in dev mode. Use `${siteUrl}${Astro.url.pathname}` instead
 
 **Security Rules:**
 - Never commit `.env` files
@@ -445,4 +473,4 @@ npm audit --audit-level=high || exit 1
 
 ---
 
-**Last Updated:** 2026-01-02
+**Last Updated:** 2026-01-04 (Epic 1 lessons learned added)

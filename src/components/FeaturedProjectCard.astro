@@ -1,0 +1,230 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import {Image} from 'astro:assets';
+import ProjectTag from './ProjectTag.astro';
+import placeholderImage from '../assets/images/projects/placeholder.svg';
+
+/**
+ * Featured Project Card component for displaying highlighted projects
+ * Displays full 16:9 image, title, description, tags, and optional GitHub link
+ *
+ * @example
+ * ```astro
+ * <FeaturedProjectCard
+ *   project={{
+ *     title: 'ML Pipeline',
+ *     description: 'A machine learning pipeline for data processing',
+ *     image: '/images/project.png',
+ *     category: 'builder',
+ *     skills: ['Python', 'TensorFlow'],
+ *     tools: ['Docker'],
+ *     githubUrl: 'https://github.com/example/repo'
+ *   }}
+ *   slug="ml-pipeline"
+ * />
+ * ```
+ */
+export interface Props extends HTMLAttributes<'article'> {
+  /** Project data from content collection */
+  project: {
+    title: string;
+    description: string;
+    image: string;
+    category: 'leader' | 'builder' | 'winner' | 'research';
+    skills: string[];
+    tools: string[];
+    githubUrl?: string;
+    achievement?: string;
+    affiliation?: string;
+  };
+  /** Project slug for linking to detail page */
+  slug: string;
+  /** Image import for Astro optimization (if available) */
+  imageImport?: ImageMetadata;
+}
+
+const {project, slug, imageImport, class: className, ...attrs} = Astro.props;
+
+/**
+ * Map content collection category to tag variant
+ * leader → Leadership (blue)
+ * builder → Technical (green)
+ * winner → Winner (amber)
+ * research → Research (purple)
+ */
+const categoryToVariant: Record<
+  Props['project']['category'],
+  'leadership' | 'technical' | 'winner' | 'research'
+> = {
+  leader: 'leadership',
+  builder: 'technical',
+  winner: 'winner',
+  research: 'research',
+};
+
+const categoryLabels: Record<Props['project']['category'], string> = {
+  leader: 'Leadership',
+  builder: 'Technical',
+  winner: 'Winner',
+  research: 'Research',
+};
+
+// Use imported image if available, otherwise fallback to string path or placeholder
+const imageSource = imageImport || placeholderImage;
+const hasValidImage = !!imageImport || (project.image && project.image !== '');
+---
+
+<article
+  data-component="featured-project-card"
+  class:list={[
+    'group relative block rounded-lg overflow-hidden',
+    'bg-surface dark:bg-surface-dark',
+    'shadow-sm hover:shadow-lg',
+    'transition-all duration-150 ease-out',
+    'hover:-translate-y-1',
+    'active:scale-[0.98]',
+    'focus-within:ring-2 focus-within:ring-accent dark:focus-within:ring-accent-dark',
+    'focus-within:ring-offset-2 focus-within:ring-offset-bg dark:focus-within:ring-offset-bg-dark',
+    className,
+  ]}
+  {...attrs}
+>
+  <a
+    href={`/projects/${slug}`}
+    class="block focus:outline-none"
+    aria-labelledby={`project-title-${slug}`}
+  >
+    <!-- Image container with 16:9 aspect ratio -->
+    <div class="aspect-video overflow-hidden bg-surface dark:bg-surface-dark">
+      {
+        hasValidImage ? (
+          <Image
+            src={imageSource}
+            alt={`Screenshot of ${project.title} project`}
+            widths={[400, 800, 1200]}
+            formats={['avif', 'webp']}
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <Image
+            src={placeholderImage}
+            alt={project.title}
+            width={800}
+            height={450}
+            loading="lazy"
+            class="w-full h-full object-cover"
+          />
+        )
+      }
+    </div>
+
+    <!-- Content -->
+    <div class="p-4 md:p-6">
+      <!-- Title -->
+      <h3
+        id={`project-title-${slug}`}
+        class="font-display text-lg md:text-xl font-semibold text-text dark:text-text-dark line-clamp-1"
+      >
+        {project.title}
+      </h3>
+
+      <!-- Description - 2-3 lines with truncation -->
+      <p
+        class="mt-2 text-body text-text-secondary dark:text-text-secondary-dark line-clamp-3"
+      >
+        {project.description}
+      </p>
+
+      <!-- Tags and GitHub link row -->
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        <!-- Primary category tag -->
+        <ProjectTag variant={categoryToVariant[project.category]}>
+          {categoryLabels[project.category]}
+        </ProjectTag>
+
+        <!-- Achievement tag if winner -->
+        {
+          project.achievement && project.category === 'winner' && (
+            <span class="text-xs text-text-secondary dark:text-text-secondary-dark">
+              {project.achievement}
+            </span>
+          )
+        }
+      </div>
+    </div>
+  </a>
+
+  <!-- GitHub link (outside main link for separate interaction) -->
+  {
+    project.githubUrl && (
+      <div class="absolute top-4 right-4">
+        <a
+          href={project.githubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="github-link inline-flex items-center gap-1 px-3 py-2.5 rounded-full text-xs font-medium
+                 bg-bg/90 dark:bg-bg-dark/90 backdrop-blur-sm
+                 text-text dark:text-text-dark
+                 hover:bg-accent hover:text-white dark:hover:bg-accent-dark
+                 transition-colors duration-150
+                 focus-ring min-h-11"
+          aria-label={`View ${project.title} on GitHub (opens in new tab)`}
+          data-github-link
+        >
+          GitHub
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    )
+  }
+</article>
+
+<style>
+  /* Line clamp utilities for description truncation */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Ensure smooth transform animation */
+  article {
+    will-change: transform, box-shadow;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    article {
+      transition: box-shadow 150ms ease-out;
+    }
+
+    article:hover {
+      transform: none;
+    }
+
+    .group:hover img {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Stop propagation on GitHub links to prevent card navigation
+  // Uses event delegation per project security standards (no inline handlers)
+  document.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const githubLink = target.closest('[data-github-link]');
+    if (githubLink) {
+      event.stopPropagation();
+    }
+  });
+</script>

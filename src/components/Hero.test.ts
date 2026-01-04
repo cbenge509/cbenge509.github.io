@@ -28,7 +28,7 @@ describe('Hero', () => {
     const result = await container.renderToString(Hero);
     expect(result).toContain('LinkedIn');
     expect(result).toContain('GitHub');
-    expect(result).toContain('linkedin.com/in/cbenge509');
+    expect(result).toContain('linkedin.com/in/crisbenge');
     expect(result).toContain('github.com/cbenge509');
   });
 

@@ -1,0 +1,175 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import {Image} from 'astro:assets';
+import ProjectTag from './ProjectTag.astro';
+import placeholderImage from '../assets/images/projects/placeholder.svg';
+
+/**
+ * Secondary Project Card component for displaying non-featured projects
+ * Horizontal layout with square thumbnail, title, single-line description, and one tag
+ *
+ * @example
+ * ```astro
+ * <SecondaryProjectCard
+ *   project={{
+ *     title: 'Data Analysis Tool',
+ *     description: 'A comprehensive data analysis toolkit for researchers',
+ *     image: '/images/project.png',
+ *     category: 'research',
+ *     skills: ['Python', 'Pandas'],
+ *     tools: ['Jupyter']
+ *   }}
+ *   slug="data-analysis-tool"
+ * />
+ * ```
+ */
+export interface Props extends HTMLAttributes<'article'> {
+  /** Project data from content collection */
+  project: {
+    title: string;
+    description: string;
+    image: string;
+    category: 'leader' | 'builder' | 'winner' | 'research';
+    skills: string[];
+    tools: string[];
+    githubUrl?: string;
+    achievement?: string;
+    affiliation?: string;
+  };
+  /** Project slug for linking to detail page */
+  slug: string;
+  /** Image import for Astro optimization (if available) */
+  imageImport?: ImageMetadata;
+}
+
+const {project, slug, imageImport, class: className, ...attrs} = Astro.props;
+
+/**
+ * Map content collection category to tag variant
+ */
+const categoryToVariant: Record<
+  Props['project']['category'],
+  'leadership' | 'technical' | 'winner' | 'research'
+> = {
+  leader: 'leadership',
+  builder: 'technical',
+  winner: 'winner',
+  research: 'research',
+};
+
+const categoryLabels: Record<Props['project']['category'], string> = {
+  leader: 'Leadership',
+  builder: 'Technical',
+  winner: 'Winner',
+  research: 'Research',
+};
+
+// Use imported image if available, otherwise fallback to placeholder
+const imageSource = imageImport || placeholderImage;
+const hasValidImage = !!imageImport || (project.image && project.image !== '');
+---
+
+<article
+  data-component="secondary-project-card"
+  class:list={[
+    'group relative flex items-stretch rounded-lg overflow-hidden',
+    'bg-surface dark:bg-surface-dark',
+    'shadow-sm hover:shadow-md',
+    'transition-all duration-150 ease-out',
+    'hover:-translate-y-1',
+    'active:scale-[0.98]',
+    'focus-within:ring-2 focus-within:ring-accent dark:focus-within:ring-accent-dark',
+    'focus-within:ring-offset-2 focus-within:ring-offset-bg dark:focus-within:ring-offset-bg-dark',
+    'min-h-11',
+    className,
+  ]}
+  {...attrs}
+>
+  <a
+    href={`/projects/${slug}`}
+    class="flex items-stretch w-full focus:outline-none"
+    aria-labelledby={`secondary-project-title-${slug}`}
+  >
+    <!-- Square thumbnail on left -->
+    <div
+      class="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 overflow-hidden bg-surface dark:bg-surface-dark"
+    >
+      {
+        hasValidImage ? (
+          <Image
+            src={imageSource}
+            alt={`Thumbnail of ${project.title} project`}
+            width={96}
+            height={96}
+            loading="lazy"
+            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <Image
+            src={placeholderImage}
+            alt={project.title}
+            width={96}
+            height={96}
+            loading="lazy"
+            class="w-full h-full object-cover"
+          />
+        )
+      }
+    </div>
+
+    <!-- Content on right -->
+    <div class="flex flex-col justify-center p-3 md:p-4 flex-1 min-w-0">
+      <!-- Title -->
+      <h3
+        id={`secondary-project-title-${slug}`}
+        class="font-display text-base md:text-lg font-semibold text-text dark:text-text-dark line-clamp-1"
+      >
+        {project.title}
+      </h3>
+
+      <!-- Single-line description with truncation -->
+      <p
+        class="mt-1 text-sm text-text-secondary dark:text-text-secondary-dark line-clamp-1"
+      >
+        {project.description}
+      </p>
+
+      <!-- Single tag only -->
+      <div class="mt-2">
+        <ProjectTag variant={categoryToVariant[project.category]}>
+          {categoryLabels[project.category]}
+        </ProjectTag>
+      </div>
+    </div>
+  </a>
+</article>
+
+<style>
+  /* Line clamp for single line truncation */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Ensure smooth transform animation */
+  article {
+    will-change: transform, box-shadow;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    article {
+      transition: box-shadow 150ms ease-out;
+    }
+
+    article:hover {
+      transform: none;
+    }
+
+    .group:hover img {
+      transform: none;
+    }
+  }
+</style>

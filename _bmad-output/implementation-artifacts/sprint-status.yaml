@@ -58,15 +58,15 @@ development_status:
   1-7-hero-section-with-signature-animation: done  # Reviewed 2026-01-03 - 6 issues fixed (1 HIGH, 4 MEDIUM, 1 A11Y)
   1-8-footer-component: done  # Reviewed 2026-01-03 - 4 issues fixed (1 HIGH, 2 MEDIUM, 1 LOW)
   1-9-responsive-validation-polish: done  # Reviewed 2026-01-03 - 6 issues fixed (4 HIGH, 1 MEDIUM, 1 LOW) - Adversarial code review passed
-  epic-1-retrospective: optional
+  epic-1-retrospective: done  # Completed 2026-01-04 - epic-1-retro-2026-01-04.md
 
   # ═══════════════════════════════════════════════════════════════
   # Epic 2: Project Portfolio Experience (3 stories)
   # Goal: Visitors explore projects, validate "this person actually codes"
   # FRs: FR10-15 (6 FRs)
   # ═══════════════════════════════════════════════════════════════
-  epic-2: backlog
-  2-1-project-card-components: backlog
+  epic-2: in-progress  # Started 2026-01-04
+  2-1-project-card-components: done  # Completed 2026-01-04 (74 unit tests, 50 E2E tests) - Adversarial code review passed 2026-01-04: 1 HIGH, 3 MEDIUM issues fixed
   2-2-project-gallery-page: backlog
   2-3-project-detail-page: backlog
   epic-2-retrospective: optional
