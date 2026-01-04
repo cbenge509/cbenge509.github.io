@@ -182,7 +182,7 @@ test.describe('Hero Section', () => {
       await expect(linkedIn).toHaveAttribute('rel', 'noopener noreferrer');
       await expect(linkedIn).toHaveAttribute(
         'href',
-        'https://linkedin.com/in/cbenge509',
+        'https://www.linkedin.com/in/crisbenge/',
       );
     });
 

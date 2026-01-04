@@ -1,0 +1,147 @@
+---
+/**
+ * Test page for Project Card components
+ * Used for E2E testing of FeaturedProjectCard, SecondaryProjectCard, and ProjectTag
+ * Note: This page is included in the build for E2E test access
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
+import SecondaryProjectCard from '../components/SecondaryProjectCard.astro';
+import ProjectTag from '../components/ProjectTag.astro';
+
+// Mock project data for testing
+const featuredProjects = [
+  {
+    slug: 'ml-pipeline',
+    project: {
+      title: 'Machine Learning Pipeline',
+      description:
+        'A comprehensive end-to-end machine learning pipeline for data processing, model training, and deployment with automated CI/CD integration.',
+      image: '',
+      category: 'builder' as const,
+      skills: ['Python', 'TensorFlow', 'PyTorch'],
+      tools: ['Docker', 'Kubernetes'],
+      githubUrl: 'https://github.com/example/ml-pipeline',
+    },
+  },
+  {
+    slug: 'team-leadership',
+    project: {
+      title: 'Federal AI Strategy',
+      description:
+        'Led a cross-functional team of 50+ engineers to develop and implement AI strategy for federal government agencies.',
+      image: '',
+      category: 'leader' as const,
+      skills: ['Strategy', 'Leadership'],
+      tools: ['Jira', 'Confluence'],
+    },
+  },
+  {
+    slug: 'competition-winner',
+    project: {
+      title: 'Kaggle Competition',
+      description:
+        'First place solution for the 2024 Kaggle machine learning competition on satellite imagery classification.',
+      image: '',
+      category: 'winner' as const,
+      skills: ['Computer Vision', 'Deep Learning'],
+      tools: ['PyTorch', 'Weights & Biases'],
+      achievement: 'Grand Prize Winner',
+    },
+  },
+  {
+    slug: 'research-paper',
+    project: {
+      title: 'NLP Research Publication',
+      description:
+        'Novel transformer architecture achieving state-of-the-art results on multilingual NLP benchmarks.',
+      image: '',
+      category: 'research' as const,
+      skills: ['NLP', 'Transformers'],
+      tools: ['Hugging Face', 'JAX'],
+    },
+  },
+];
+
+const secondaryProjects = [
+  {
+    slug: 'data-viz-tool',
+    project: {
+      title: 'Data Visualization Dashboard',
+      description:
+        'Interactive dashboard for real-time analytics and data visualization.',
+      image: '',
+      category: 'builder' as const,
+      skills: ['React', 'D3.js'],
+      tools: ['TypeScript'],
+    },
+  },
+  {
+    slug: 'code-review-bot',
+    project: {
+      title: 'Code Review Automation',
+      description: 'AI-powered code review bot that identifies potential issues.',
+      image: '',
+      category: 'builder' as const,
+      skills: ['Go', 'AI'],
+      tools: ['GitHub Actions'],
+    },
+  },
+  {
+    slug: 'research-tool',
+    project: {
+      title: 'Academic Citation Network',
+      description:
+        'Graph-based tool for exploring academic paper citation networks.',
+      image: '',
+      category: 'research' as const,
+      skills: ['Python', 'NetworkX'],
+      tools: ['Neo4j'],
+    },
+  },
+];
+---
+
+<BaseLayout
+  title="Test - Project Cards"
+  description="Test page for project card components"
+>
+  <div class="container-custom py-12">
+    <h1 class="text-display-lg mb-8">Project Card Test Page</h1>
+
+    <!-- ProjectTag variants -->
+    <section class="mb-12" data-testid="tag-section">
+      <h2 class="text-display mb-4">Tag Variants</h2>
+      <div class="flex flex-wrap gap-4">
+        <ProjectTag variant="leadership">Leadership</ProjectTag>
+        <ProjectTag variant="technical">Technical</ProjectTag>
+        <ProjectTag variant="winner">Winner</ProjectTag>
+        <ProjectTag variant="research">Research</ProjectTag>
+      </div>
+    </section>
+
+    <!-- Featured Project Cards -->
+    <section class="mb-12" data-testid="featured-cards-section">
+      <h2 class="text-display mb-6">Featured Project Cards</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {
+          featuredProjects.map(({slug, project}) => (
+            <FeaturedProjectCard project={project} slug={slug} />
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Secondary Project Cards -->
+    <section class="mb-12" data-testid="secondary-cards-section">
+      <h2 class="text-display mb-6">Secondary Project Cards</h2>
+      <div class="flex flex-col gap-4 max-w-2xl">
+        {
+          secondaryProjects.map(({slug, project}) => (
+            <SecondaryProjectCard project={project} slug={slug} />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
