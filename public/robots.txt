@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cbenge509.github.io/sitemap-index.xml

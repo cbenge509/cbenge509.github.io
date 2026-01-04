@@ -1,0 +1,10 @@
+institution: "Columbia University"
+degree: "M.S."
+field: "Computer Science"
+year: 2020
+gpa: "4.0"
+logoImage: "../../assets/images/logos/columbia.png"
+honors:
+  - "Summa Cum Laude"
+  - "Dean's List"
+order: 1

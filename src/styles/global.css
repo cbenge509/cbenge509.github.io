@@ -1,0 +1,568 @@
+/* =============================================================================
+   DESIGN SYSTEM FOUNDATION - cbenge509.github.io
+   ==============================================================================
+   This file contains all design tokens and utility classes for the portfolio.
+
+   SECTIONS:
+   1. Font Imports - Self-hosted via @fontsource
+   2. @theme Block - Tailwind CSS v4 custom properties
+   3. Typography Utilities - Heading and body text classes
+   4. Focus Ring Utilities - Accessibility focus states
+   5. Animation & Motion - Transition utilities and reduced motion
+   6. Layout Utilities - Container and spacing helpers
+
+   USAGE:
+   - All custom values are defined in @theme { } block
+   - Access via Tailwind: bg-accent, text-text, font-display, etc.
+   - Dark mode: Use dark: prefix or define -dark variants
+
+   DARK MODE:
+   - Implemented via 'dark' class on <html> element
+   - Use dark: prefix for all color utilities
+   - FOUC prevention script in BaseLayout.astro
+   ============================================================================= */
+
+/* =============================================================================
+   1. FONT IMPORTS - Self-hosted via @fontsource
+   ==============================================================================
+   Fonts are self-hosted for performance and privacy.
+   font-display: swap is set at import level via @fontsource defaults.
+
+   Font Stack:
+   - Space Grotesk: Display/headings (400 regular, 600 semibold, 700 bold)
+   - Inter: Body text (400 regular, 500 medium, 600 semibold)
+   - JetBrains Mono: Code blocks (400 regular)
+   ============================================================================= */
+
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
+@import '@fontsource/jetbrains-mono/400.css';
+
+@import 'tailwindcss';
+
+/* =============================================================================
+   2. @THEME BLOCK - Tailwind CSS v4 Custom Properties
+   ==============================================================================
+   All design tokens are defined here for use with Tailwind utilities.
+
+   TOKEN NAMING CONVENTION:
+   - Colors: --color-{name} for light, --color-{name}-dark for dark mode
+   - Fonts: --font-{family-name}
+   - Spacing: Use Tailwind defaults, custom tokens only when needed
+   - Transitions: --transition-{speed}
+   - Easing: --ease-{type}
+
+   WCAG AA CONTRAST COMPLIANCE:
+   - text on bg: #1a1a1a on #ffffff = 16.1:1 ✓
+   - text-secondary on bg: #52525b on #ffffff = 5.7:1 ✓
+   - accent on bg: #2563eb on #ffffff = 4.6:1 ✓ (large text)
+   - text-dark on bg-dark: #fafafa on #0a0a0a = 18.3:1 ✓
+   - text-secondary-dark on bg-dark: #a1a1aa on #0a0a0a = 7.1:1 ✓
+   - accent-dark on bg-dark: #3b82f6 on #0a0a0a = 5.3:1 ✓
+   ============================================================================= */
+
+@theme {
+  /* ---------------------------------------------------------------------------
+     COLOR SYSTEM - Semantic Color Tokens
+     ---------------------------------------------------------------------------
+     Light mode colors are defined as defaults.
+     Dark mode uses -dark suffix variants.
+
+     Usage Examples:
+     - Background: bg-bg (light) / dark:bg-bg-dark
+     - Text: text-text (light) / dark:text-text-dark
+     - Accent: text-accent hover:text-accent-hover
+     --------------------------------------------------------------------------- */
+
+  /* Background Colors */
+  --color-bg: #ffffff;              /* Primary background - pure white */
+  --color-bg-dark: #0a0a0a;         /* Dark mode bg - near black */
+  --color-surface: #f8fafc;         /* Elevated surfaces - slate-50 */
+  --color-surface-dark: #171717;    /* Dark mode surface - neutral-900 */
+
+  /* Text Colors */
+  --color-text: #1a1a1a;            /* Primary text - high contrast */
+  --color-text-dark: #fafafa;       /* Dark mode text - near white */
+  --color-text-secondary: #52525b;  /* Secondary text - zinc-600, 5.7:1 contrast on white */
+  --color-text-secondary-dark: #a1a1aa; /* Dark secondary - zinc-400, 7.1:1 on #0a0a0a */
+
+  /* Accent Colors - Google Blue */
+  --color-accent: #2563eb;          /* Primary accent - blue-600 */
+  --color-accent-dark: #3b82f6;     /* Dark mode accent - blue-500 */
+  --color-accent-hover: #1d4ed8;    /* Hover state - blue-700 */
+  --color-accent-hover-dark: #60a5fa; /* Dark hover - blue-400 */
+
+  /* Border Colors */
+  --color-border: #e5e7eb;          /* Default border - gray-200 */
+  --color-border-dark: #374151;     /* Dark mode border - gray-700 */
+
+  /* ---------------------------------------------------------------------------
+     TYPOGRAPHY SYSTEM - Font Families
+     ---------------------------------------------------------------------------
+     Three-font system for visual hierarchy:
+     - Display (Space Grotesk): Headlines, hero text, section titles
+     - Sans (Inter): Body text, UI elements, navigation
+     - Mono (JetBrains Mono): Code blocks, technical content
+
+     Usage Examples:
+     - Headings: font-display text-display-lg
+     - Body: font-sans text-body
+     - Code: font-mono
+     --------------------------------------------------------------------------- */
+
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* ---------------------------------------------------------------------------
+     RESPONSIVE TYPE SCALE
+     ---------------------------------------------------------------------------
+     Based on UX specification with mobile-first approach.
+
+     Scale Definitions (mobile → desktop):
+     - Hero H1:     2.5rem (40px) → 3.5rem (56px)
+     - Section H2:  1.75rem (28px) → 2.25rem (36px)
+     - Card H3:     1.25rem (20px) → 1.5rem (24px)
+     - Body:        1rem (16px) → 1.125rem (18px)
+     - Caption:     0.875rem (14px) - no change
+
+     Usage: These map to utility classes defined below.
+     --------------------------------------------------------------------------- */
+
+  /* Mobile-first base sizes */
+  --font-size-hero: 2.5rem;         /* 40px - Hero headline mobile */
+  --font-size-h1: 2rem;             /* 32px - Page h1 mobile */
+  --font-size-h2: 1.75rem;          /* 28px - Section heading mobile */
+  --font-size-h3: 1.25rem;          /* 20px - Card heading mobile */
+  --font-size-h4: 1.125rem;         /* 18px - Subheading mobile */
+  --font-size-body: 1rem;           /* 16px - Body text mobile */
+  --font-size-body-lg: 1.125rem;    /* 18px - Large body text */
+  --font-size-caption: 0.875rem;    /* 14px - Captions, small text */
+  --font-size-code: 0.875rem;       /* 14px - Code blocks */
+
+  /* Line heights for readability */
+  --line-height-tight: 1.2;         /* Headings */
+  --line-height-snug: 1.4;          /* Subheadings */
+  --line-height-normal: 1.7;        /* Body text - optimal for reading */
+  --line-height-relaxed: 1.8;       /* Prose content */
+
+  /* ---------------------------------------------------------------------------
+     SPACING SYSTEM
+     ---------------------------------------------------------------------------
+     Generous whitespace following Apple-style design philosophy.
+     Uses Tailwind defaults plus custom section-level tokens.
+
+     Section Spacing (mobile → desktop):
+     - Section padding: 4rem (64px) → 6rem (96px)
+     - Card gaps: 1.5rem (24px) → 2rem (32px)
+
+     Usage Examples:
+     - Section: py-section-mobile md:py-section
+     - Card grid: gap-card-mobile md:gap-card
+     --------------------------------------------------------------------------- */
+
+  --spacing-section: 6rem;          /* 96px - Desktop section padding */
+  --spacing-section-mobile: 4rem;   /* 64px - Mobile section padding */
+  --spacing-card-gap: 2rem;         /* 32px - Desktop card gap */
+  --spacing-card-gap-mobile: 1.5rem; /* 24px - Mobile card gap */
+  --spacing-container-padding: 1.5rem; /* 24px - Container side padding */
+
+  /* ---------------------------------------------------------------------------
+     LAYOUT TOKENS
+     ---------------------------------------------------------------------------
+     Container and content width constraints.
+
+     Usage:
+     - Main container: max-w-container mx-auto
+     - Prose content: max-w-prose mx-auto
+     --------------------------------------------------------------------------- */
+
+  --container-max-width: 80rem;     /* 1280px - Main content max width */
+  --prose-max-width: 65ch;          /* ~65 characters for optimal readability */
+
+  /* ---------------------------------------------------------------------------
+     TRANSITION TIMING
+     ---------------------------------------------------------------------------
+     Standardized timing for consistent animation feel.
+
+     Categories:
+     - Fast (150ms): Micro-interactions (hovers, toggles, focus)
+     - Medium (300ms): Component animations (cards, modals, menus)
+     - Slow (500ms): Page-level (hero entrance, page transitions)
+
+     Usage Examples:
+     - Hover: transition-colors duration-fast
+     - Modal: transition-all duration-medium
+     - Hero: duration-slow
+     --------------------------------------------------------------------------- */
+
+  --transition-fast: 150ms;         /* Micro-interactions */
+  --transition-medium: 300ms;       /* Component animations */
+  --transition-slow: 500ms;         /* Page-level animations */
+
+  /* ---------------------------------------------------------------------------
+     EASING CURVES
+     ---------------------------------------------------------------------------
+     Standard easing functions for natural motion.
+
+     Usage:
+     - Default: ease-out (deceleration feels responsive)
+     - Reversible: ease-in-out (bidirectional animations)
+     --------------------------------------------------------------------------- */
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =============================================================================
+   3. TYPOGRAPHY UTILITIES - Heading and Body Text Classes
+   ==============================================================================
+   Pre-composed typography classes combining font, size, weight, and line-height.
+   These work alongside Tailwind's default text utilities.
+
+   Display Classes (Space Grotesk):
+   - .text-display-lg: Hero/large headlines
+   - .text-display: Section headlines
+   - .text-display-sm: Card headlines
+
+   Body Classes (Inter):
+   - .text-body-lg: Lead paragraphs
+   - .text-body: Standard body text
+   - .text-caption: Small text, metadata
+
+   RESPONSIVE BEHAVIOR:
+   Classes include responsive scaling via clamp() or breakpoint variants.
+   ============================================================================= */
+
+/* Display Typography - Space Grotesk for headlines */
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw + 1rem, 3.5rem); /* 40px → 56px */
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw + 0.5rem, 2.25rem); /* 28px → 36px */
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.01em;
+}
+
+.text-display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw + 0.25rem, 1.5rem); /* 20px → 24px */
+  font-weight: 600;
+  line-height: var(--line-height-snug);
+}
+
+/* Body Typography - Inter for readable content */
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body-lg);
+  font-weight: 400;
+  line-height: var(--line-height-normal);
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: 400;
+  line-height: var(--line-height-normal);
+}
+
+.text-caption {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-caption);
+  font-weight: 400;
+  line-height: var(--line-height-snug);
+  @apply text-text-secondary dark:text-text-secondary-dark;
+}
+
+/* =============================================================================
+   4. PROSE STYLES - Article/Markdown Content
+   ==============================================================================
+   Optimized for long-form reading with proper vertical rhythm.
+   Apply to article containers for consistent typography.
+
+   Features:
+   - 65-70ch max width for optimal line length
+   - 1.7 line height for comfortable reading
+   - Consistent heading scale with Space Grotesk
+   - Code blocks with JetBrains Mono
+
+   Usage:
+   <article class="prose">
+     <!-- Markdown or rich text content -->
+   </article>
+   ============================================================================= */
+
+.prose {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-normal);
+  max-width: var(--prose-max-width);
+  @apply text-text dark:text-text-dark;
+}
+
+/* Prose headings - Space Grotesk with consistent scale */
+.prose h1 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  @apply text-text dark:text-text-dark;
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  @apply text-text dark:text-text-dark;
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h3);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  @apply text-text dark:text-text-dark;
+}
+
+.prose h4 {
+  font-family: var(--font-display);
+  font-size: var(--font-size-h4);
+  font-weight: 600;
+  line-height: var(--line-height-snug);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  @apply text-text dark:text-text-dark;
+}
+
+/* Prose paragraphs and spacing */
+.prose p {
+  margin-bottom: 1.25rem;
+}
+
+.prose p + p {
+  margin-top: 0;
+}
+
+/* Prose links - accent colored with underline */
+.prose a {
+  @apply text-accent dark:text-accent-dark underline underline-offset-2;
+  @apply hover:text-accent-hover dark:hover:text-accent-hover-dark;
+  @apply transition-colors;
+  transition-duration: var(--transition-fast);
+}
+
+/* Prose lists */
+.prose ul,
+.prose ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin-bottom: 0.5rem;
+}
+
+.prose ul li {
+  list-style-type: disc;
+}
+
+.prose ol li {
+  list-style-type: decimal;
+}
+
+/* Prose code - inline and blocks */
+.prose code {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  @apply bg-surface dark:bg-surface-dark px-1.5 py-0.5 rounded;
+}
+
+.prose pre {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  @apply bg-surface dark:bg-surface-dark p-4 rounded-lg;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
+/* Prose blockquotes */
+.prose blockquote {
+  font-style: italic;
+  margin-bottom: 1.25rem;
+  padding-left: 1rem;
+  @apply border-l-4 border-accent dark:border-accent-dark;
+  @apply text-text-secondary dark:text-text-secondary-dark;
+}
+
+/* Prose horizontal rule */
+.prose hr {
+  margin: 2rem 0;
+  @apply border-border dark:border-border-dark;
+}
+
+/* =============================================================================
+   5. FOCUS RING UTILITIES - Accessibility Focus States
+   ==============================================================================
+   Consistent focus styling for all interactive elements.
+   Uses focus-visible for keyboard-only focus indication.
+
+   Classes:
+   - .focus-ring: Standard 2px ring with 2px offset
+   - .focus-ring-inset: For contained elements (no offset)
+
+   WCAG Compliance:
+   - 2px accent color ring provides clear visibility
+   - 2px offset separates ring from element edge
+   - Dark mode uses appropriate offset background color
+
+   Usage:
+   <button class="focus-ring">Click me</button>
+   <input class="focus-ring-inset" type="text" />
+   ============================================================================= */
+
+/* Standard focus ring with offset */
+.focus-ring {
+  @apply outline-none;
+  @apply focus-visible:ring-2 focus-visible:ring-accent dark:focus-visible:ring-accent-dark;
+  @apply focus-visible:ring-offset-2 focus-visible:ring-offset-bg dark:focus-visible:ring-offset-bg-dark;
+}
+
+/* Inset focus ring for inputs and contained elements */
+.focus-ring-inset {
+  @apply outline-none;
+  @apply focus-visible:ring-2 focus-visible:ring-inset;
+  @apply focus-visible:ring-accent dark:focus-visible:ring-accent-dark;
+}
+
+/* =============================================================================
+   6. ANIMATION & MOTION - Transitions and Reduced Motion
+   ==============================================================================
+   Standardized transition utilities and motion safety net.
+
+   Timing Standards:
+   - Fast (150ms): Hovers, toggles, focus states
+   - Medium (300ms): Cards, modals, menus
+   - Slow (500ms): Hero entrance, page transitions
+
+   CRITICAL: Reduced motion safety net disables ALL animations
+   for users who prefer reduced motion. Individual components
+   should also respect prefers-reduced-motion for smooth fallbacks.
+   ============================================================================= */
+
+/* Transition utility classes with standard timing */
+.transition-fast {
+  transition-duration: var(--transition-fast);
+  transition-timing-function: var(--ease-out);
+}
+
+.transition-medium {
+  transition-duration: var(--transition-medium);
+  transition-timing-function: var(--ease-out);
+}
+
+.transition-slow {
+  transition-duration: var(--transition-slow);
+  transition-timing-function: var(--ease-out);
+}
+
+/* Easing utility classes */
+.ease-out-custom {
+  transition-timing-function: var(--ease-out);
+}
+
+.ease-in-out-custom {
+  transition-timing-function: var(--ease-in-out);
+}
+
+/* =============================================================================
+   REDUCED MOTION SAFETY NET
+   ==============================================================================
+   Global override that disables all animations and transitions
+   when user has prefers-reduced-motion enabled.
+
+   This is a SAFETY NET - individual components should also
+   implement their own reduced-motion handling for better UX.
+
+   IMPORTANT: Uses !important to override any inline or specific styles.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =============================================================================
+   7. LAYOUT UTILITIES - Container and Spacing Helpers
+   ==============================================================================
+   Custom layout utilities that complement Tailwind's defaults.
+
+   Container:
+   - .container-custom: Max-width 1280px with padding
+
+   Section Spacing:
+   - Apply via Tailwind: py-16 md:py-24 (4rem → 6rem)
+   ============================================================================= */
+
+/* Custom container with consistent padding */
+.container-custom {
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--spacing-container-padding);
+  padding-right: var(--spacing-container-padding);
+}
+
+/* Section spacing utility (use with Tailwind responsive prefixes) */
+.section-padding {
+  padding-top: var(--spacing-section-mobile);
+  padding-bottom: var(--spacing-section-mobile);
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: var(--spacing-section);
+    padding-bottom: var(--spacing-section);
+  }
+}
+
+/* Card grid gap utility */
+.card-grid-gap {
+  gap: var(--spacing-card-gap-mobile);
+}
+
+@media (min-width: 768px) {
+  .card-grid-gap {
+    gap: var(--spacing-card-gap);
+  }
+}

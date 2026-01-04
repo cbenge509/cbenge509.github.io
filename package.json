@@ -1,37 +1,52 @@
 {
   "name": "cbenge509.github.io",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Personal portfolio website for Cris Benge - AI Researcher",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
     "lint": "gts lint",
-    "clean": "gts clean",
-    "compile": "tsc",
     "fix": "gts fix",
-    "prepare": "npm run compile",
-    "pretest": "npm run compile",
-    "posttest": "npm run lint"
+    "check": "gts check",
+    "prepare": "husky",
+    "test": "vitest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cbenge509/cbenge509.github.io.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "author": "Cris Benge",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/cbenge509/cbenge509.github.io/issues"
   },
-  "homepage": "https://github.com/cbenge509/cbenge509.github.io#readme",
+  "homepage": "https://cbenge509.github.io",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.6",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18"
+  },
   "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^22.7.5",
     "eslint": "^9.39.2",
     "gts": "^7.0.0",
+    "husky": "^9.1.7",
+    "sharp": "^0.34.5",
     "typescript": "^5.6.3",
-    "@types/node": "^22.7.5"
+    "vitest": "^4.0.16"
   }
 }

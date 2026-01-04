@@ -1,0 +1,108 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import '../styles/global.css';
+import SEO from '../components/SEO.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+
+/**
+ * Base layout component for all pages
+ * Provides semantic HTML structure, SEO metadata, and accessibility features
+ * @slot default - Page content (rendered inside <main>)
+ * @slot head - Additional head content (rendered at end of <head>)
+ * @example
+ * ```astro
+ * <BaseLayout title="Projects" description="My portfolio projects">
+ *   <h1>Projects</h1>
+ *   <p>Content goes here...</p>
+ * </BaseLayout>
+ * ```
+ */
+interface Props extends HTMLAttributes<'html'> {
+  /** Page title (will have " | Cris Benge" appended) */
+  title: string;
+  /** Meta description for SEO */
+  description?: string;
+  /** OG image path */
+  image?: string;
+  /** Canonical URL (defaults to current page URL) */
+  canonical?: string;
+  /** Include JSON-LD Person schema (home page only) */
+  includePersonSchema?: boolean;
+  /** Prevent indexing (for draft pages) */
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'Cris Benge - Head of Federal Innovation at Google. AI Researcher, Software Engineer, and Columbia & Berkeley alum.',
+  image,
+  canonical,
+  includePersonSchema = false,
+  noIndex = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class={className} {...attrs}>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO component handles title, meta, OG, Twitter, JSON-LD -->
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      canonical={canonical}
+      includePersonSchema={includePersonSchema}
+      noIndex={noIndex}
+    />
+
+    <!-- Inline script to prevent FOUC (flash of unstyled content) for dark mode -->
+    <script is:inline>
+      (function () {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (
+            theme === 'dark' ||
+            (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          ) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch {
+          // localStorage unavailable (Safari private browsing) - fall back to system preference
+          if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+          }
+        }
+      })();
+    </script>
+
+    <!-- Slot for page-specific head content -->
+    <slot name="head" />
+  </head>
+  <body class="bg-bg text-text dark:bg-bg-dark dark:text-text-dark transition-colors duration-150">
+    <!-- Skip link for keyboard accessibility - must be first focusable element -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 dark:focus:ring-offset-bg-dark"
+    >
+      Skip to content
+    </a>
+
+    <!-- Semantic HTML structure -->
+    <!-- Navigation component (includes its own header element) -->
+    <Navigation />
+
+    <main id="main-content" class="min-h-screen">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

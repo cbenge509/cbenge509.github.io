@@ -1,0 +1,123 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * Theme toggle button for switching between light and dark modes
+ * @example <ThemeToggle />
+ * @example <ThemeToggle class="ml-4" />
+ */
+interface Props extends HTMLAttributes<'button'> {}
+
+const {class: className, ...attrs} = Astro.props;
+---
+
+<button
+  data-component="theme-toggle"
+  type="button"
+  class:list={[
+    'relative w-11 h-11 flex items-center justify-center',
+    'focus-ring',
+    className,
+  ]}
+  aria-label="Currently light mode. Switch to dark mode"
+  {...attrs}
+>
+  <!-- Sun icon (visible in light mode) -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6 absolute transition-opacity duration-150 dark:opacity-0"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+    ></path>
+  </svg>
+  <!-- Moon icon (visible in dark mode) -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke-width="1.5"
+    stroke="currentColor"
+    class="w-6 h-6 absolute opacity-0 transition-opacity duration-150 dark:opacity-100"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+    ></path>
+  </svg>
+</button>
+
+<script>
+  const THEME_KEY = 'theme';
+  let memoryTheme: string | null = null; // Fallback for private browsing
+
+  function isStorageAvailable(): boolean {
+    try {
+      const test = '__storage_test__';
+      localStorage.setItem(test, test);
+      localStorage.removeItem(test);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function getTheme(): string | null {
+    if (isStorageAvailable()) {
+      return localStorage.getItem(THEME_KEY);
+    }
+    return memoryTheme;
+  }
+
+  function setTheme(theme: string): void {
+    try {
+      if (isStorageAvailable()) {
+        localStorage.setItem(THEME_KEY, theme);
+      }
+    } catch {
+      // Silently fail - use memory fallback
+    }
+    memoryTheme = theme;
+  }
+
+  function updateAriaLabel(isDark: boolean): void {
+    const toggle = document.querySelector('[data-component="theme-toggle"]');
+    if (toggle) {
+      const currentMode = isDark ? 'dark' : 'light';
+      const targetMode = isDark ? 'light' : 'dark';
+      toggle.setAttribute(
+        'aria-label',
+        `Currently ${currentMode} mode. Switch to ${targetMode} mode`
+      );
+    }
+  }
+
+  function toggleTheme(): void {
+    const isDark = document.documentElement.classList.contains('dark');
+    const newTheme = isDark ? 'light' : 'dark';
+
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+    setTheme(newTheme);
+    updateAriaLabel(newTheme === 'dark');
+  }
+
+  // Initialize - set correct aria-label on load
+  const isDarkOnLoad = document.documentElement.classList.contains('dark');
+  updateAriaLabel(isDarkOnLoad);
+
+  // Initialize memory theme from current state (for private browsing)
+  memoryTheme = getTheme() ?? (isDarkOnLoad ? 'dark' : 'light');
+
+  // Attach click handler
+  const toggle = document.querySelector('[data-component="theme-toggle"]');
+  toggle?.addEventListener('click', toggleTheme);
+</script>

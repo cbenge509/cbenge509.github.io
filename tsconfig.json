@@ -1,11 +1,5 @@
 {
-  "extends": "./node_modules/gts/tsconfig-google.json",
-  "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "build"
-  },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*", "e2e/**/*", "playwright.config.ts", "vitest.config.ts"],
+  "exclude": ["dist", "node_modules", "assets", "projects", "education", "honors_awards", "skills", "docs"]
 }

@@ -1,0 +1,115 @@
+---
+/**
+ * SEO component for managing page metadata, Open Graph, Twitter cards, and JSON-LD
+ * Handles all SEO-related meta tags in one place
+ * @example
+ * ```astro
+ * ---
+ * import SEO from '../components/SEO.astro';
+ * ---
+ * <head>
+ *   <SEO
+ *     title="Projects"
+ *     description="Portfolio projects by Cris Benge"
+ *     includePersonSchema={false}
+ *   />
+ * </head>
+ * ```
+ */
+interface Props {
+  /** Page title (will have " | Cris Benge" appended) */
+  title: string;
+  /** Meta description for SEO (max ~155 characters recommended) */
+  description: string;
+  /** OG image path (defaults to /og-default.png) */
+  image?: string;
+  /** Canonical URL (defaults to current page URL) */
+  canonical?: string;
+  /** Prevent indexing (for draft pages) */
+  noIndex?: boolean;
+  /** Include JSON-LD Person schema (home page only) */
+  includePersonSchema?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = '/og-default.png',
+  canonical,
+  noIndex = false,
+  includePersonSchema = false,
+} = Astro.props;
+
+// Site configuration
+const siteUrl = import.meta.env.SITE || 'https://cbenge509.github.io';
+const siteName = 'Cris Benge';
+
+// Computed values
+const fullTitle = `${title} | ${siteName}`;
+const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
+// Use site config + pathname for canonical URL (not Astro.url.href which uses localhost in dev)
+const canonicalUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
+
+// JSON-LD Person schema for the home page
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Cris Benge',
+  jobTitle: 'Head of Federal Innovation',
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Google',
+  },
+  url: siteUrl,
+  sameAs: [
+    'https://github.com/cbenge509',
+    'https://linkedin.com/in/crisbenge',
+    // Google Scholar URL to be added when available
+  ],
+  alumniOf: [
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'Columbia University',
+    },
+    {
+      '@type': 'CollegeOrUniversity',
+      name: 'UC Berkeley',
+    },
+  ],
+};
+---
+
+<!-- Page Title -->
+<title>{fullTitle}</title>
+
+<!-- Primary Meta Tags -->
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Robots -->
+{noIndex && <meta name="robots" content="noindex,nofollow" />}
+
+<!-- JSON-LD Person Schema (home page only) -->
+{
+  includePersonSchema && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+  )
+}

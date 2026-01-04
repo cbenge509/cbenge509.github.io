@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+---
+
+<BaseLayout
+  title="Home"
+  description="Cris Benge - Head of Federal Innovation at Google. AI Researcher, Software Engineer, and Columbia & Berkeley alum."
+  includePersonSchema={true}
+>
+  <!-- Hero section with signature animation -->
+  <Hero class="pt-24 md:pt-28" />
+
+  <!-- Placeholder for project section hint (Story 2.x) -->
+  <section class="py-16 px-6 md:px-8" aria-label="Projects preview">
+    <div class="max-w-4xl">
+      <p class="text-text-secondary dark:text-text-secondary-dark text-center md:text-left">
+        More content coming soon...
+      </p>
+    </div>
+  </section>
+</BaseLayout>
