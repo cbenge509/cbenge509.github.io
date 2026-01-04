@@ -1,0 +1,579 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import ThemeToggle from './ThemeToggle.astro';
+
+/**
+ * Main navigation component with desktop and mobile layouts
+ * Implements sticky header with hide-on-scroll behavior
+ * Includes hamburger menu for mobile with focus trap
+ *
+ * @example
+ * ```astro
+ * <Navigation />
+ * ```
+ *
+ * @example
+ * ```astro
+ * <Navigation class="border-b border-border" />
+ * ```
+ */
+interface Props extends HTMLAttributes<'header'> {
+  /** Current page path for active link highlighting */
+  currentPath?: string;
+}
+
+const {class: className, currentPath = Astro.url.pathname, ...attrs} = Astro.props;
+
+const navLinks = [
+  {label: 'Home', href: '/'},
+  {label: 'Projects', href: '/projects'},
+  {label: 'About', href: '/about'},
+  {label: 'Publications', href: '/publications'},
+];
+
+const socialLinks = [
+  {
+    label: 'GitHub',
+    href: 'https://github.com/cbenge509',
+    ariaLabel: 'GitHub profile (opens in new tab)',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/crisbenge/',
+    ariaLabel: 'LinkedIn profile (opens in new tab)',
+  },
+];
+
+/**
+ * Check if a nav link is active based on current path
+ */
+function isActive(href: string, current: string): boolean {
+  if (href === '/') {
+    return current === '/';
+  }
+  return current.startsWith(href);
+}
+---
+
+<header
+  data-component="navigation"
+  class:list={[
+    'fixed top-0 left-0 right-0 z-50',
+    'bg-bg/95 dark:bg-bg-dark/95 backdrop-blur-sm',
+    'border-b border-border dark:border-border-dark',
+    'transition-transform duration-300 ease-out',
+    className,
+  ]}
+  {...attrs}
+>
+  <nav
+    aria-label="Main navigation"
+    class="container-custom flex items-center justify-between h-16"
+  >
+    <!-- Site Logo/Name - Link to Home -->
+    <a
+      href="/"
+      class="text-display-sm text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+    >
+      CB
+    </a>
+
+    <!-- Desktop Navigation Links (hidden on mobile) -->
+    <div class="hidden md:flex items-center gap-8">
+      <!-- Main Nav Links -->
+      <ul class="flex items-center gap-6">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={[
+                  'nav-link relative py-2',
+                  'text-body text-text dark:text-text-dark',
+                  'hover:text-accent dark:hover:text-accent-dark',
+                  'transition-colors duration-150',
+                  'focus-ring rounded',
+                  {'text-accent dark:text-accent-dark': isActive(link.href, currentPath)},
+                ]}
+                aria-current={isActive(link.href, currentPath) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <!-- Divider -->
+      <div class="w-px h-6 bg-border dark:bg-border-dark" aria-hidden="true"></div>
+
+      <!-- Social Links -->
+      <div class="flex items-center gap-4">
+        {
+          socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="nav-link relative py-2 text-body text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded flex items-center gap-1"
+              aria-label={link.ariaLabel}
+            >
+              {link.label}
+              <span aria-hidden="true" class="text-xs">
+                ↗
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Theme Toggle -->
+      <ThemeToggle />
+    </div>
+
+    <!-- Mobile Navigation Controls -->
+    <div class="flex md:hidden items-center gap-2">
+      <!-- Theme Toggle (visible on mobile) -->
+      <ThemeToggle />
+
+      <!-- Hamburger Menu Button -->
+      <button
+        data-component="mobile-menu-toggle"
+        type="button"
+        class="relative w-11 h-11 flex items-center justify-center focus-ring rounded"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <!-- Hamburger icon (visible when closed) -->
+        <svg
+          class="hamburger-icon w-6 h-6 transition-opacity duration-150"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path>
+        </svg>
+        <!-- Close icon (visible when open) -->
+        <svg
+          class="close-icon w-6 h-6 absolute opacity-0 transition-opacity duration-150"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Panel (slide-out from right) -->
+  <div
+    id="mobile-menu"
+    class="mobile-menu md:hidden fixed inset-0 top-16 z-40 pointer-events-none"
+    aria-hidden="true"
+  >
+    <!-- Backdrop -->
+    <div
+      class="mobile-menu-backdrop absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300"
+    >
+    </div>
+
+    <!-- Menu Panel -->
+    <div
+      class="mobile-menu-panel absolute right-0 top-0 bottom-0 w-72 max-w-[80vw] bg-bg dark:bg-bg-dark border-l border-border dark:border-border-dark transform translate-x-full transition-transform duration-300 ease-out"
+    >
+      <div class="flex flex-col p-6 h-full">
+        <!-- Main Nav Links -->
+        <ul class="flex flex-col gap-4 mb-8">
+          {
+            navLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  tabindex="-1"
+                  class:list={[
+                    'mobile-menu-link block py-2 text-body-lg',
+                    'text-text dark:text-text-dark',
+                    'hover:text-accent dark:hover:text-accent-dark',
+                    'transition-colors duration-150',
+                    'focus-ring rounded',
+                    {'text-accent dark:text-accent-dark font-medium': isActive(link.href, currentPath)},
+                  ]}
+                  aria-current={isActive(link.href, currentPath) ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <!-- Divider -->
+        <div
+          class="w-full h-px bg-border dark:bg-border-dark mb-8"
+          aria-hidden="true"
+        >
+        </div>
+
+        <!-- Social Links -->
+        <div class="flex flex-col gap-4">
+          {
+            socialLinks.map((link) => (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabindex="-1"
+                class="mobile-menu-link flex items-center gap-2 py-2 text-body-lg text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+                aria-label={link.ariaLabel}
+              >
+                {link.label}
+                <span aria-hidden="true" class="text-sm">
+                  ↗
+                </span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Spacer to prevent content from hiding under fixed header -->
+<div class="h-16" aria-hidden="true"></div>
+
+<!-- No-JS Fallback: Show navigation links when JavaScript is disabled -->
+<noscript>
+  <style>
+    /* Hide hamburger button when JS is disabled */
+    [data-component='mobile-menu-toggle'] {
+      display: none !important;
+    }
+    /* Show mobile menu as inline list when JS disabled */
+    .mobile-menu {
+      position: static !important;
+      pointer-events: auto !important;
+      display: block !important;
+    }
+    .mobile-menu-backdrop {
+      display: none !important;
+    }
+    .mobile-menu-panel {
+      position: static !important;
+      transform: none !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      border-left: none !important;
+      border-top: 1px solid var(--color-border);
+    }
+    /* Only show on mobile */
+    @media (min-width: 768px) {
+      .mobile-menu {
+        display: none !important;
+      }
+    }
+  </style>
+</noscript>
+
+<style>
+  /* Gradient underline hover effect for nav links */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      var(--color-accent-hover, var(--color-accent))
+    );
+    transition: width 150ms ease-out;
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    width: 100%;
+  }
+
+  /* Dark mode gradient */
+  :global(.dark) .nav-link::after {
+    background: linear-gradient(
+      90deg,
+      var(--color-accent-dark),
+      var(--color-accent-hover-dark, var(--color-accent-dark))
+    );
+  }
+
+  /* Active state underline */
+  .nav-link[aria-current='page']::after {
+    width: 100%;
+  }
+
+  /* Navigation hidden state (applied via JS) */
+  :global([data-component='navigation'].nav-hidden) {
+    transform: translateY(-100%);
+  }
+
+  /* Mobile menu open state */
+  :global([data-component='navigation'].menu-open) .hamburger-icon {
+    opacity: 0;
+  }
+
+  :global([data-component='navigation'].menu-open) .close-icon {
+    opacity: 1;
+  }
+
+  :global([data-component='navigation'].menu-open) .mobile-menu {
+    pointer-events: auto;
+  }
+
+  :global([data-component='navigation'].menu-open) .mobile-menu-backdrop {
+    opacity: 1;
+  }
+
+  :global([data-component='navigation'].menu-open) .mobile-menu-panel {
+    transform: translateX(0);
+  }
+
+  /* Reduced motion: disable transforms, keep opacity */
+  @media (prefers-reduced-motion: reduce) {
+    .nav-link::after {
+      transition: opacity 150ms ease-out;
+      width: 100%;
+      opacity: 0;
+    }
+
+    .nav-link:hover::after,
+    .nav-link:focus-visible::after {
+      opacity: 1;
+    }
+
+    .mobile-menu-panel {
+      transition: opacity 150ms ease-out;
+      transform: none !important;
+      opacity: 0;
+    }
+
+    :global([data-component='navigation'].menu-open) .mobile-menu-panel {
+      opacity: 1;
+    }
+
+    :global([data-component='navigation']) {
+      transition: opacity 150ms ease-out;
+      transform: none !important;
+    }
+
+    :global([data-component='navigation'].nav-hidden) {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+</style>
+
+<script>
+  // =============================================================================
+  // Navigation Script - Scroll behavior and mobile menu
+  // =============================================================================
+
+  const nav = document.querySelector(
+    '[data-component="navigation"]'
+  ) as HTMLElement | null;
+  const menuToggle = document.querySelector(
+    '[data-component="mobile-menu-toggle"]'
+  ) as HTMLButtonElement | null;
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileMenuPanel = mobileMenu?.querySelector(
+    '.mobile-menu-panel'
+  ) as HTMLElement | null;
+  const mobileMenuBackdrop = mobileMenu?.querySelector(
+    '.mobile-menu-backdrop'
+  ) as HTMLElement | null;
+
+  // ---------------------------------------------------------------------------
+  // Scroll-based hide/reveal behavior
+  // ---------------------------------------------------------------------------
+  let lastScroll = 0;
+  let ticking = false;
+  let isMenuOpen = false;
+
+  function handleScroll(): void {
+    if (!nav || isMenuOpen) {
+      ticking = false;
+      return;
+    }
+
+    const currentScroll = window.scrollY;
+
+    if (currentScroll < 50) {
+      // Always show nav at top of page
+      nav.classList.remove('nav-hidden');
+    } else if (currentScroll > lastScroll + 5) {
+      // Scrolling down - hide nav
+      nav.classList.add('nav-hidden');
+    } else if (currentScroll < lastScroll - 5) {
+      // Scrolling up - show nav
+      nav.classList.remove('nav-hidden');
+    }
+
+    lastScroll = currentScroll;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(handleScroll);
+      ticking = true;
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // Mobile menu functionality
+  // ---------------------------------------------------------------------------
+
+  function openMenu(): void {
+    if (!nav || !menuToggle || !mobileMenu) return;
+
+    isMenuOpen = true;
+    nav.classList.add('menu-open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Close navigation menu');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+
+    // Enable tabbing to menu items
+    const menuFocusables = mobileMenuPanel?.querySelectorAll('a, button');
+    menuFocusables?.forEach(el => el.removeAttribute('tabindex'));
+
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = 'hidden';
+
+    // Focus first menu link
+    const firstLink = mobileMenuPanel?.querySelector('a') as HTMLElement | null;
+    firstLink?.focus();
+  }
+
+  function closeMenu(): void {
+    if (!nav || !menuToggle || !mobileMenu) return;
+
+    isMenuOpen = false;
+    nav.classList.remove('menu-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Open navigation menu');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+
+    // Disable tabbing to menu items when closed (for accessibility)
+    const menuFocusables = mobileMenuPanel?.querySelectorAll('a, button');
+    menuFocusables?.forEach(el => el.setAttribute('tabindex', '-1'));
+
+    // Restore body scroll
+    document.body.style.overflow = '';
+
+    // Return focus to toggle button
+    menuToggle.focus();
+  }
+
+  function toggleMenu(): void {
+    if (isMenuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  }
+
+  // Toggle button click handler
+  menuToggle?.addEventListener('click', toggleMenu);
+
+  // Close on backdrop click
+  mobileMenuBackdrop?.addEventListener('click', closeMenu);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && isMenuOpen) {
+      closeMenu();
+    }
+  });
+
+  // ---------------------------------------------------------------------------
+  // Focus trap for mobile menu
+  // ---------------------------------------------------------------------------
+
+  function trapFocus(e: KeyboardEvent): void {
+    if (!isMenuOpen || !mobileMenuPanel || e.key !== 'Tab') return;
+
+    const focusableElements = mobileMenuPanel.querySelectorAll(
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusableElements.length === 0) return;
+
+    const firstElement = focusableElements[0] as HTMLElement;
+    const lastElement = focusableElements[
+      focusableElements.length - 1
+    ] as HTMLElement;
+
+    // Include the toggle button in the focus trap
+    if (e.shiftKey) {
+      // Shift + Tab: going backwards
+      if (document.activeElement === firstElement) {
+        e.preventDefault();
+        menuToggle?.focus();
+      } else if (document.activeElement === menuToggle) {
+        e.preventDefault();
+        lastElement.focus();
+      }
+    } else {
+      // Tab: going forwards
+      if (document.activeElement === lastElement) {
+        e.preventDefault();
+        menuToggle?.focus();
+      } else if (document.activeElement === menuToggle) {
+        e.preventDefault();
+        firstElement.focus();
+      }
+    }
+  }
+
+  document.addEventListener('keydown', trapFocus);
+
+  // ---------------------------------------------------------------------------
+  // Close menu on navigation (when clicking a link)
+  // ---------------------------------------------------------------------------
+
+  const menuLinks = mobileMenuPanel?.querySelectorAll('a');
+  menuLinks?.forEach((link) => {
+    link.addEventListener('click', () => {
+      // Small delay to allow navigation to start
+      setTimeout(closeMenu, 100);
+    });
+  });
+
+  // ---------------------------------------------------------------------------
+  // Close menu on window resize (when switching to desktop)
+  // ---------------------------------------------------------------------------
+
+  let resizeTimeout: ReturnType<typeof setTimeout>;
+
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (window.innerWidth >= 768 && isMenuOpen) {
+        closeMenu();
+      }
+    }, 100);
+  });
+</script>
