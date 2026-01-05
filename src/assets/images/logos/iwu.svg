@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Illinois Wesleyan University Logo Placeholder - Shield Symbol -->
+  <defs>
+    <linearGradient id="iwu-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#006747;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#004d36;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#iwu-bg)" stroke="#ffffff" stroke-width="2"/>
+
+  <!-- Shield symbol -->
+  <g fill="#ffffff" transform="translate(18, 14)">
+    <!-- Shield outline -->
+    <path d="M14,0 L28,0 L28,20 C28,28 22,34 14,38 C6,34 0,28 0,20 L0,0 Z" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <!-- Shield fill -->
+    <path d="M14,3 L25,3 L25,19 C25,26 20,31 14,34 C8,31 3,26 3,19 L3,3 Z" fill="#ffffff" fill-opacity="0.2"/>
+    <!-- Cross pattern -->
+    <rect x="12" y="8" width="4" height="20"/>
+    <rect x="6" y="14" width="16" height="4"/>
+  </g>
+</svg>

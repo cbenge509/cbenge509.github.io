@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- UC Berkeley Logo Placeholder - Bell Symbol -->
+  <defs>
+    <linearGradient id="berkeley-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003262;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#001f3f;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#berkeley-bg)" stroke="#fdb515" stroke-width="2"/>
+
+  <!-- Bell/Campanile symbol (simplified) -->
+  <g fill="#fdb515" transform="translate(22, 12)">
+    <!-- Tower -->
+    <rect x="6" y="8" width="8" height="30" rx="1"/>
+    <!-- Tower top -->
+    <polygon points="4,8 10,2 16,8"/>
+    <!-- Base -->
+    <rect x="2" y="38" width="16" height="4" rx="1"/>
+    <!-- Windows -->
+    <rect x="8" y="14" width="4" height="6" fill="#003262"/>
+    <rect x="8" y="24" width="4" height="6" fill="#003262"/>
+  </g>
+</svg>

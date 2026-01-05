@@ -1,43 +1,20 @@
 import {experimental_AstroContainer as AstroContainer} from 'astro/container';
 import {describe, it, expect} from 'vitest';
 import FeaturedProjectCard from './FeaturedProjectCard.astro';
+import {createMockProject, mockProjects} from '../../test/fixtures/props';
 
-// Mock project data for testing
+// Use shared fixtures for consistent test data across the codebase
 const mockProject = {
-  title: 'Test ML Project',
-  description:
-    'A comprehensive machine learning pipeline for data processing and model training.',
-  image: '/images/test-project.png',
-  category: 'builder' as const,
-  skills: ['Python', 'TensorFlow', 'PyTorch'],
-  tools: ['Docker', 'Kubernetes'],
-  githubUrl: 'https://github.com/example/test-project',
-  achievement: '1st Place Winner',
+  ...createMockProject({achievement: '1st Place Winner'}),
 };
 
-const mockProjectNoGithub = {
-  ...mockProject,
-  githubUrl: undefined,
-};
+const mockProjectNoGithub = mockProjects.minimal;
 
-const mockProjectLeader = {
-  ...mockProject,
-  category: 'leader' as const,
-  title: 'Team Leadership Project',
-};
+const mockProjectLeader = mockProjects.leader;
 
-const mockProjectWinner = {
-  ...mockProject,
-  category: 'winner' as const,
-  title: 'Competition Winner',
-  achievement: 'Grand Prize',
-};
+const mockProjectWinner = mockProjects.winner;
 
-const mockProjectResearch = {
-  ...mockProject,
-  category: 'research' as const,
-  title: 'Research Publication',
-};
+const mockProjectResearch = mockProjects.research;
 
 describe('FeaturedProjectCard', () => {
   describe('Content Rendering', () => {

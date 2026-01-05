@@ -566,3 +566,47 @@
     gap: var(--spacing-card-gap);
   }
 }
+
+/* =============================================================================
+   8. SCROLL REVEAL ANIMATIONS
+   ==============================================================================
+   Fade-up animation for elements that reveal on scroll.
+   Used with [data-reveal] attribute and IntersectionObserver.
+
+   Usage:
+   <div data-reveal>This fades in when scrolled into view</div>
+
+   The animation:
+   - Starts with opacity: 0 and translateY(20px)
+   - Transitions to opacity: 1 and translateY(0) when 'revealed' class is added
+   - Respects prefers-reduced-motion (transforms disabled, opacity still allowed)
+   ============================================================================= */
+
+/* Initial hidden state */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity var(--transition-medium) var(--ease-out),
+    transform var(--transition-medium) var(--ease-out);
+}
+
+/* Revealed state - applied by IntersectionObserver */
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Reduced motion - show elements immediately, no animation */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  [data-reveal].revealed {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

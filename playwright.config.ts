@@ -2,6 +2,12 @@ import {defineConfig, devices} from '@playwright/test';
 
 /**
  * Playwright configuration for E2E tests
+ *
+ * Cross-browser testing configuration:
+ * - Chromium: Covers Chrome and Edge (same engine - NFR7, NFR10)
+ * - Firefox: Covers Firefox (NFR8)
+ * - WebKit: Covers Safari (NFR9)
+ *
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
@@ -23,6 +29,14 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {...devices['Desktop Chrome']},
+    },
+    {
+      name: 'firefox',
+      use: {...devices['Desktop Firefox']},
+    },
+    {
+      name: 'webkit',
+      use: {...devices['Desktop Safari']},
     },
   ],
 

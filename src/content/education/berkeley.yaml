@@ -1,0 +1,7 @@
+institution: "UC Berkeley"
+degree: "MIDS"
+field: "Data Science"
+year: 2019
+logoImage: "../../assets/images/logos/berkeley.svg"
+institutionUrl: "https://www.berkeley.edu"
+order: 2

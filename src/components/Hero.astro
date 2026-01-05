@@ -1,9 +1,13 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import {Image} from 'astro:assets';
+import profileImage from '../assets/images/profile/cbenge.jpg';
 
 /**
- * Hero section component displaying professional identity
+ * Hero section component displaying professional identity with profile image
  * Features signature animation sequence on page load (UX-10 NON-NEGOTIABLE)
+ * Two-column layout: profile image (left) + content (right) on desktop
+ * Single-column layout: image above text on mobile
  *
  * @slot default - Not used (content is hardcoded for portfolio consistency)
  * @example
@@ -12,15 +16,17 @@ import type {HTMLAttributes} from 'astro/types';
  * ```
  * @example
  * ```astro
- * <Hero class="mt-20" />
+ * <Hero class="mt-20" showImage={false} />
  * ```
  */
 interface Props extends HTMLAttributes<'section'> {
   /** Optional class name for additional styling */
   class?: string;
+  /** Whether to show the profile image (defaults to true) */
+  showImage?: boolean;
 }
 
-const {class: className, ...attrs} = Astro.props;
+const {class: className, showImage = true, ...attrs} = Astro.props;
 
 // Profile data - could be externalized to content collection later
 const profile = {
@@ -48,77 +54,106 @@ const profile = {
   ]}
   {...attrs}
 >
-  <div class="max-w-4xl">
-    <!-- Name - h1 with signature animation -->
-    <h1
-      id="hero-heading"
-      class="text-display-lg text-text dark:text-text-dark hero-animate-name"
-      data-testid="hero-name"
-    >
-      {profile.name}
-    </h1>
+  <div class="max-w-5xl mx-auto">
+    <!-- Two-column layout: image (left) + content (right) on desktop -->
+    <div class:list={[
+      'flex flex-col md:flex-row items-center gap-8 md:gap-12',
+      showImage ? '' : 'md:max-w-4xl',
+    ]}>
+      <!-- Profile Image Column -->
+      {showImage && (
+        <div
+          class="w-48 md:w-64 lg:w-80 flex-shrink-0 hero-animate-image"
+          data-testid="hero-image-container"
+        >
+          <Image
+            src={profileImage}
+            alt="Cris Benge - Head of Federal Innovation at Google"
+            widths={[200, 400, 600]}
+            sizes="(max-width: 768px) 192px, (max-width: 1024px) 256px, 320px"
+            formats={['avif', 'webp']}
+            loading="eager"
+            fetchpriority="high"
+            class="w-full h-auto rounded-2xl shadow-lg"
+            data-testid="hero-image"
+          />
+        </div>
+      )}
 
-    <!-- Role - subtitle with staggered animation -->
-    <p
-      class="mt-2 font-display text-xl md:text-2xl font-semibold text-text-secondary dark:text-text-secondary-dark hero-animate-role"
-      data-testid="hero-role"
-    >
-      {profile.role}
-    </p>
+      <!-- Content Column -->
+      <div class="flex-1 text-center md:text-left">
+        <!-- Name - h1 with signature animation -->
+        <h1
+          id="hero-heading"
+          class="text-display-lg text-text dark:text-text-dark hero-animate-name"
+          data-testid="hero-name"
+        >
+          {profile.name}
+        </h1>
 
-    <!-- Credential badges -->
-    <div
-      class="mt-6 flex flex-wrap gap-3"
-      data-testid="hero-credentials"
-    >
-      {
-        profile.credentials.map((cred, index) => (
-          <span
-            class:list={[
-              'inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium hero-animate-credential',
-              cred.type === 'education'
-                ? 'bg-surface text-text dark:bg-surface-dark dark:text-text-dark'
-                : 'bg-accent/5 text-accent-hover dark:bg-accent-dark/15 dark:text-accent-dark',
-            ]}
-            style={`animation-delay: ${400 + index * 150}ms`}
-            data-testid={`hero-credential-${index}`}
+        <!-- Role - subtitle with staggered animation -->
+        <p
+          class="mt-2 font-display text-xl md:text-2xl font-semibold text-text-secondary dark:text-text-secondary-dark hero-animate-role"
+          data-testid="hero-role"
+        >
+          {profile.role}
+        </p>
+
+        <!-- Credential badges -->
+        <div
+          class="mt-6 flex flex-wrap justify-center md:justify-start gap-3"
+          data-testid="hero-credentials"
+        >
+          {
+            profile.credentials.map((cred, index) => (
+              <span
+                class:list={[
+                  'inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium hero-animate-credential',
+                  cred.type === 'education'
+                    ? 'bg-surface text-text dark:bg-surface-dark dark:text-text-dark'
+                    : 'bg-accent/5 text-accent-hover dark:bg-accent-dark/15 dark:text-accent-dark',
+                ]}
+                style={`animation-delay: ${500 + index * 150}ms`}
+                data-testid={`hero-credential-${index}`}
+              >
+                {cred.label}
+              </span>
+            ))
+          }
+        </div>
+
+        <!-- CTA buttons -->
+        <div
+          class="mt-8 flex flex-col md:flex-row justify-center md:justify-start gap-4 hero-animate-ctas"
+          data-testid="hero-ctas"
+        >
+          <!-- Primary CTA - LinkedIn -->
+          <a
+            href={profile.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent-hover dark:bg-accent dark:hover:bg-accent-hover transition-colors duration-150 focus-ring w-full md:w-auto min-h-11"
+            data-testid="hero-linkedin"
           >
-            {cred.label}
-          </span>
-        ))
-      }
-    </div>
+            LinkedIn
+            <span aria-hidden="true">&#x2197;</span>
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
 
-    <!-- CTA buttons -->
-    <div
-      class="mt-8 flex flex-col md:flex-row gap-4 hero-animate-ctas"
-      data-testid="hero-ctas"
-    >
-      <!-- Primary CTA - LinkedIn -->
-      <a
-        href={profile.links.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-lg hover:bg-accent-hover dark:bg-accent dark:hover:bg-accent-hover transition-colors duration-150 focus-ring w-full md:w-auto min-h-[44px]"
-        data-testid="hero-linkedin"
-      >
-        LinkedIn
-        <span aria-hidden="true">&#x2197;</span>
-        <span class="sr-only">(opens in new tab)</span>
-      </a>
-
-      <!-- Secondary CTA - GitHub -->
-      <a
-        href={profile.links.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-white dark:border-accent-dark dark:text-accent-dark dark:hover:bg-accent-dark dark:hover:text-white transition-colors duration-150 focus-ring w-full md:w-auto min-h-[44px]"
-        data-testid="hero-github"
-      >
-        GitHub
-        <span aria-hidden="true">&#x2197;</span>
-        <span class="sr-only">(opens in new tab)</span>
-      </a>
+          <!-- Secondary CTA - GitHub -->
+          <a
+            href={profile.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-6 py-3 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-white dark:border-accent-dark dark:text-accent-dark dark:hover:bg-accent-dark dark:hover:text-white transition-colors duration-150 focus-ring w-full md:w-auto min-h-11"
+            data-testid="hero-github"
+          >
+            GitHub
+            <span aria-hidden="true">&#x2197;</span>
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -128,11 +163,12 @@ const profile = {
      HERO SIGNATURE ANIMATION - UX-10 (NON-NEGOTIABLE)
      ==============================================================================
      GPU-accelerated animations using transform + opacity only.
-     Animation sequence:
-     - Name: 0-400ms (fade in + slide up)
-     - Role: 200-500ms (overlaps with name for smooth flow)
-     - Credentials: 400-800ms (staggered)
-     - CTAs: 600-1000ms
+     Animation sequence (updated for profile image):
+     - Profile image: 0-300ms (fade in first)
+     - Name: 100-500ms (overlaps with image end)
+     - Role: 300-600ms
+     - Credentials: 500-900ms (staggered)
+     - CTAs: 700-1100ms
      Total: ~1.2 seconds
      ============================================================================= */
 
@@ -147,28 +183,44 @@ const profile = {
     }
   }
 
-  /* Name - first to animate */
-  .hero-animate-name {
-    animation: hero-fade-up 400ms var(--ease-out) forwards;
+  @keyframes hero-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 
-  /* Role - overlaps with name slightly */
+  /* Profile image - first to animate (0-300ms) */
+  .hero-animate-image {
+    opacity: 0;
+    animation: hero-fade-in 300ms var(--ease-out) forwards;
+  }
+
+  /* Name - overlaps with image end (100-500ms) */
+  .hero-animate-name {
+    opacity: 0;
+    animation: hero-fade-up 400ms var(--ease-out) 100ms forwards;
+  }
+
+  /* Role - follows name (300-600ms) */
   .hero-animate-role {
     opacity: 0;
-    animation: hero-fade-up 300ms var(--ease-out) 200ms forwards;
+    animation: hero-fade-up 300ms var(--ease-out) 300ms forwards;
   }
 
-  /* Credentials - staggered animation (400-700ms based on index) */
+  /* Credentials - staggered animation (500-850ms based on index) */
   .hero-animate-credential {
     opacity: 0;
     animation: hero-fade-up 300ms var(--ease-out) forwards;
-    /* animation-delay is set inline per badge: 400ms, 550ms, 700ms */
+    /* animation-delay is set inline per badge: 500ms, 650ms, 800ms */
   }
 
-  /* CTAs - final element */
+  /* CTAs - final element (700-1100ms) */
   .hero-animate-ctas {
     opacity: 0;
-    animation: hero-fade-up 400ms var(--ease-out) 600ms forwards;
+    animation: hero-fade-up 400ms var(--ease-out) 700ms forwards;
   }
 
   /* =============================================================================
@@ -181,6 +233,7 @@ const profile = {
      ============================================================================= */
 
   @media (prefers-reduced-motion: reduce) {
+    .hero-animate-image,
     .hero-animate-name,
     .hero-animate-role,
     .hero-animate-credential,

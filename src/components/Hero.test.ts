@@ -72,10 +72,11 @@ describe('Hero', () => {
   it('credential badges have staggered animation delays', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Hero);
-    // Each badge has a staggered delay: 400ms, 550ms, 700ms
-    expect(result).toContain('animation-delay: 400ms');
-    expect(result).toContain('animation-delay: 550ms');
-    expect(result).toContain('animation-delay: 700ms');
+    // Credential badges animate after image (0-300ms) and name (100-500ms)
+    // Starting at 500ms with 150ms stagger: 500ms, 650ms, 800ms
+    expect(result).toContain('animation-delay: 500ms');
+    expect(result).toContain('animation-delay: 650ms');
+    expect(result).toContain('animation-delay: 800ms');
   });
 
   it('has data-testid attributes for testing', async () => {
@@ -106,8 +107,67 @@ describe('Hero', () => {
   it('has minimum touch target height for mobile accessibility', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Hero);
-    // Buttons should have min-h-[44px] for touch targets
-    expect(result).toContain('min-h-[44px]');
+    // Buttons should have min-h-11 (44px) for touch targets
+    expect(result).toContain('min-h-11');
+  });
+
+  it('renders profile image by default', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('data-testid="hero-image"');
+    expect(result).toContain('data-testid="hero-image-container"');
+    expect(result).toContain(
+      'alt="Cris Benge - Head of Federal Innovation at Google"',
+    );
+  });
+
+  it('has two-column layout classes', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    // Check for flex layout classes for two-column design
+    expect(result).toContain('flex');
+    expect(result).toContain('flex-col');
+    expect(result).toContain('md:flex-row');
+    expect(result).toContain('items-center');
+  });
+
+  it('hides image when showImage is false', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero, {
+      props: {showImage: false},
+    });
+    expect(result).not.toContain('data-testid="hero-image"');
+    expect(result).not.toContain('data-testid="hero-image-container"');
+  });
+
+  it('has image animation class', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('hero-animate-image');
+  });
+
+  it('image has rounded corners styling', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('rounded-2xl');
+  });
+
+  it('image uses eager loading for above-fold content', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('loading="eager"');
+  });
+
+  it('image has fetchpriority high for LCP optimization', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('fetchpriority="high"');
+  });
+
+  it('image has responsive sizes attribute', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Hero);
+    expect(result).toContain('sizes=');
   });
 
   it('clearance badge has accent styling', async () => {

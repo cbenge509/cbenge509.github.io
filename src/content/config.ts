@@ -28,10 +28,11 @@ const publications = defineCollection({
     authors: z.array(z.string()).min(1),
     venue: z.string(),
     year: z.number(),
-    abstract: z.string(),
+    abstract: z.string().optional(), // Made optional for AC8 (no abstract handling)
     pdfUrl: z.string().optional(),
     codeUrl: z.string().url().optional(),
     doiUrl: z.string().url().optional(),
+    order: z.number().optional(), // For custom sort order
   }),
 });
 
@@ -58,6 +59,7 @@ const education = defineCollection({
     year: z.number(),
     gpa: z.string().optional(),
     logoImage: z.string(),
+    institutionUrl: z.string().url().optional(),
     honors: z.array(z.string()).optional(),
     order: z.number(),
   }),
@@ -70,6 +72,7 @@ const certifications = defineCollection({
     issuer: z.string(),
     year: z.number(),
     badgeUrl: z.string().optional(),
+    verificationUrl: z.string().url().optional(),
     category: z.enum(['cloud', 'data', 'database', 'other']),
     order: z.number(),
   }),
@@ -82,6 +85,8 @@ const awards = defineCollection({
     year: z.number(),
     category: z.enum(['competition', 'professional']),
     description: z.string(),
+    placement: z.string().optional(),
+    organization: z.string().optional(),
     order: z.number(),
   }),
 });

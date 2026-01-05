@@ -84,6 +84,8 @@ describe('SEO', () => {
 
     expect(result).toContain('name="twitter:card"');
     expect(result).toContain('summary_large_image');
+    expect(result).toContain('name="twitter:site"');
+    expect(result).toContain('name="twitter:creator"');
     expect(result).toContain('name="twitter:title"');
     expect(result).toContain('name="twitter:description"');
     expect(result).toContain('name="twitter:image"');

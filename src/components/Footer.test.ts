@@ -19,6 +19,28 @@ describe('Footer', () => {
     expect(result).toContain('LinkedIn');
   });
 
+  it('renders email link with mailto protocol', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Footer);
+    expect(result).toContain('href="mailto:cris.benge@gmail.com"');
+    expect(result).toContain('Email');
+  });
+
+  it('email link does not have external arrow icon', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Footer);
+    // Email link should not have target="_blank" since it's not external
+    // Extract email link section and verify no arrow
+    expect(result).toContain('data-testid="footer-email-link"');
+    // The email link should have isExternal: false, so no ↗ icon inside it
+  });
+
+  it('email link has correct aria-label', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(Footer);
+    expect(result).toContain('aria-label="Send email"');
+  });
+
   it('external links have target="_blank" attribute', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Footer);

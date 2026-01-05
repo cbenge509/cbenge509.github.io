@@ -65,42 +65,43 @@ development_status:
   # Goal: Visitors explore projects, validate "this person actually codes"
   # FRs: FR10-15 (6 FRs)
   # ═══════════════════════════════════════════════════════════════
-  epic-2: in-progress  # Started 2026-01-04
+  epic-2: done  # All 4 stories completed 2026-01-04
   2-1-project-card-components: done  # Completed 2026-01-04 (74 unit tests, 50 E2E tests) - Adversarial code review passed 2026-01-04: 1 HIGH, 3 MEDIUM issues fixed
-  2-2-project-gallery-page: backlog
-  2-3-project-detail-page: backlog
-  epic-2-retrospective: optional
+  2-2-project-gallery-page: done  # Completed 2026-01-04 (180 unit tests, 261 E2E tests) - Adversarial code review passed 2026-01-04: 2 HIGH, 2 MEDIUM, 1 LOW issues fixed (added project detail page, SectionHeading integration)
+  2-3-project-detail-page: done  # Completed as part of 2-2 review - project detail page created to fix 404 links
+  2-4-homepage-hero-image-featured-projects: done  # Completed 2026-01-04 (188 unit tests, 289 E2E tests) - Adversarial code review passed 2026-01-04: 5 MEDIUM, 2 LOW issues fixed (image optimization attrs, removed unused placeholder)
+  epic-2-retrospective: done  # Completed 2026-01-04 - epic-2-retro-2026-01-04.md
 
   # ═══════════════════════════════════════════════════════════════
   # Epic 3: Professional Credentials (2 stories)
   # Goal: Display education, certifications, awards - validate credentials
   # FRs: FR6, FR7, FR21, FR22 (4 FRs)
   # ═══════════════════════════════════════════════════════════════
-  epic-3: backlog
-  3-1-about-page-with-education-display: backlog
-  3-2-certifications-awards-display: backlog
-  epic-3-retrospective: optional
+  epic-3: done  # All 2 stories completed 2026-01-04
+  3-1-about-page-with-education-display: done  # Completed 2026-01-04 (206 unit tests, 324 E2E tests) - Adversarial code review passed 2026-01-04: 1 HIGH, 4 MEDIUM issues fixed
+  3-2-certifications-awards-display: done  # Completed 2026-01-04 (247 unit tests, 357 E2E tests) - Adversarial code review passed 2026-01-04: 1 HIGH issue fixed (missing empty state tests added)
+  epic-3-retrospective: done  # Completed 2026-01-04 - epic-3-retro-2026-01-04.md
 
   # ═══════════════════════════════════════════════════════════════
   # Epic 4: Publications, Patents & Professional Engagement (3 stories)
   # Goal: Explore publications, patents, contact options, CV download
   # FRs: FR4, FR9, FR16-20, FR27 (8 FRs)
   # ═══════════════════════════════════════════════════════════════
-  epic-4: backlog
-  4-1-publications-section-with-expandable-abstracts: backlog
-  4-2-patents-section: backlog
-  4-3-contact-cv-section: backlog
-  epic-4-retrospective: optional
+  epic-4: done  # All 3 stories completed 2026-01-04
+  4-1-publications-section-with-expandable-abstracts: done  # Adversarial code review passed 2026-01-04: 1 CRITICAL, 3 MEDIUM, 1 LOW issues fixed (267 unit tests, 408 E2E tests)
+  4-2-patents-section: done  # Adversarial code review passed 2026-01-04: 1 HIGH, 2 MEDIUM issues fixed (285 unit tests, 432 E2E tests)
+  4-3-contact-cv-section: done  # Adversarial code review passed 2026-01-04: 1 MEDIUM, 1 LOW issues fixed (333 unit tests, 101 about page E2E tests)
+  epic-4-retrospective: skipped  # User opted to skip - proceeding to Epic 5
 
   # ═══════════════════════════════════════════════════════════════
   # Epic 5: Complete & Polished Portfolio Experience (5 stories)
   # Goal: All content migrated, CI/CD, SEO, testing, performance validated
   # NFRs: NFR1-23 (all 23 NFRs)
   # ═══════════════════════════════════════════════════════════════
-  epic-5: backlog
-  5-1-content-migration: backlog
-  5-2-ci-cd-pipeline-with-quality-gates: backlog
-  5-3-seo-metadata-implementation: backlog
-  5-4-automated-testing-suite: backlog
-  5-5-performance-cross-browser-validation: backlog
+  epic-5: done  # All 5 stories completed 2026-01-05
+  5-1-content-migration: done  # Reviewed 2026-01-04 - 2 HIGH, 4 MEDIUM, 1 LOW issues fixed (9 projects, 4 publications, 3 education, 9 certifications, 8 awards migrated)
+  5-2-ci-cd-pipeline-with-quality-gates: done  # Reviewed 2026-01-05 - 3 HIGH, 4 MEDIUM, 2 LOW issues fixed (added Semgrep SAST, Closure Compiler, Playwright caching, improved concurrency)
+  5-3-seo-metadata-implementation: done  # Adversarial code review passed 2026-01-05 - 1 HIGH, 2 MEDIUM, 1 LOW issues fixed (sitemap filter, twitter:site/creator, JSON-LD E2E tests)
+  5-4-automated-testing-suite: done  # Adversarial code review passed 2026-01-05 - 1 HIGH, 3 MEDIUM, 2 LOW issues fixed (341 unit tests, 475 E2E tests, 100% coverage, 90% thresholds)
+  5-5-performance-cross-browser-validation: done  # Adversarial code review passed 2026-01-05: 1 HIGH, 3 MEDIUM, 1 LOW issues fixed (567 E2E tests per browser, 341 unit tests, cross-browser testing)
   epic-5-retrospective: optional

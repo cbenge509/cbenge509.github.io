@@ -81,8 +81,8 @@ test.describe('Footer Component', () => {
       const footer = page.locator('footer[data-component="footer"]');
       const footerLinks = footer.locator('.footer-link');
 
-      // Should have multiple footer links (GitHub, LinkedIn, Astro)
-      await expect(footerLinks).toHaveCount(3);
+      // Should have multiple footer links (Email, GitHub, LinkedIn, Astro)
+      await expect(footerLinks).toHaveCount(4);
     });
 
     test('gradient underline appears on hover', async ({page}) => {

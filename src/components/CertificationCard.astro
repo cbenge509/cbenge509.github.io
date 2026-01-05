@@ -1,0 +1,132 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * CertificationCard displays a single certification with issuer details.
+ * Follows project card styling patterns with dark mode support.
+ *
+ * @example
+ * ```astro
+ * <CertificationCard
+ *   name="Azure Certified Solution Architect Expert"
+ *   issuer="Microsoft"
+ *   year={2023}
+ *   category="cloud"
+ * />
+ * ```
+ */
+interface Props extends HTMLAttributes<'article'> {
+  /** Certification name */
+  name: string;
+  /** Issuing organization */
+  issuer: string;
+  /** Year obtained */
+  year: number;
+  /** Certification category */
+  category: 'cloud' | 'data' | 'database' | 'other';
+  /** Optional badge/logo URL */
+  badgeUrl?: string;
+  /** Optional verification URL */
+  verificationUrl?: string;
+}
+
+const {
+  name,
+  issuer,
+  year,
+  category,
+  badgeUrl,
+  verificationUrl,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+// Category badge styles
+const categoryStyles: Record<string, string> = {
+  cloud: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200',
+  data: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200',
+  database:
+    'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200',
+  other: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+};
+
+// Category labels for display
+const categoryLabels: Record<string, string> = {
+  cloud: 'Cloud',
+  data: 'Data',
+  database: 'Database',
+  other: 'Other',
+};
+---
+
+<article
+  class:list={[
+    'certification-card group',
+    'rounded-xl bg-white dark:bg-gray-900/50',
+    'border border-gray-200 dark:border-gray-800',
+    'p-6 transition-all duration-200',
+    'hover:shadow-md hover:-translate-y-1',
+    className,
+  ]}
+  data-testid="certification-card"
+  {...attrs}
+>
+  <div class="flex flex-col gap-3">
+    <!-- Category Badge -->
+    <div>
+      <span
+        class:list={[
+          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+          categoryStyles[category],
+        ]}
+        data-testid="category-badge"
+      >
+        {categoryLabels[category]}
+      </span>
+    </div>
+
+    <!-- Certification Name -->
+    <h3 class="text-lg font-semibold text-text dark:text-text-dark">
+      {name}
+    </h3>
+
+    <!-- Issuer and Year -->
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-secondary dark:text-text-secondary-dark">
+      <span class="font-medium">{issuer}</span>
+      <span aria-hidden="true">•</span>
+      <span>{year}</span>
+    </div>
+
+    <!-- Verification Link (if available) -->
+    {
+      verificationUrl && (
+        <a
+          href={verificationUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1 min-h-11 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded w-fit"
+        >
+          Verify Credential
+          <span aria-hidden="true" class="text-xs opacity-70">
+            ↗
+          </span>
+          <span class="sr-only">(opens in new tab)</span>
+        </a>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .certification-card {
+      transition: none;
+      transform: none !important;
+    }
+
+    .certification-card:hover {
+      transform: none;
+    }
+  }
+</style>

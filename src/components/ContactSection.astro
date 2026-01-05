@@ -1,0 +1,120 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import SectionHeading from './SectionHeading.astro';
+
+/**
+ * ContactSection displays contact options and CV download link.
+ * Positioned as a prominent call-to-action section on the About page.
+ *
+ * LinkedIn is styled as the primary CTA (recruiter journey), with email
+ * and CV as secondary options. All external links open in new tabs with
+ * proper security attributes.
+ *
+ * @example
+ * ```astro
+ * <ContactSection />
+ * ```
+ *
+ * @example
+ * ```astro
+ * <ContactSection showCV={false} />
+ * ```
+ */
+interface Props extends HTMLAttributes<'section'> {
+  /** Whether to show the email link (default: true) */
+  showEmail?: boolean;
+  /** Whether to show the CV download link (default: true) */
+  showCV?: boolean;
+}
+
+const {showEmail = true, showCV = true, class: className, ...attrs} = Astro.props;
+
+// Contact information - replace with actual email when available
+const email = 'cris.benge@gmail.com';
+const linkedInUrl = 'https://www.linkedin.com/in/crisbenge/';
+const githubUrl = 'https://github.com/cbenge509';
+const cvUrl = '/cris-benge-cv.pdf';
+
+// Check if CV file exists at build time by checking if it should be rendered
+// The showCV prop can be used to conditionally hide the CV link
+const shouldShowCV = showCV;
+---
+
+<section
+  class:list={[
+    'py-16 md:py-20 px-6 md:px-8 bg-surface dark:bg-surface-dark rounded-2xl',
+    className,
+  ]}
+  aria-labelledby="contact-heading"
+  data-testid="contact-section"
+  {...attrs}
+>
+  <div class="max-w-3xl mx-auto text-center">
+    <SectionHeading id="contact-heading">
+      Get In Touch
+      <span slot="subtitle">
+        Interested in connecting? Reach out via email or LinkedIn.
+      </span>
+    </SectionHeading>
+
+    <div class="flex flex-wrap justify-center gap-4">
+      <!-- Primary CTA: LinkedIn (recruiter journey) -->
+      <a
+        href={linkedInUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-6 py-3 min-h-11 bg-accent dark:bg-accent-dark text-white rounded-lg font-medium hover:bg-accent-hover dark:hover:bg-accent-hover-dark transition-colors duration-150 focus-ring"
+        aria-label="Connect on LinkedIn (opens in new tab)"
+        data-testid="linkedin-link"
+      >
+        Connect on LinkedIn
+        <span aria-hidden="true">↗</span>
+      </a>
+
+      <!-- Secondary: Email -->
+      {
+        showEmail && (
+          <a
+            href={`mailto:${email}`}
+            class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
+            data-testid="email-link"
+          >
+            Email Me
+          </a>
+        )
+      }
+
+      <!-- CV Download -->
+      {
+        shouldShowCV && (
+          <a
+            href={cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
+            aria-label="View CV (opens in new tab)"
+            data-testid="cv-link"
+          >
+            View CV
+            <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+    </div>
+
+    <!-- GitHub link in secondary text -->
+    <p class="mt-6 text-text-secondary dark:text-text-secondary-dark">
+      Or check out my work on{' '}
+      <a
+        href={githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-accent dark:text-accent-dark underline underline-offset-2 hover:no-underline focus-ring rounded"
+        aria-label="GitHub profile (opens in new tab)"
+        data-testid="github-link"
+      >
+        GitHub<span aria-hidden="true" class="text-xs ml-0.5">↗</span>
+      </a>
+    </p>
+  </div>
+</section>

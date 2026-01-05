@@ -417,12 +417,13 @@ test.describe('Hero Section Mobile - AC9', () => {
     await page.goto('/');
   });
 
-  test('hero section is left-aligned', async ({page}) => {
+  test('hero section is centered on mobile', async ({page}) => {
+    // With two-column layout, hero content is centered on mobile for better presentation
     const heroName = page.locator('[data-testid="hero-name"]');
     const textAlign = await heroName.evaluate(el => {
       return window.getComputedStyle(el).textAlign;
     });
-    expect(['left', 'start']).toContain(textAlign);
+    expect(['center']).toContain(textAlign);
   });
 
   test('hero text is readable with minimum 16px font', async ({page}) => {
@@ -540,6 +541,64 @@ test.describe('Visual Layout Validation', () => {
       expect(box.x).toBeGreaterThan(0);
     }
   });
+});
+
+test.describe('Critical Breakpoint Edge Cases - AC4 Extended', () => {
+  // Story 5.5 AC4: Test at edge cases 320px, 640px, 768px, 1024px, 1280px, 1920px
+  const criticalBreakpoints = [
+    {width: 320, name: 'minimum mobile (320px)'},
+    {width: 640, name: 'sm breakpoint (640px)'},
+    {width: 768, name: 'md breakpoint (768px)'},
+    {width: 1024, name: 'lg breakpoint (1024px)'},
+    {width: 1280, name: 'xl breakpoint (1280px)'},
+    {width: 1920, name: 'maximum desktop (1920px)'},
+  ];
+
+  for (const bp of criticalBreakpoints) {
+    test.describe(`at ${bp.name}`, () => {
+      test.beforeEach(async ({page}) => {
+        await page.setViewportSize({width: bp.width, height: 800});
+      });
+
+      test('no horizontal scrolling on homepage', async ({page}) => {
+        await page.goto('/');
+        const scrollWidth = await page.evaluate(
+          () => document.body.scrollWidth,
+        );
+        expect(scrollWidth).toBeLessThanOrEqual(bp.width);
+      });
+
+      test('no horizontal scrolling on projects page', async ({page}) => {
+        await page.goto('/projects/');
+        const scrollWidth = await page.evaluate(
+          () => document.body.scrollWidth,
+        );
+        expect(scrollWidth).toBeLessThanOrEqual(bp.width);
+      });
+
+      test('no horizontal scrolling on about page', async ({page}) => {
+        await page.goto('/about/');
+        const scrollWidth = await page.evaluate(
+          () => document.body.scrollWidth,
+        );
+        expect(scrollWidth).toBeLessThanOrEqual(bp.width);
+      });
+
+      test('no horizontal scrolling on publications page', async ({page}) => {
+        await page.goto('/publications/');
+        const scrollWidth = await page.evaluate(
+          () => document.body.scrollWidth,
+        );
+        expect(scrollWidth).toBeLessThanOrEqual(bp.width);
+      });
+
+      test('main heading is visible', async ({page}) => {
+        await page.goto('/');
+        const heading = page.locator('[data-testid="hero-name"]');
+        await expect(heading).toBeVisible();
+      });
+    });
+  }
 });
 
 test.describe('Accessibility at Each Viewport', () => {

@@ -1,0 +1,186 @@
+---
+import {getCollection, type CollectionEntry} from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectTag from '../../components/ProjectTag.astro';
+
+/**
+ * Project Detail Page
+ * Displays full project information with description, skills, tools, and links
+ *
+ * @route /projects/[slug]
+ */
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: {slug: project.slug},
+    props: {project},
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const {project} = Astro.props;
+const {Content} = await project.render();
+
+/**
+ * Map content collection category to tag variant
+ */
+const categoryToVariant: Record<
+  'leader' | 'builder' | 'winner' | 'research',
+  'leadership' | 'technical' | 'winner' | 'research'
+> = {
+  leader: 'leadership',
+  builder: 'technical',
+  winner: 'winner',
+  research: 'research',
+};
+
+const categoryLabels: Record<
+  'leader' | 'builder' | 'winner' | 'research',
+  string
+> = {
+  leader: 'Leadership',
+  builder: 'Technical',
+  winner: 'Winner',
+  research: 'Research',
+};
+---
+
+<BaseLayout
+  title={`${project.data.title} | Projects`}
+  description={project.data.description}
+>
+  <article class="container-custom py-16 md:py-24">
+    <!-- Back link -->
+    <a
+      href="/projects"
+      class="inline-flex items-center gap-2 text-text-secondary dark:text-text-secondary-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 mb-8"
+    >
+      <span aria-hidden="true">&larr;</span>
+      Back to Projects
+    </a>
+
+    <!-- Header -->
+    <header class="mb-8 md:mb-12">
+      <h1
+        class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark mb-4"
+      >
+        {project.data.title}
+      </h1>
+
+      <p
+        class="text-lg md:text-xl text-text-secondary dark:text-text-secondary-dark max-w-3xl"
+      >
+        {project.data.description}
+      </p>
+
+      <!-- Tags and links -->
+      <div class="mt-6 flex flex-wrap items-center gap-4">
+        <ProjectTag variant={categoryToVariant[project.data.category]}>
+          {categoryLabels[project.data.category]}
+        </ProjectTag>
+
+        {
+          project.data.achievement && project.data.category === 'winner' && (
+            <span class="text-sm text-text-secondary dark:text-text-secondary-dark">
+              {project.data.achievement}
+            </span>
+          )
+        }
+
+        {
+          project.data.affiliation && (
+            <span class="text-sm text-text-secondary dark:text-text-secondary-dark">
+              {project.data.affiliation}
+            </span>
+          )
+        }
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-6 flex flex-wrap gap-4">
+        {
+          project.data.githubUrl && (
+            <a
+              href={project.data.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
+                     bg-surface dark:bg-surface-dark
+                     text-text dark:text-text-dark
+                     hover:bg-accent hover:text-white dark:hover:bg-accent-dark
+                     transition-colors duration-150 focus-ring"
+            >
+              View on GitHub
+              <span aria-hidden="true">↗</span>
+            </a>
+          )
+        }
+
+        {
+          project.data.liveUrl && (
+            <a
+              href={project.data.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
+                     bg-accent dark:bg-accent-dark text-white
+                     hover:bg-accent-hover dark:hover:bg-accent-hover-dark
+                     transition-colors duration-150 focus-ring"
+            >
+              View Live
+              <span aria-hidden="true">↗</span>
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Skills and Tools -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <!-- Skills -->
+      <div>
+        <h2
+          class="font-display text-lg font-semibold text-text dark:text-text-dark mb-3"
+        >
+          Skills
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {
+            project.data.skills.map((skill) => (
+              <span class="px-3 py-1 text-sm rounded-full bg-surface dark:bg-surface-dark text-text-secondary dark:text-text-secondary-dark">
+                {skill}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div>
+        <h2
+          class="font-display text-lg font-semibold text-text dark:text-text-dark mb-3"
+        >
+          Tools
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {
+            project.data.tools.map((tool) => (
+              <span class="px-3 py-1 text-sm rounded-full bg-surface dark:bg-surface-dark text-text-secondary dark:text-text-secondary-dark">
+                {tool}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Content from markdown -->
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
