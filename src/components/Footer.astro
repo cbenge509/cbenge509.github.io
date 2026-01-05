@@ -21,14 +21,22 @@ const {class: className, ...attrs} = Astro.props;
 
 const socialLinks = [
   {
+    label: 'Email',
+    href: 'mailto:cris.benge@gmail.com',
+    ariaLabel: 'Send email',
+    isExternal: false,
+  },
+  {
     label: 'GitHub',
     href: 'https://github.com/cbenge509',
     ariaLabel: 'GitHub profile (opens in new tab)',
+    isExternal: true,
   },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/crisbenge/',
     ariaLabel: 'LinkedIn profile (opens in new tab)',
+    isExternal: true,
   },
 ];
 
@@ -54,15 +62,18 @@ const currentYear = new Date().getFullYear();
           socialLinks.map((link) => (
             <a
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={link.isExternal ? '_blank' : undefined}
+              rel={link.isExternal ? 'noopener noreferrer' : undefined}
               class="footer-link relative min-h-11 min-w-11 px-3 py-3 text-body text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded flex items-center justify-center gap-1"
               aria-label={link.ariaLabel}
+              data-testid={`footer-${link.label.toLowerCase()}-link`}
             >
               {link.label}
-              <span aria-hidden="true" class="text-xs">
-                ↗
-              </span>
+              {link.isExternal && (
+                <span aria-hidden="true" class="text-xs">
+                  ↗
+                </span>
+              )}
             </a>
           ))
         }

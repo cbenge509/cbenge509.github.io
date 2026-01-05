@@ -6,7 +6,11 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cbenge509.github.io',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('test-cards'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,0 +1,49 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * Section Heading component for consistent section titles
+ * Uses Space Grotesk font with proper responsive sizing
+ *
+ * @example
+ * ```astro
+ * <SectionHeading>Featured Projects</SectionHeading>
+ *
+ * <!-- With subtitle slot -->
+ * <SectionHeading>
+ *   Featured Projects
+ *   <span slot="subtitle">Highlighted work from my portfolio</span>
+ * </SectionHeading>
+ * ```
+ *
+ * @slot default - The heading text content
+ * @slot subtitle - Optional subtitle/description below the heading
+ */
+export interface Props extends HTMLAttributes<'div'> {
+  /** ID for aria-labelledby on the parent section */
+  id?: string;
+  /** Heading level (h1, h2, h3) - defaults to h2 */
+  as?: 'h1' | 'h2' | 'h3';
+}
+
+const {id, as: Tag = 'h2', class: className, ...attrs} = Astro.props;
+
+// Check if subtitle slot has content
+const hasSubtitle = Astro.slots.has('subtitle');
+---
+
+<div class:list={['mb-8', className]} {...attrs}>
+  <Tag
+    id={id}
+    class="font-display text-2xl md:text-3xl font-semibold text-text dark:text-text-dark"
+  >
+    <slot />
+  </Tag>
+  {
+    hasSubtitle && (
+      <p class="mt-2 text-text-secondary dark:text-text-secondary-dark text-body-lg">
+        <slot name="subtitle" />
+      </p>
+    )
+  }
+</div>

@@ -62,6 +62,10 @@ _This file contains critical rules and patterns that AI agents must follow when 
 - Use explicit return types on exported functions
 - Prefer `interface` over `type` for object shapes
 - Use `z.infer<typeof schema>` for Zod-derived types
+- **CI uses `tsconfig.ci.json`** which excludes test files - this is intentional
+  - Running `npx tsc --noEmit` locally shows "errors" in test files (Astro module imports)
+  - These are expected - Astro components import correctly at runtime via Vitest
+  - For CI type checking, use: `npx tsc --noEmit --project tsconfig.ci.json`
 
 **Import Order (enforced by Prettier):**
 1. Astro imports (`astro:content`, `astro:assets`)
@@ -368,9 +372,10 @@ npm audit --audit-level=high || exit 1
 **Branch Strategy:**
 | Branch | Purpose | Deploys To |
 |--------|---------|------------|
-| `main` | Production | cbenge509.github.io |
-| `v2` | New Astro development | Preview URL |
-| Feature branches | Individual features | PR previews |
+| `master` | Production | cbenge509.github.io |
+| Feature branches | Individual features | PR checks (no deploy) |
+
+*Note: The v2 migration is complete. All development uses feature branches with PRs to master.*
 
 **CI/CD Pipeline (GitHub Actions):**
 1. Security Scan (Semgrep SAST)

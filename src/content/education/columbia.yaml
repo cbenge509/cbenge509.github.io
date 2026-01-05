@@ -1,10 +1,9 @@
 institution: "Columbia University"
 degree: "M.S."
-field: "Computer Science"
+field: "Applied Analytics"
 year: 2020
-gpa: "4.0"
-logoImage: "../../assets/images/logos/columbia.png"
+logoImage: "../../assets/images/logos/columbia.svg"
+institutionUrl: "https://www.columbia.edu"
 honors:
-  - "Summa Cum Laude"
-  - "Dean's List"
+  - "Graduate Certificate in Machine Learning"
 order: 1

@@ -1,0 +1,163 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * PatentCard displays a single patent with status badge and external link.
+ * Follows the same styling patterns as PublicationCard for consistency.
+ *
+ * @example
+ * ```astro
+ * <PatentCard
+ *   title="Method for Distributed Data Processing"
+ *   patentNumber="US 10,123,456"
+ *   filingDate={new Date('2018-03-15')}
+ *   grantDate={new Date('2020-06-20')}
+ *   status="granted"
+ *   url="https://patents.google.com/patent/US10123456"
+ *   description="A method for efficiently processing..."
+ * />
+ * ```
+ */
+export interface Props extends HTMLAttributes<'article'> {
+  /** Patent title */
+  title: string;
+  /** Patent number (e.g., "US 10,123,456") */
+  patentNumber: string;
+  /** Date the patent was filed */
+  filingDate: Date;
+  /** Date the patent was granted (optional) */
+  grantDate?: Date;
+  /** Patent status */
+  status: 'filed' | 'pending' | 'granted';
+  /** URL to official patent document (optional) */
+  url?: string;
+  /** Brief description/abstract (optional) */
+  description?: string;
+}
+
+const {
+  title,
+  patentNumber,
+  filingDate,
+  grantDate,
+  status,
+  url,
+  description,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+// Format date for display
+const displayDate = grantDate || filingDate;
+const dateLabel = grantDate ? 'Granted' : 'Filed';
+const formattedDate = displayDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+// Status badge colors
+const statusColors: Record<string, string> = {
+  granted:
+    'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+  pending:
+    'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
+  filed: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+};
+
+// Capitalize first letter for display
+const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
+---
+
+<article
+  data-component="patent-card"
+  class:list={[
+    'patent-card rounded-xl',
+    'bg-surface dark:bg-surface-dark',
+    'border border-gray-200 dark:border-gray-700',
+    'p-6 transition-shadow duration-150',
+    'hover:shadow-md',
+    className,
+  ]}
+  {...attrs}
+>
+  <!-- Header: Date and Status Badge -->
+  <div class="flex items-center justify-between gap-2 mb-2">
+    <span
+      class="text-sm text-text-secondary dark:text-text-secondary-dark"
+      data-testid="patent-date"
+    >
+      {dateLabel}: {formattedDate}
+    </span>
+    <span
+      class:list={[
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+        statusColors[status],
+      ]}
+      data-testid="patent-status"
+    >
+      {statusLabel}
+    </span>
+  </div>
+
+  <!-- Title -->
+  <h3
+    class="font-display text-lg md:text-xl font-semibold text-text dark:text-text-dark"
+    data-testid="patent-title"
+  >
+    {title}
+  </h3>
+
+  <!-- Patent Number -->
+  <p
+    class="mt-1 font-mono text-sm text-text-secondary dark:text-text-secondary-dark"
+    data-testid="patent-number"
+  >
+    {patentNumber}
+  </p>
+
+  <!-- Description (if provided) -->
+  {
+    description && (
+      <p
+        class="mt-3 text-sm text-text-secondary dark:text-text-secondary-dark leading-relaxed"
+        data-testid="patent-description"
+      >
+        {description}
+      </p>
+    )
+  }
+
+  <!-- External Link (if URL provided) -->
+  {
+    url && (
+      <div class="mt-4">
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded px-1 -mx-1 min-h-11"
+          aria-label={`View patent ${patentNumber} on USPTO/Google Patents (opens in new tab)`}
+          data-testid="patent-link"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+            />
+          </svg>
+          View Patent
+          <span aria-hidden="true" class="text-xs">↗</span>
+        </a>
+      </div>
+    )
+  }
+</article>

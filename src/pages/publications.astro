@@ -1,0 +1,216 @@
+---
+import {getCollection} from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationCard from '../components/PublicationCard.astro';
+import PatentCard from '../components/PatentCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+
+/**
+ * Publications Page
+ * Displays academic publications with expandable abstracts and links,
+ * followed by a Patents section.
+ *
+ * @route /publications
+ */
+
+// Fetch publications from content collection
+const publicationEntries = await getCollection('publications');
+
+// Sort by order if present, otherwise by year (descending)
+const sortedPublications = publicationEntries.sort((a, b) => {
+  if (a.data.order !== undefined && b.data.order !== undefined) {
+    return a.data.order - b.data.order;
+  }
+  return b.data.year - a.data.year;
+});
+
+const hasPublications = sortedPublications.length > 0;
+
+// Fetch patents from content collection
+const patentEntries = await getCollection('patents');
+
+// Sort patents by date (most recent first) - use grantDate if present, otherwise filingDate
+const sortedPatents = patentEntries.sort((a, b) => {
+  const dateA = a.data.grantDate || a.data.filingDate;
+  const dateB = b.data.grantDate || b.data.filingDate;
+  return dateB.getTime() - dateA.getTime();
+});
+
+const hasPatents = sortedPatents.length > 0;
+
+// Google Scholar profile URL
+const googleScholarUrl = 'https://scholar.google.com/citations?user=jNGUqngAAAAJ';
+---
+
+<BaseLayout
+  title="Publications"
+  description="Academic publications and research papers by Cris Benge in machine learning, NLP, and AI systems."
+>
+  <div class="container-custom py-16 md:py-24">
+    <!-- Breadcrumb Navigation -->
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol
+        class="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark"
+      >
+        <li>
+          <a
+            href="/"
+            class="hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+          >
+            Home
+          </a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li aria-current="page" class="text-text dark:text-text-dark">
+          Publications
+        </li>
+      </ol>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="mb-12">
+      <h1
+        class="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-text dark:text-text-dark mb-4"
+      >
+        Publications
+      </h1>
+      <p
+        class="text-lg text-text-secondary dark:text-text-secondary-dark max-w-3xl"
+      >
+        Research papers and technical reports on machine learning, natural
+        language processing, and AI systems.
+      </p>
+
+      <!-- Google Scholar Link -->
+      <a
+        href={googleScholarUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 mt-6 px-4 py-2.5 rounded-lg
+               bg-surface dark:bg-surface-dark
+               border border-gray-200 dark:border-gray-700
+               text-text dark:text-text-dark
+               hover:border-accent dark:hover:border-accent-dark
+               hover:text-accent dark:hover:text-accent-dark
+               transition-colors duration-150
+               focus-ring min-h-11"
+        data-testid="google-scholar-link"
+      >
+        <!-- Google Scholar Icon -->
+        <svg
+          class="w-5 h-5"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            d="M5.242 13.769L0 9.5L12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"
+          ></path>
+        </svg>
+        View all on Google Scholar
+        <span aria-hidden="true" class="text-sm">↗</span>
+      </a>
+    </div>
+
+    <!-- Publications List -->
+    {
+      hasPublications ? (
+        <section aria-labelledby="publications-heading">
+          <h2 id="publications-heading" class="sr-only">
+            Publications List
+          </h2>
+
+          <div class="space-y-6" data-testid="publications-list">
+            {sortedPublications.map((pub) => (
+              <PublicationCard
+                title={pub.data.title}
+                authors={pub.data.authors}
+                venue={pub.data.venue}
+                year={pub.data.year}
+                abstract={pub.data.abstract}
+                pdfUrl={pub.data.pdfUrl}
+                codeUrl={pub.data.codeUrl}
+                doiUrl={pub.data.doiUrl}
+                data-testid={`publication-${pub.slug}`}
+                data-reveal
+              />
+            ))}
+          </div>
+        </section>
+      ) : (
+        <section
+          aria-labelledby="empty-state-heading"
+          class="text-center py-16"
+          data-testid="empty-state"
+        >
+          <h2 id="empty-state-heading" class="sr-only">
+            No Publications
+          </h2>
+          <div class="max-w-md mx-auto">
+            <svg
+              class="w-16 h-16 mx-auto text-text-secondary dark:text-text-secondary-dark mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              />
+            </svg>
+            <p class="text-lg text-text-secondary dark:text-text-secondary-dark">
+              Publications coming soon
+            </p>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Patents Section -->
+    <section
+      class="mt-16"
+      aria-labelledby="patents-heading"
+      data-testid="patents-section"
+    >
+      <SectionHeading id="patents-heading">Patents</SectionHeading>
+
+      {
+        hasPatents ? (
+          <div
+            class="grid gap-6 md:grid-cols-2"
+            data-testid="patents-list"
+          >
+            {sortedPatents.map((patent) => (
+              <PatentCard
+                title={patent.data.title}
+                patentNumber={patent.data.patentNumber}
+                filingDate={patent.data.filingDate}
+                grantDate={patent.data.grantDate}
+                status={patent.data.status}
+                url={patent.data.url}
+                description={patent.body ? patent.body.split('\n')[0] : undefined}
+                data-testid={`patent-${patent.slug}`}
+                data-reveal
+              />
+            ))}
+          </div>
+        ) : (
+          <p
+            class="text-text-secondary dark:text-text-secondary-dark"
+            data-testid="patents-empty-state"
+          >
+            Patents section coming soon.
+          </p>
+        )
+      }
+    </section>
+  </div>
+
+  <!-- Scroll reveal script -->
+  <script>
+    import '../scripts/scroll-reveal';
+  </script>
+</BaseLayout>

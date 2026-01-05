@@ -1,0 +1,166 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * AwardCard displays a single award or competition honor with visual distinction.
+ * Competition honors have placement badges (gold/silver/bronze).
+ * Professional awards have a distinct professional badge.
+ *
+ * @example
+ * ```astro
+ * <AwardCard
+ *   title="DrivenData: World Bank Publication Topics"
+ *   year={2019}
+ *   category="competition"
+ *   description="Machine learning competition"
+ *   placement="1st Place"
+ *   organization="DrivenData"
+ * />
+ * ```
+ */
+interface Props extends HTMLAttributes<'article'> {
+  /** Award or competition title */
+  title: string;
+  /** Year received */
+  year: number;
+  /** Award category */
+  category: 'competition' | 'professional';
+  /** Description of the award */
+  description: string;
+  /** Placement/ranking for competitions (e.g., "1st Place", "Top 12%") */
+  placement?: string;
+  /** Awarding organization */
+  organization?: string;
+}
+
+const {
+  title,
+  year,
+  category,
+  description,
+  placement,
+  organization,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+/**
+ * Determines the placement badge style based on the ranking.
+ * - Gold: 1st place
+ * - Silver: 2nd place, Top X%, or other rankings
+ * - Bronze: 3rd place
+ */
+function getPlacementStyle(placement: string): string {
+  const lowerPlacement = placement.toLowerCase();
+  if (lowerPlacement.includes('1st') || lowerPlacement.includes('first')) {
+    return 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200';
+  }
+  if (lowerPlacement.includes('2nd') || lowerPlacement.includes('second')) {
+    return 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200';
+  }
+  if (lowerPlacement.includes('3rd') || lowerPlacement.includes('third')) {
+    return 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200';
+  }
+  // For "Top X%" or other rankings, use silver style
+  return 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200';
+}
+
+const isCompetition = category === 'competition';
+---
+
+<article
+  class:list={[
+    'award-card group',
+    'rounded-xl bg-white dark:bg-gray-900/50',
+    'border border-gray-200 dark:border-gray-800',
+    'p-6 transition-all duration-200',
+    'hover:shadow-md hover:-translate-y-1',
+    className,
+  ]}
+  data-testid="award-card"
+  {...attrs}
+>
+  <div class="flex flex-col gap-3">
+    <!-- Badge Row: Category + Placement -->
+    <div class="flex flex-wrap items-center gap-2">
+      {/* Category Badge */}
+      {
+        isCompetition ? (
+          <span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
+            data-testid="category-badge"
+          >
+            Competition
+          </span>
+        ) : (
+          <span
+            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200"
+            data-testid="category-badge"
+          >
+            Professional
+          </span>
+        )
+      }
+
+      {/* Placement Badge (competitions only) */}
+      {
+        placement && isCompetition && (
+          <span
+            class:list={[
+              'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+              getPlacementStyle(placement),
+            ]}
+            data-testid="placement-badge"
+          >
+            {placement}
+          </span>
+        )
+      }
+    </div>
+
+    <!-- Award Title -->
+    <h3 class="text-lg font-semibold text-text dark:text-text-dark">
+      {title}
+    </h3>
+
+    <!-- Organization and Year -->
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-secondary dark:text-text-secondary-dark">
+      {
+        organization && (
+          <>
+            <span class="font-medium">{organization}</span>
+            <span aria-hidden="true">•</span>
+          </>
+        )
+      }
+      <span>{year}</span>
+    </div>
+
+    <!-- Description -->
+    <p class="text-sm text-text-secondary dark:text-text-secondary-dark line-clamp-2">
+      {description}
+    </p>
+  </div>
+</article>
+
+<style>
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .award-card {
+      transition: none;
+      transform: none !important;
+    }
+
+    .award-card:hover {
+      transform: none;
+    }
+  }
+
+  /* Line clamp for description */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

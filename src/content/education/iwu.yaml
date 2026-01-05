@@ -1,0 +1,9 @@
+institution: "Illinois Wesleyan University"
+degree: "B.S."
+field: "Computer Science"
+year: 1998
+logoImage: "../../assets/images/logos/iwu.svg"
+institutionUrl: "https://www.iwu.edu"
+honors:
+  - "Minor in Mathematics"
+order: 3

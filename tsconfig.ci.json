@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [".astro/types.d.ts", "src/**/*"],
+  "exclude": ["dist", "node_modules", "e2e/**/*", "test/**/*", "**/*.test.ts", "playwright.config.ts", "vitest.config.ts"]
+}

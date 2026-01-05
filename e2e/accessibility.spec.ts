@@ -5,10 +5,12 @@ import AxeBuilder from '@axe-core/playwright';
  * Accessibility E2E Tests
  *
  * Validates:
- * - axe-core accessibility audit passes with zero violations
+ * - axe-core accessibility audit passes with zero violations on ALL pages
  * - Semantic structure (header, main, footer exist)
  * - Skip link functionality
  * - Focus management
+ * - Dark mode accessibility on all pages
+ * - Keyboard navigation flows
  */
 
 test.describe('Accessibility', () => {
@@ -62,6 +64,181 @@ test.describe('Accessibility', () => {
     expect(accessibilityScanResults.violations).toEqual([]);
   });
 
+  // ============================================
+  // Multi-Page Accessibility Tests
+  // ============================================
+
+  test('projects page has no accessibility violations', async ({page}) => {
+    await page.goto('/projects');
+    await page.waitForTimeout(100);
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Projects page violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('projects page has no accessibility violations in dark mode', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'dark');
+    });
+
+    await page.goto('/projects');
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Projects dark mode violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('about page has no accessibility violations', async ({page}) => {
+    await page.goto('/about');
+    await page.waitForTimeout(100);
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'About page violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('about page has no accessibility violations in dark mode', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'dark');
+    });
+
+    await page.goto('/about');
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'About dark mode violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('publications page has no accessibility violations', async ({page}) => {
+    await page.goto('/publications');
+    await page.waitForTimeout(100);
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Publications page violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('publications page has no accessibility violations in dark mode', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'dark');
+    });
+
+    await page.goto('/publications');
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Publications dark mode violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('project detail page has no accessibility violations', async ({
+    page,
+  }) => {
+    // Navigate to a known project detail page
+    await page.goto('/projects/bertvision');
+    await page.waitForTimeout(100);
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Project detail page violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  test('project detail page has no accessibility violations in dark mode', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('theme', 'dark');
+    });
+
+    await page.goto('/projects/bertvision');
+
+    const results = await new AxeBuilder({page}).analyze();
+
+    if (results.violations.length > 0) {
+      console.log(
+        'Project detail dark mode violations:',
+        JSON.stringify(results.violations, null, 2),
+      );
+    }
+
+    expect(results.violations).toEqual([]);
+  });
+
+  // ============================================
+  // Cross-Page Keyboard Navigation Tests
+  // ============================================
+
+  test('keyboard navigation works across all pages', async ({page}) => {
+    const pages = ['/', '/projects', '/about', '/publications'];
+
+    for (const path of pages) {
+      await page.goto(path);
+
+      // Verify Tab moves focus
+      await page.keyboard.press('Tab');
+      const focusedTag = await page.evaluate(
+        () => document.activeElement?.tagName.toLowerCase() || '',
+      );
+      expect(focusedTag).not.toBe('');
+      expect(focusedTag).not.toBe('body');
+    }
+  });
+
   test('semantic structure has required elements', async ({page}) => {
     await page.goto('/');
 
@@ -73,15 +250,21 @@ test.describe('Accessibility', () => {
     await expect(main).toHaveAttribute('id', 'main-content');
   });
 
-  test('page has proper document outline', async ({page}) => {
+  test('home page has proper document outline', async ({page}) => {
     await page.goto('/');
+    // Wait for page to stabilize
+    await page.waitForLoadState('networkidle');
+    // Verify we're on the home page
+    await expect(page).toHaveURL('/');
 
-    // Check for h1 - every page should have exactly one h1
-    const h1 = page.locator('h1');
+    // Check for visible h1 in main content - home page should have exactly one
+    // Note: We target h1 in main to avoid counting any injected elements
+    const h1 = page.locator('main h1:visible');
     await expect(h1).toHaveCount(1);
 
-    // H1 should be visible
+    // H1 should contain the hero name
     await expect(h1).toBeVisible();
+    await expect(h1).toContainText('Cris Benge');
   });
 
   test('all interactive elements are keyboard accessible', async ({page}) => {

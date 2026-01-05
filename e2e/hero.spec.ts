@@ -53,6 +53,105 @@ test.describe('Hero Section', () => {
       await expect(linkedIn).toBeVisible();
       await expect(github).toBeVisible();
     });
+
+    test('displays profile image', async ({page}) => {
+      await page.goto('/');
+      const heroImage = page.locator('[data-testid="hero-image"]');
+      await expect(heroImage).toBeVisible();
+      await expect(heroImage).toHaveAttribute(
+        'alt',
+        'Cris Benge - Head of Federal Innovation at Google',
+      );
+    });
+
+    test('profile image has rounded corners', async ({page}) => {
+      await page.goto('/');
+      const heroImage = page.locator('[data-testid="hero-image"]');
+      await expect(heroImage).toHaveClass(/rounded-2xl/);
+    });
+
+    test('profile image uses eager loading for above-fold content', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      const heroImage = page.locator('[data-testid="hero-image"]');
+      await expect(heroImage).toHaveAttribute('loading', 'eager');
+    });
+
+    test('profile image has high fetchpriority for LCP optimization', async ({
+      page,
+    }) => {
+      await page.goto('/');
+      const heroImage = page.locator('[data-testid="hero-image"]');
+      await expect(heroImage).toHaveAttribute('fetchpriority', 'high');
+    });
+
+    test('profile image has responsive sizes attribute', async ({page}) => {
+      await page.goto('/');
+      const heroImage = page.locator('[data-testid="hero-image"]');
+      const sizes = await heroImage.getAttribute('sizes');
+      expect(sizes).toBeTruthy();
+      expect(sizes).toContain('768px');
+    });
+  });
+
+  test.describe('Two-Column Layout', () => {
+    test('image and content are side-by-side on desktop', async ({page}) => {
+      await page.setViewportSize({width: 1024, height: 768});
+      await page.goto('/');
+
+      const imageContainer = page.locator(
+        '[data-testid="hero-image-container"]',
+      );
+      const heroName = page.locator('[data-testid="hero-name"]');
+
+      const imageBox = await imageContainer.boundingBox();
+      const nameBox = await heroName.boundingBox();
+
+      // On desktop, image should be to the left of the name (x positions differ)
+      expect(imageBox!.x).toBeLessThan(nameBox!.x);
+      // They should be roughly vertically aligned (similar y position within reason)
+      expect(Math.abs(imageBox!.y - nameBox!.y)).toBeLessThan(100);
+    });
+
+    test('image is above content on mobile', async ({page}) => {
+      await page.setViewportSize({width: 375, height: 667});
+      await page.goto('/');
+
+      const imageContainer = page.locator(
+        '[data-testid="hero-image-container"]',
+      );
+      const heroName = page.locator('[data-testid="hero-name"]');
+
+      const imageBox = await imageContainer.boundingBox();
+      const nameBox = await heroName.boundingBox();
+
+      // On mobile, image should be above the name (image y is smaller)
+      expect(imageBox!.y).toBeLessThan(nameBox!.y);
+    });
+
+    test('content is centered on mobile', async ({page}) => {
+      await page.setViewportSize({width: 375, height: 667});
+      await page.goto('/');
+
+      // On mobile, the content should have centered text alignment
+      const heroName = page.locator('[data-testid="hero-name"]');
+      const textAlign = await heroName.evaluate(el => {
+        return window.getComputedStyle(el).textAlign;
+      });
+      expect(textAlign).toBe('center');
+    });
+
+    test('content is left-aligned on desktop', async ({page}) => {
+      await page.setViewportSize({width: 1024, height: 768});
+      await page.goto('/');
+
+      const heroName = page.locator('[data-testid="hero-name"]');
+      const textAlign = await heroName.evaluate(el => {
+        return window.getComputedStyle(el).textAlign;
+      });
+      expect(textAlign).toBe('left');
+    });
   });
 
   test.describe('Signature Animation', () => {
@@ -83,10 +182,18 @@ test.describe('Hero Section', () => {
       await expect(badge1).toHaveClass(/hero-animate-credential/);
       await expect(badge2).toHaveClass(/hero-animate-credential/);
 
-      // Verify staggered delays via style attribute
-      await expect(badge0).toHaveAttribute('style', /animation-delay: 400ms/);
-      await expect(badge1).toHaveAttribute('style', /animation-delay: 550ms/);
-      await expect(badge2).toHaveAttribute('style', /animation-delay: 700ms/);
+      // Verify staggered delays via style attribute (updated for image animation)
+      await expect(badge0).toHaveAttribute('style', /animation-delay: 500ms/);
+      await expect(badge1).toHaveAttribute('style', /animation-delay: 650ms/);
+      await expect(badge2).toHaveAttribute('style', /animation-delay: 800ms/);
+    });
+
+    test('profile image has animation class', async ({page}) => {
+      await page.goto('/');
+      const imageContainer = page.locator(
+        '[data-testid="hero-image-container"]',
+      );
+      await expect(imageContainer).toHaveClass(/hero-animate-image/);
     });
   });
 
@@ -133,9 +240,14 @@ test.describe('Hero Section', () => {
       await page.goto('/');
 
       const linkedIn = page.locator('[data-testid="hero-linkedin"]');
-      const box = await linkedIn.boundingBox();
-      // Still full width below md breakpoint
-      expect(box!.width).toBeGreaterThan(500);
+      const github = page.locator('[data-testid="hero-github"]');
+
+      const linkedInBox = await linkedIn.boundingBox();
+      const githubBox = await github.boundingBox();
+
+      // At 640px (below md:768px), buttons should be stacked vertically
+      // GitHub button should be below LinkedIn button
+      expect(githubBox!.y).toBeGreaterThan(linkedInBox!.y);
     });
 
     test('hero is readable at 768px tablet viewport', async ({page}) => {

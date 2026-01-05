@@ -1,0 +1,138 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import {Image} from 'astro:assets';
+
+/**
+ * EducationCard displays a single education entry with institution details.
+ * Follows project card styling patterns with dark mode support.
+ *
+ * @example
+ * ```astro
+ * <EducationCard
+ *   institution="Columbia University"
+ *   degree="M.S."
+ *   field="Applied Analytics"
+ *   year={2020}
+ *   logoImage={columbiaLogo}
+ *   institutionUrl="https://www.columbia.edu"
+ * />
+ * ```
+ */
+interface Props extends HTMLAttributes<'article'> {
+  /** Name of the institution */
+  institution: string;
+  /** Degree type (e.g., M.S., B.S., MIDS) */
+  degree: string;
+  /** Field of study */
+  field: string;
+  /** Graduation year */
+  year: number;
+  /** Logo image (imported image object) */
+  logoImage: ImageMetadata;
+  /** Optional URL to institution website */
+  institutionUrl?: string;
+  /** Optional list of honors/distinctions */
+  honors?: string[];
+}
+
+const {
+  institution,
+  degree,
+  field,
+  year,
+  logoImage,
+  institutionUrl,
+  honors = [],
+  class: className,
+  ...attrs
+} = Astro.props;
+---
+
+<article
+  class:list={[
+    'education-card group',
+    'rounded-xl bg-white dark:bg-gray-900/50',
+    'border border-gray-200 dark:border-gray-800',
+    'p-6 transition-all duration-200',
+    'hover:shadow-md hover:-translate-y-1',
+    className,
+  ]}
+  {...attrs}
+>
+  <div class="flex items-start gap-4">
+    <!-- Institution Logo -->
+    <div class="flex-shrink-0">
+      <Image
+        src={logoImage}
+        alt={`${institution} logo`}
+        width={64}
+        height={64}
+        class="rounded-lg"
+      />
+    </div>
+
+    <!-- Education Details -->
+    <div class="flex-1 min-w-0">
+      <!-- Institution Name (with external link if URL provided) -->
+      {
+        institutionUrl ? (
+          <a
+            href={institutionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1 min-h-11 text-lg font-semibold text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+          >
+            {institution}
+            <span aria-hidden="true" class="text-sm opacity-70">
+              ↗
+            </span>
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        ) : (
+          <h3 class="text-lg font-semibold text-text dark:text-text-dark">
+            {institution}
+          </h3>
+        )
+      }
+
+      <!-- Degree and Field -->
+      <p class="mt-1 text-text-secondary dark:text-text-secondary-dark">
+        <span class="font-medium">{degree}</span>
+        <span class="mx-1">in</span>
+        <span>{field}</span>
+      </p>
+
+      <!-- Year -->
+      <p class="mt-1 text-sm text-text-secondary dark:text-text-secondary-dark">
+        {year}
+      </p>
+
+      <!-- Honors (if any) -->
+      {
+        honors.length > 0 && (
+          <ul class="mt-2 flex flex-wrap gap-2">
+            {honors.map((honor) => (
+              <li class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
+                {honor}
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .education-card {
+      transition: none;
+      transform: none !important;
+    }
+
+    .education-card:hover {
+      transform: none;
+    }
+  }
+</style>

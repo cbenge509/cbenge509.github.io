@@ -1,0 +1,101 @@
+---
+import {getCollection} from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FeaturedProjectCard from '../../components/FeaturedProjectCard.astro';
+import SecondaryProjectCard from '../../components/SecondaryProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+/**
+ * Projects Gallery Page
+ * Displays featured and secondary projects in responsive grid layouts
+ *
+ * Layout:
+ * - Featured Projects: 1-col mobile, 2-col tablet+
+ * - Secondary Projects: 1-col mobile, 2-col tablet, 3-col desktop
+ *
+ * @route /projects
+ */
+
+// Fetch all projects from content collection
+const allProjects = await getCollection('projects');
+
+// Separate featured and secondary projects
+const featuredProjects = allProjects
+  .filter((p) => p.data.isFeatured)
+  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+
+const secondaryProjects = allProjects
+  .filter((p) => !p.data.isFeatured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const hasProjects = allProjects.length > 0;
+---
+
+<BaseLayout
+  title="Projects"
+  description="Explore Cris Benge's featured projects in AI, machine learning, and software engineering."
+>
+  <div class="container-custom py-16 md:py-24">
+    <!-- Page heading - visually hidden but available for screen readers and SEO -->
+    <h1 class="sr-only">Projects by Cris Benge</h1>
+
+    {
+      !hasProjects ? (
+        <div class="text-center py-16" data-testid="empty-state">
+          <p class="text-text-secondary dark:text-text-secondary-dark text-lg">
+            Projects coming soon
+          </p>
+        </div>
+      ) : (
+        <>
+          {/* Featured Projects Section */}
+          {featuredProjects.length > 0 && (
+            <section aria-labelledby="featured-heading" class="mb-16 md:mb-24">
+              <SectionHeading id="featured-heading">
+                Featured Projects
+              </SectionHeading>
+              <div
+                data-testid="featured-grid"
+                class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8"
+              >
+                {featuredProjects.map((project) => (
+                  <FeaturedProjectCard
+                    project={project.data}
+                    slug={project.slug}
+                    data-reveal
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Secondary Projects Section */}
+          {secondaryProjects.length > 0 && (
+            <section aria-labelledby="more-heading">
+              <SectionHeading id="more-heading">
+                More Projects
+              </SectionHeading>
+              <div
+                data-testid="secondary-grid"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
+              >
+                {secondaryProjects.map((project) => (
+                  <SecondaryProjectCard
+                    project={project.data}
+                    slug={project.slug}
+                    data-reveal
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
+      )
+    }
+  </div>
+
+  <!-- Scroll reveal script -->
+  <script>
+    import '../../scripts/scroll-reveal';
+  </script>
+</BaseLayout>

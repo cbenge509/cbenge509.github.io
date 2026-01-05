@@ -129,11 +129,15 @@ test.describe('SEO Foundation', () => {
 
     // Check Twitter card tags
     const twitterCard = page.locator('meta[name="twitter:card"]');
+    const twitterSite = page.locator('meta[name="twitter:site"]');
+    const twitterCreator = page.locator('meta[name="twitter:creator"]');
     const twitterTitle = page.locator('meta[name="twitter:title"]');
     const twitterDescription = page.locator('meta[name="twitter:description"]');
     const twitterImage = page.locator('meta[name="twitter:image"]');
 
     await expect(twitterCard).toHaveAttribute('content', 'summary_large_image');
+    await expect(twitterSite).toHaveAttribute('content', /@\w+/);
+    await expect(twitterCreator).toHaveAttribute('content', /@\w+/);
     await expect(twitterTitle).toHaveAttribute('content', /Cris Benge/);
     await expect(twitterDescription).toHaveAttribute('content', /.+/);
     await expect(twitterImage).toHaveAttribute('content', /.+/);
@@ -172,6 +176,23 @@ test.describe('SEO Foundation', () => {
     expect(parsed.sameAs.length).toBeGreaterThan(0);
     expect(parsed.alumniOf).toBeInstanceOf(Array);
     expect(parsed.alumniOf.length).toBe(2);
+  });
+
+  test('does NOT have JSON-LD schema on non-home pages', async ({page}) => {
+    // Test About page
+    await page.goto('/about');
+    let jsonLdScript = page.locator('script[type="application/ld+json"]');
+    await expect(jsonLdScript).toHaveCount(0);
+
+    // Test Projects page
+    await page.goto('/projects');
+    jsonLdScript = page.locator('script[type="application/ld+json"]');
+    await expect(jsonLdScript).toHaveCount(0);
+
+    // Test Publications page
+    await page.goto('/publications');
+    jsonLdScript = page.locator('script[type="application/ld+json"]');
+    await expect(jsonLdScript).toHaveCount(0);
   });
 
   test('semantic HTML structure is present', async ({page}) => {

@@ -1,147 +1,149 @@
 ---
 /**
- * Test page for Project Card components
- * Used for E2E testing of FeaturedProjectCard, SecondaryProjectCard, and ProjectTag
- * Note: This page is included in the build for E2E test access
+ * Test page for Project Card Components
+ * Used by E2E tests to validate card rendering and interactions
+ * NOT intended for production - excluded from sitemap
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
 import SecondaryProjectCard from '../components/SecondaryProjectCard.astro';
 import ProjectTag from '../components/ProjectTag.astro';
 
-// Mock project data for testing
-const featuredProjects = [
-  {
-    slug: 'ml-pipeline',
-    project: {
-      title: 'Machine Learning Pipeline',
-      description:
-        'A comprehensive end-to-end machine learning pipeline for data processing, model training, and deployment with automated CI/CD integration.',
-      image: '',
-      category: 'builder' as const,
-      skills: ['Python', 'TensorFlow', 'PyTorch'],
-      tools: ['Docker', 'Kubernetes'],
-      githubUrl: 'https://github.com/example/ml-pipeline',
-    },
-  },
-  {
-    slug: 'team-leadership',
-    project: {
-      title: 'Federal AI Strategy',
-      description:
-        'Led a cross-functional team of 50+ engineers to develop and implement AI strategy for federal government agencies.',
-      image: '',
-      category: 'leader' as const,
-      skills: ['Strategy', 'Leadership'],
-      tools: ['Jira', 'Confluence'],
-    },
-  },
-  {
-    slug: 'competition-winner',
-    project: {
-      title: 'Kaggle Competition',
-      description:
-        'First place solution for the 2024 Kaggle machine learning competition on satellite imagery classification.',
-      image: '',
-      category: 'winner' as const,
-      skills: ['Computer Vision', 'Deep Learning'],
-      tools: ['PyTorch', 'Weights & Biases'],
-      achievement: 'Grand Prize Winner',
-    },
-  },
-  {
-    slug: 'research-paper',
-    project: {
-      title: 'NLP Research Publication',
-      description:
-        'Novel transformer architecture achieving state-of-the-art results on multilingual NLP benchmarks.',
-      image: '',
-      category: 'research' as const,
-      skills: ['NLP', 'Transformers'],
-      tools: ['Hugging Face', 'JAX'],
-    },
-  },
-];
+// Mock project data for testing all variants - matching E2E test expectations
+const mockFeaturedProject = {
+  title: 'Machine Learning Pipeline',
+  description:
+    'A comprehensive end-to-end machine learning pipeline for data processing and model training.',
+  image: '../../assets/images/projects/placeholder.svg',
+  githubUrl: 'https://github.com/test/ml-pipeline',
+  liveUrl: 'https://example.com',
+  skills: ['Python', 'TensorFlow', 'Docker'],
+  tools: ['Kubernetes', 'MLflow'],
+  category: 'builder' as const,
+  achievement: 'Production Ready',
+  isFeatured: true,
+  publishDate: new Date('2024-01-01'),
+};
 
-const secondaryProjects = [
-  {
-    slug: 'data-viz-tool',
-    project: {
-      title: 'Data Visualization Dashboard',
-      description:
-        'Interactive dashboard for real-time analytics and data visualization.',
-      image: '',
-      category: 'builder' as const,
-      skills: ['React', 'D3.js'],
-      tools: ['TypeScript'],
-    },
-  },
-  {
-    slug: 'code-review-bot',
-    project: {
-      title: 'Code Review Automation',
-      description: 'AI-powered code review bot that identifies potential issues.',
-      image: '',
-      category: 'builder' as const,
-      skills: ['Go', 'AI'],
-      tools: ['GitHub Actions'],
-    },
-  },
-  {
-    slug: 'research-tool',
-    project: {
-      title: 'Academic Citation Network',
-      description:
-        'Graph-based tool for exploring academic paper citation networks.',
-      image: '',
-      category: 'research' as const,
-      skills: ['Python', 'NetworkX'],
-      tools: ['Neo4j'],
-    },
-  },
-];
+const mockSecondaryProject = {
+  title: 'Data Visualization Dashboard',
+  description: 'Interactive dashboard for real-time data visualization.',
+  image: '../../assets/images/projects/placeholder.svg',
+  skills: ['JavaScript', 'D3.js'],
+  tools: ['React'],
+  category: 'research' as const,
+  isFeatured: false,
+  publishDate: new Date('2024-01-01'),
+};
+
+// Projects for each category type - note: leaderProject has NO GitHub link (for AC7 tests)
+const leaderProject = {
+  title: 'Federal AI Strategy',
+  description: 'Leading federal AI initiatives and strategy development.',
+  image: '../../assets/images/projects/placeholder.svg',
+  // NO githubUrl - tests AC7: Missing Optional Fields
+  skills: ['Strategy', 'Leadership', 'AI'],
+  tools: ['Policy', 'Governance'],
+  category: 'leader' as const,
+  isFeatured: true,
+  publishDate: new Date('2024-01-01'),
+};
+const builderProject = {...mockFeaturedProject, category: 'builder' as const};
+const winnerProject = {...mockFeaturedProject, category: 'winner' as const};
+const researchProject = {...mockFeaturedProject, category: 'research' as const};
+
+// Project without optional fields (no GitHub link)
+const minimalProject = {
+  title: 'Minimal Project',
+  description: 'Project with only required fields.',
+  image: '../../assets/images/projects/placeholder.svg',
+  skills: ['JavaScript'],
+  tools: ['npm'],
+  category: 'builder' as const,
+  isFeatured: false,
+  publishDate: new Date('2024-01-01'),
+};
 ---
 
-<BaseLayout
-  title="Test - Project Cards"
-  description="Test page for project card components"
->
-  <div class="container-custom py-12">
-    <h1 class="text-display-lg mb-8">Project Card Test Page</h1>
+<BaseLayout title="Test Cards" description="Test page for project card components" noIndex={true}>
+  <div class="py-16 px-6 md:px-8">
+    <div class="max-w-6xl mx-auto space-y-16">
+      <h1 class="text-display-lg mb-12">Project Card Test Page</h1>
 
-    <!-- ProjectTag variants -->
-    <section class="mb-12" data-testid="tag-section">
-      <h2 class="text-display mb-4">Tag Variants</h2>
-      <div class="flex flex-wrap gap-4">
-        <ProjectTag variant="leadership">Leadership</ProjectTag>
-        <ProjectTag variant="technical">Technical</ProjectTag>
-        <ProjectTag variant="winner">Winner</ProjectTag>
-        <ProjectTag variant="research">Research</ProjectTag>
-      </div>
-    </section>
+      <!-- Tag Variants Section -->
+      <section data-testid="tag-section" aria-labelledby="tag-variants-heading">
+        <h2 id="tag-variants-heading" class="text-display mb-8">Tag Variants</h2>
+        <div class="flex flex-wrap gap-4">
+          <ProjectTag variant="leadership">Leadership</ProjectTag>
+          <ProjectTag variant="technical">Technical</ProjectTag>
+          <ProjectTag variant="winner">Winner</ProjectTag>
+          <ProjectTag variant="research">Research</ProjectTag>
+        </div>
+      </section>
 
-    <!-- Featured Project Cards -->
-    <section class="mb-12" data-testid="featured-cards-section">
-      <h2 class="text-display mb-6">Featured Project Cards</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-          featuredProjects.map(({slug, project}) => (
-            <FeaturedProjectCard project={project} slug={slug} />
-          ))
-        }
-      </div>
-    </section>
+      <!-- Featured Cards Section -->
+      <section data-testid="featured-cards-section" aria-labelledby="featured-cards-heading">
+        <h2 id="featured-cards-heading" class="text-display mb-8">Featured Project Cards</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <FeaturedProjectCard
+            project={builderProject}
+            slug="test-builder"
+            data-testid="featured-builder"
+          />
+          <FeaturedProjectCard
+            project={leaderProject}
+            slug="test-leader"
+            data-testid="featured-leader"
+          />
+          <FeaturedProjectCard
+            project={winnerProject}
+            slug="test-winner"
+            data-testid="featured-winner"
+          />
+          <FeaturedProjectCard
+            project={researchProject}
+            slug="test-research"
+            data-testid="featured-research"
+          />
+          <FeaturedProjectCard
+            project={minimalProject}
+            slug="test-minimal"
+            data-testid="featured-minimal"
+          />
+        </div>
+      </section>
 
-    <!-- Secondary Project Cards -->
-    <section class="mb-12" data-testid="secondary-cards-section">
-      <h2 class="text-display mb-6">Secondary Project Cards</h2>
-      <div class="flex flex-col gap-4 max-w-2xl">
-        {
-          secondaryProjects.map(({slug, project}) => (
-            <SecondaryProjectCard project={project} slug={slug} />
-          ))
-        }
-      </div>
-    </section>
+      <!-- Secondary Cards Section -->
+      <section data-testid="secondary-cards-section" aria-labelledby="secondary-cards-heading">
+        <h2 id="secondary-cards-heading" class="text-display mb-8">Secondary Project Cards</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <SecondaryProjectCard
+            project={{...mockSecondaryProject, category: 'leader'}}
+            slug="test-secondary-leader"
+            data-testid="secondary-leader"
+          />
+          <SecondaryProjectCard
+            project={{...mockSecondaryProject, category: 'builder'}}
+            slug="test-secondary-builder"
+            data-testid="secondary-builder"
+          />
+          <SecondaryProjectCard
+            project={{...mockSecondaryProject, category: 'winner'}}
+            slug="test-secondary-winner"
+            data-testid="secondary-winner"
+          />
+          <SecondaryProjectCard
+            project={{...mockSecondaryProject, category: 'research'}}
+            slug="test-secondary-research"
+            data-testid="secondary-research"
+          />
+          <SecondaryProjectCard
+            project={minimalProject}
+            slug="test-secondary-minimal"
+            data-testid="secondary-minimal"
+          />
+        </div>
+      </section>
+    </div>
   </div>
 </BaseLayout>
