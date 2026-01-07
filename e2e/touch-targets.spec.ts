@@ -184,6 +184,38 @@ test.describe('Touch Target Validation (AC5)', () => {
     });
   });
 
+  test.describe('Breadcrumb Touch Targets', () => {
+    test('About page breadcrumb meets 44px minimum', async ({page}) => {
+      await page.goto('/about/');
+      const breadcrumb = page.locator(
+        'nav[aria-label="Breadcrumb"] a[href="/"]',
+      );
+      const box = await breadcrumb.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    });
+
+    test('Publications page breadcrumb meets 44px minimum', async ({page}) => {
+      await page.goto('/publications/');
+      const breadcrumb = page.locator(
+        'nav[aria-label="Breadcrumb"] a[href="/"]',
+      );
+      const box = await breadcrumb.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    });
+  });
+
+  test.describe('View All Projects Link', () => {
+    test('View All Projects link meets 44px minimum', async ({page}) => {
+      await page.goto('/');
+      const link = page.getByTestId('view-all-projects-link');
+      const box = await link.boundingBox();
+      expect(box).not.toBeNull();
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+    });
+  });
+
   test.describe('Social links', () => {
     test('footer social links have >= 44px touch targets', async ({page}) => {
       await page.goto('/');

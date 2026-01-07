@@ -18,8 +18,8 @@ describe('Hero', () => {
   it('renders credential badges', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Hero);
-    expect(result).toContain('Columbia MS');
-    expect(result).toContain('Berkeley MIDS');
+    expect(result).toContain('Columbia University');
+    expect(result).toContain('UC Berkeley');
     expect(result).toContain('TS/SCI');
   });
 

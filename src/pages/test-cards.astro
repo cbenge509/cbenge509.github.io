@@ -8,13 +8,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
 import SecondaryProjectCard from '../components/SecondaryProjectCard.astro';
 import ProjectTag from '../components/ProjectTag.astro';
+import placeholderImage from '../assets/images/projects/placeholder.svg';
 
 // Mock project data for testing all variants - matching E2E test expectations
 const mockFeaturedProject = {
   title: 'Machine Learning Pipeline',
   description:
     'A comprehensive end-to-end machine learning pipeline for data processing and model training.',
-  image: '../../assets/images/projects/placeholder.svg',
+  image: placeholderImage,
   githubUrl: 'https://github.com/test/ml-pipeline',
   liveUrl: 'https://example.com',
   skills: ['Python', 'TensorFlow', 'Docker'],
@@ -28,7 +29,7 @@ const mockFeaturedProject = {
 const mockSecondaryProject = {
   title: 'Data Visualization Dashboard',
   description: 'Interactive dashboard for real-time data visualization.',
-  image: '../../assets/images/projects/placeholder.svg',
+  image: placeholderImage,
   skills: ['JavaScript', 'D3.js'],
   tools: ['React'],
   category: 'research' as const,
@@ -40,7 +41,7 @@ const mockSecondaryProject = {
 const leaderProject = {
   title: 'Federal AI Strategy',
   description: 'Leading federal AI initiatives and strategy development.',
-  image: '../../assets/images/projects/placeholder.svg',
+  image: placeholderImage,
   // NO githubUrl - tests AC7: Missing Optional Fields
   skills: ['Strategy', 'Leadership', 'AI'],
   tools: ['Policy', 'Governance'],
@@ -56,7 +57,7 @@ const researchProject = {...mockFeaturedProject, category: 'research' as const};
 const minimalProject = {
   title: 'Minimal Project',
   description: 'Project with only required fields.',
-  image: '../../assets/images/projects/placeholder.svg',
+  image: placeholderImage,
   skills: ['JavaScript'],
   tools: ['npm'],
   category: 'builder' as const,
