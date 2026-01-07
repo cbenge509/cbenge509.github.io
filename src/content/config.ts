@@ -1,10 +1,10 @@
-import {defineCollection, z} from 'astro:content';
+import {defineCollection, z, type SchemaContext} from 'astro:content';
 
 // === CONTENT COLLECTIONS (Markdown with body) ===
 
 const projects = defineCollection({
   type: 'content',
-  schema: ({image}) =>
+  schema: ({image}: SchemaContext) =>
     z.object({
       title: z.string(),
       description: z.string(),
@@ -53,7 +53,7 @@ const patents = defineCollection({
 
 const education = defineCollection({
   type: 'data',
-  schema: ({image}) =>
+  schema: ({image}: SchemaContext) =>
     z.object({
       institution: z.string(),
       degree: z.string(),
