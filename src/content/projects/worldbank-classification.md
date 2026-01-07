@@ -1,7 +1,7 @@
 ---
 title: "World Bank Document Classification"
 description: "Multi-label, multi-class NLP classification challenge to identify topics in World Bank publications. 1st place finish with 0.6925 F1-micro score."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/world_bank_competition.jpg"
 githubUrl: "https://github.com/cbenge509/wb2019"
 skills:
   - "NLP"

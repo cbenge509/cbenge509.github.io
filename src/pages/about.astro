@@ -9,30 +9,12 @@ import AwardCard from '../components/AwardCard.astro';
 import ContactSection from '../components/ContactSection.astro';
 import profileImage from '../assets/images/profile/cbenge.jpg';
 
-// Import education logos dynamically
-import columbiaLogo from '../assets/images/logos/columbia.svg';
-import berkeleyLogo from '../assets/images/logos/berkeley.svg';
-import iwuLogo from '../assets/images/logos/iwu.svg';
-
 /**
  * About Page
  * Displays professional bio and education credentials
  *
  * @route /about
  */
-
-// Map logo filenames to imported images
-const logoMap: Record<string, ImageMetadata> = {
-  'columbia.svg': columbiaLogo,
-  'berkeley.svg': berkeleyLogo,
-  'iwu.svg': iwuLogo,
-};
-
-// Helper to get logo from path
-function getLogoImage(logoPath: string): ImageMetadata {
-  const filename = logoPath.split('/').pop() ?? '';
-  return logoMap[filename] ?? columbiaLogo;
-}
 
 // Fetch education from content collection
 const educationEntries = await getCollection('education');
@@ -138,7 +120,7 @@ const hasAwards = sortedAwards.length > 0;
             Education
             <span slot="subtitle">
               Academic foundation in computer science, data science, and
-              analytics
+              machine learning
             </span>
           </SectionHeading>
 
@@ -152,7 +134,7 @@ const hasAwards = sortedAwards.length > 0;
                 degree={edu.data.degree}
                 field={edu.data.field}
                 year={edu.data.year}
-                logoImage={getLogoImage(edu.data.logoImage)}
+                logoImage={edu.data.logoImage}
                 institutionUrl={edu.data.institutionUrl}
                 honors={edu.data.honors}
                 data-reveal

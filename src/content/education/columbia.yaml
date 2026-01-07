@@ -1,9 +1,9 @@
 institution: "Columbia University"
-degree: "M.S."
-field: "Applied Analytics"
-year: 2020
-logoImage: "../../assets/images/logos/columbia.svg"
+degree: "MS"
+field: "Computer Science"
+year: 2025
+logoImage: "../../assets/images/logos/columbia_logo.png"
 institutionUrl: "https://www.columbia.edu"
 honors:
-  - "Graduate Certificate in Machine Learning"
+  - "Machine Learning Specialization"
 order: 1

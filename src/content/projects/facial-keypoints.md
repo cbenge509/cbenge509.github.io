@@ -1,7 +1,7 @@
 ---
 title: "Facial Keypoints Detection"
 description: "Computer vision solution using neural network stacking to detect 15 facial landmarks, achieving 2nd place in Kaggle competition."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/facial_keypoints.jpg"
 githubUrl: "https://github.com/cbenge509/w4732_final_project"
 skills:
   - "Computer Vision"

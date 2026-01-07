@@ -10,17 +10,12 @@ import placeholderImage from '../assets/images/projects/placeholder.svg';
  *
  * @example
  * ```astro
+ * ---
+ * const project = await getEntry('projects', 'ml-pipeline');
+ * ---
  * <FeaturedProjectCard
- *   project={{
- *     title: 'ML Pipeline',
- *     description: 'A machine learning pipeline for data processing',
- *     image: '/images/project.png',
- *     category: 'builder',
- *     skills: ['Python', 'TensorFlow'],
- *     tools: ['Docker'],
- *     githubUrl: 'https://github.com/example/repo'
- *   }}
- *   slug="ml-pipeline"
+ *   project={project.data}
+ *   slug={project.slug}
  * />
  * ```
  */
@@ -29,7 +24,7 @@ export interface Props extends HTMLAttributes<'article'> {
   project: {
     title: string;
     description: string;
-    image: string;
+    image: ImageMetadata;
     category: 'leader' | 'builder' | 'winner' | 'research';
     skills: string[];
     tools: string[];
@@ -39,11 +34,9 @@ export interface Props extends HTMLAttributes<'article'> {
   };
   /** Project slug for linking to detail page */
   slug: string;
-  /** Image import for Astro optimization (if available) */
-  imageImport?: ImageMetadata;
 }
 
-const {project, slug, imageImport, class: className, ...attrs} = Astro.props;
+const {project, slug, class: className, ...attrs} = Astro.props;
 
 /**
  * Map content collection category to tag variant
@@ -69,9 +62,9 @@ const categoryLabels: Record<Props['project']['category'], string> = {
   research: 'Research',
 };
 
-// Use imported image if available, otherwise fallback to string path or placeholder
-const imageSource = imageImport || placeholderImage;
-const hasValidImage = !!imageImport || (project.image && project.image !== '');
+// Use project image directly (now ImageMetadata from content collection)
+const imageSource = project.image || placeholderImage;
+const hasValidImage = !!project.image;
 ---
 
 <article

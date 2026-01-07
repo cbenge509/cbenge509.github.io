@@ -1,7 +1,9 @@
 institution: "UC Berkeley"
-degree: "MIDS"
+degree: "Masters"
 field: "Data Science"
-year: 2019
-logoImage: "../../assets/images/logos/berkeley.svg"
+year: 2021
+logoImage: "../../assets/images/logos/ucb_logo.svg"
 institutionUrl: "https://www.berkeley.edu"
+honors:
+  - "GPA: 4.0"
 order: 2

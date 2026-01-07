@@ -1,7 +1,7 @@
 ---
 title: "BERTVision"
 description: "A parameter-efficient compression model architecture for NLP tasks achieving BERT-level performance at a fraction of the computational requirements."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/bertvision_project.jpg"
 githubUrl: "https://github.com/cbenge509/BERTVision"
 liveUrl: "https://cbenge509.github.io/BERTVision/"
 skills:

@@ -1,7 +1,7 @@
 ---
 title: "2018 Data Science Bowl"
 description: "Instance segmentation challenge to detect cell nuclei in microscopy images for medical research. Top 12% placement in Kaggle competition."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/data_science_bowl.jpg"
 githubUrl: "https://github.com/cbenge509/dsbowl_2018"
 skills:
   - "Computer Vision"
