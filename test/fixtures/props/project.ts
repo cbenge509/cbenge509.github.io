@@ -4,10 +4,21 @@
  * SecondaryProjectCard, and other project-related components.
  */
 
+/**
+ * Mock ImageMetadata for testing Astro Image component
+ * This mimics the structure of Astro's ImageMetadata type
+ */
+export interface MockImageMetadata {
+  src: string;
+  width: number;
+  height: number;
+  format: string;
+}
+
 export interface MockProject {
   title: string;
   description: string;
-  image: string;
+  image: MockImageMetadata;
   category: 'leader' | 'builder' | 'winner' | 'research';
   skills: string[];
   tools: string[];
@@ -17,13 +28,23 @@ export interface MockProject {
   affiliation?: string;
 }
 
+/**
+ * Default mock image that mimics Astro's ImageMetadata structure
+ */
+export const mockImageMetadata: MockImageMetadata = {
+  src: '/_astro/test-project.hash.webp',
+  width: 800,
+  height: 450,
+  format: 'webp',
+};
+
 export const createMockProject = (
   overrides: Partial<MockProject> = {},
 ): MockProject => ({
   title: 'Test ML Project',
   description:
     'A comprehensive machine learning pipeline for data processing and model training.',
-  image: '/images/test-project.png',
+  image: mockImageMetadata,
   category: 'builder',
   skills: ['Python', 'TensorFlow', 'PyTorch'],
   tools: ['Docker', 'Kubernetes'],

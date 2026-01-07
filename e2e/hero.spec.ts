@@ -41,8 +41,8 @@ test.describe('Hero Section', () => {
       await page.goto('/');
       const credentials = page.locator('[data-testid="hero-credentials"]');
       await expect(credentials).toBeVisible();
-      await expect(credentials).toContainText('Columbia MS');
-      await expect(credentials).toContainText('Berkeley MIDS');
+      await expect(credentials).toContainText('Columbia University');
+      await expect(credentials).toContainText('UC Berkeley');
       await expect(credentials).toContainText('TS/SCI');
     });
 
