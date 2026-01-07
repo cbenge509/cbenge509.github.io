@@ -113,7 +113,7 @@ Husky runs: `gts lint`, `gts check`, npm audit (warn), Semgrep (if installed)
 
 - TypeScript strict mode - no `any` types
 - Every component needs co-located unit test
-- All interactive elements need `.focus-ring` class and 44px minimum touch targets
+- All interactive elements need `.focus-ring` class and 44px minimum touch targets (exception: inline text links within paragraphs)
 - Never use `Astro.url.href` for canonical URLs (returns localhost in dev)
 - CI type checking uses `tsconfig.ci.json` which excludes test files intentionally
 - Tailwind v4 config is CSS-based in `global.css` using `@theme` directive

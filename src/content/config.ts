@@ -1,24 +1,25 @@
-import {defineCollection, z} from 'astro:content';
+import {defineCollection, z, type SchemaContext} from 'astro:content';
 
 // === CONTENT COLLECTIONS (Markdown with body) ===
 
 const projects = defineCollection({
   type: 'content',
-  schema: ({image}) => z.object({
-    title: z.string(),
-    description: z.string(),
-    image: image(),
-    githubUrl: z.string().url().optional(),
-    liveUrl: z.string().url().optional(),
-    skills: z.array(z.string()),
-    tools: z.array(z.string()),
-    category: z.enum(['leader', 'builder', 'winner', 'research']),
-    achievement: z.string().optional(),
-    affiliation: z.string().optional(),
-    isFeatured: z.boolean().default(false),
-    publishDate: z.coerce.date(),
-    order: z.number().optional(),
-  }),
+  schema: ({image}: SchemaContext) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      image: image(),
+      githubUrl: z.string().url().optional(),
+      liveUrl: z.string().url().optional(),
+      skills: z.array(z.string()),
+      tools: z.array(z.string()),
+      category: z.enum(['leader', 'builder', 'winner', 'research']),
+      achievement: z.string().optional(),
+      affiliation: z.string().optional(),
+      isFeatured: z.boolean().default(false),
+      publishDate: z.coerce.date(),
+      order: z.number().optional(),
+    }),
 });
 
 const publications = defineCollection({
@@ -28,7 +29,7 @@ const publications = defineCollection({
     authors: z.array(z.string()).min(1),
     venue: z.string(),
     year: z.number(),
-    abstract: z.string().optional(), // Made optional for AC8 (no abstract handling)
+    abstract: z.string().optional(), // Made optional - publications may omit abstracts
     pdfUrl: z.string().optional(),
     codeUrl: z.string().url().optional(),
     doiUrl: z.string().url().optional(),
@@ -52,7 +53,7 @@ const patents = defineCollection({
 
 const education = defineCollection({
   type: 'data',
-  schema: ({image}) =>
+  schema: ({image}: SchemaContext) =>
     z.object({
       institution: z.string(),
       degree: z.string(),

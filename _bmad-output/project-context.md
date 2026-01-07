@@ -243,6 +243,12 @@ Animation opacity at 0 during axe-core scan can mask contrast violations. Always
 - Minimum 44x44px touch area for all interactive elements
 - Use Tailwind preset classes: `min-h-11` (44px), NOT `min-h-[44px]`
 - Arbitrary values like `[44px]` can result in 43.19px due to rendering
+- Exception: Inline text links within paragraphs (prose content) are exempt from 44px min-height
+
+**Container Width Patterns:**
+- `max-w-5xl mx-auto` - Standard content pages (projects, about, publications)
+- `container-custom` - Full-width sections with consistent padding
+- Choose ONE approach per section for visual consistency
 
 **Hidden Element Accessibility (Learned from Epic 1):**
 - Containers with `aria-hidden="true"` must also have `tabindex="-1"` on all focusable children
