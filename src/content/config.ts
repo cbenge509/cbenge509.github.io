@@ -4,10 +4,10 @@ import {defineCollection, z} from 'astro:content';
 
 const projects = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({image}) => z.object({
     title: z.string(),
     description: z.string(),
-    image: z.string(),
+    image: image(),
     githubUrl: z.string().url().optional(),
     liveUrl: z.string().url().optional(),
     skills: z.array(z.string()),
@@ -52,17 +52,18 @@ const patents = defineCollection({
 
 const education = defineCollection({
   type: 'data',
-  schema: z.object({
-    institution: z.string(),
-    degree: z.string(),
-    field: z.string(),
-    year: z.number(),
-    gpa: z.string().optional(),
-    logoImage: z.string(),
-    institutionUrl: z.string().url().optional(),
-    honors: z.array(z.string()).optional(),
-    order: z.number(),
-  }),
+  schema: ({image}) =>
+    z.object({
+      institution: z.string(),
+      degree: z.string(),
+      field: z.string(),
+      year: z.number(),
+      gpa: z.string().optional(),
+      logoImage: image(),
+      institutionUrl: z.string().url().optional(),
+      honors: z.array(z.string()).optional(),
+      order: z.number(),
+    }),
 });
 
 const certifications = defineCollection({

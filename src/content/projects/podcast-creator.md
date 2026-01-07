@@ -1,7 +1,7 @@
 ---
 title: "Podcast Creator"
 description: "Transform PDFs into customizable multi-lingual podcasts with adjustable tone, length, and voice selection using GenAI technologies."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/podcast_creator.jpg"
 githubUrl: "https://github.com/cbenge509/Podcast_Creator"
 skills:
   - "Generative AI"

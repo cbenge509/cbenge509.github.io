@@ -1,7 +1,7 @@
 ---
 title: "College Outcomes Prediction"
 description: "Regression analysis predicting college graduate earnings using U.S. Department of Education data. 1st place finish with 2.9796 RMSE."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/college_outcomes.jpg"
 githubUrl: "https://github.com/cbenge509/DataScienceCapstone_Oct2017"
 skills:
   - "Regression"
