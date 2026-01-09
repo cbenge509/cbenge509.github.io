@@ -115,4 +115,25 @@ describe('ThemeToggle', () => {
     expect(result).toContain('script');
     expect(result).toContain('ThemeToggle.astro');
   });
+
+  it('has cursor-pointer class for clickable appearance', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(ThemeToggle);
+
+    // Tailwind v4 changed button cursor to default, so explicit cursor-pointer is needed
+    expect(result).toContain('cursor-pointer');
+  });
+
+  it('uses data-component attribute that supports querySelectorAll for multiple toggles', async () => {
+    const container = await AstroContainer.create();
+    const result = await container.renderToString(ThemeToggle);
+
+    // The data-component attribute allows querySelectorAll to find all toggles
+    // This is critical for desktop + mobile toggle support
+    expect(result).toContain('data-component="theme-toggle"');
+
+    // Render two toggles and verify both have the same selector
+    const result2 = await container.renderToString(ThemeToggle);
+    expect(result2).toContain('data-component="theme-toggle"');
+  });
 });

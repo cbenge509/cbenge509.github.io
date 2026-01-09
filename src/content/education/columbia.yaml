@@ -2,7 +2,7 @@ institution: "Columbia University"
 degree: "MS"
 field: "Computer Science"
 year: 2025
-logoImage: "../../assets/images/logos/columbia_logo.png"
+logoImage: "../../assets/images/logos/columbia_university_circle.png"
 institutionUrl: "https://www.columbia.edu"
 honors:
   - "Machine Learning Specialization"
