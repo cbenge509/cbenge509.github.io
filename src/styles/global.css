@@ -45,6 +45,15 @@
 @import 'tailwindcss';
 
 /* =============================================================================
+   TAILWIND CSS V4 DARK MODE CONFIGURATION
+   ==============================================================================
+   By default, Tailwind v4 uses media queries (prefers-color-scheme) for dark mode.
+   This custom variant overrides that behavior to use the 'dark' class on ancestor
+   elements, allowing manual control via JavaScript toggle.
+   ============================================================================= */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =============================================================================
    2. @THEME BLOCK - Tailwind CSS v4 Custom Properties
    ==============================================================================
    All design tokens are defined here for use with Tailwind utilities.

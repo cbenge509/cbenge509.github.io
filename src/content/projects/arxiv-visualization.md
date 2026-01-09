@@ -1,7 +1,7 @@
 ---
 title: "ArXiV AI/ML Analysis"
 description: "Data visualization and topic modeling analysis of 1.7M scholarly AI/ML articles from arXiv to identify research trends and industry patterns."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/arxiv_analysis.jpg"
 githubUrl: "https://github.com/cbenge509/arxiv-ai-analysis"
 skills:
   - "NLP"

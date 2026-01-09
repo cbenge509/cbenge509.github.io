@@ -118,7 +118,7 @@ const { title, variant = 'primary', class: className, ...attrs } = Astro.props;
 - ALWAYS pair light/dark variants: `bg-white dark:bg-gray-900`
 
 **Dark Mode System:**
-- Class-based using `data-theme` attribute on `<html>`
+- Class-based using `.dark` class on `<html>`
 - Inline script in `<head>` prevents FOUC (flash of unstyled content)
 - Use `dark:` prefix for all color utilities
 - localStorage key: `'theme'`

@@ -1,10 +1,12 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import type {ImageMetadata} from 'astro';
+import {Image} from 'astro:assets';
 
 /**
  * AwardCard displays a single award or competition honor with visual distinction.
  * Competition honors have placement badges (gold/silver/bronze).
- * Professional awards have a distinct professional badge.
+ * Professional awards have a distinct professional badge and optional organization logo.
  *
  * @example
  * ```astro
@@ -15,6 +17,18 @@ import type {HTMLAttributes} from 'astro/types';
  *   description="Machine learning competition"
  *   placement="1st Place"
  *   organization="DrivenData"
+ * />
+ * ```
+ *
+ * @example With logo (professional awards)
+ * ```astro
+ * <AwardCard
+ *   title="Circle of Excellence"
+ *   year={2020}
+ *   category="professional"
+ *   description="Exceptional performance award"
+ *   organization="Microsoft"
+ *   logoImage={microsoftLogo}
  * />
  * ```
  */
@@ -31,6 +45,8 @@ interface Props extends HTMLAttributes<'article'> {
   placement?: string;
   /** Awarding organization */
   organization?: string;
+  /** Optional logo image for the awarding organization */
+  logoImage?: ImageMetadata;
 }
 
 const {
@@ -40,6 +56,7 @@ const {
   description,
   placement,
   organization,
+  logoImage,
   class: className,
   ...attrs
 } = Astro.props;
@@ -80,66 +97,84 @@ const isCompetition = category === 'competition';
   data-testid="award-card"
   {...attrs}
 >
-  <div class="flex flex-col gap-3">
-    <!-- Badge Row: Category + Placement -->
-    <div class="flex flex-wrap items-center gap-2">
-      {/* Category Badge */}
-      {
-        isCompetition ? (
-          <span
-            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
-            data-testid="category-badge"
-          >
-            Competition
-          </span>
-        ) : (
-          <span
-            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200"
-            data-testid="category-badge"
-          >
-            Professional
-          </span>
-        )
-      }
+  <div class:list={['flex', logoImage ? 'items-start gap-4' : 'flex-col gap-3']}>
+    {/* Optional Organization Logo */}
+    {
+      logoImage && (
+        <div class="flex-shrink-0">
+          <Image
+            src={logoImage}
+            alt={`${organization || 'Organization'} logo`}
+            width={64}
+            height={64}
+            class="rounded-lg"
+          />
+        </div>
+      )
+    }
 
-      {/* Placement Badge (competitions only) */}
-      {
-        placement && isCompetition && (
-          <span
-            class:list={[
-              'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-              getPlacementStyle(placement),
-            ]}
-            data-testid="placement-badge"
-          >
-            {placement}
-          </span>
-        )
-      }
+    {/* Card Content */}
+    <div class:list={[logoImage ? 'flex-1 min-w-0' : '', 'flex flex-col gap-3']}>
+      <!-- Badge Row: Category + Placement -->
+      <div class="flex flex-wrap items-center gap-2">
+        {/* Category Badge */}
+        {
+          isCompetition ? (
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
+              data-testid="category-badge"
+            >
+              Competition
+            </span>
+          ) : (
+            <span
+              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200"
+              data-testid="category-badge"
+            >
+              Professional
+            </span>
+          )
+        }
+
+        {/* Placement Badge (competitions only) */}
+        {
+          placement && isCompetition && (
+            <span
+              class:list={[
+                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+                getPlacementStyle(placement),
+              ]}
+              data-testid="placement-badge"
+            >
+              {placement}
+            </span>
+          )
+        }
+      </div>
+
+      <!-- Award Title -->
+      <h3 class="text-lg font-semibold text-text dark:text-text-dark">
+        {title}
+      </h3>
+
+      <!-- Organization and Year -->
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-secondary dark:text-text-secondary-dark">
+        {
+          organization && (
+            <>
+              <span class="font-medium">{organization}</span>
+              <span aria-hidden="true">•</span>
+            </>
+          )
+        }
+        <span>{year}</span>
+      </div>
+
+      <!-- Description -->
+      <p class="text-sm text-text-secondary dark:text-text-secondary-dark line-clamp-2">
+        {description}
+      </p>
     </div>
-
-    <!-- Award Title -->
-    <h3 class="text-lg font-semibold text-text dark:text-text-dark">
-      {title}
-    </h3>
-
-    <!-- Organization and Year -->
-    <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-secondary dark:text-text-secondary-dark">
-      {
-        organization && (
-          <>
-            <span class="font-medium">{organization}</span>
-            <span aria-hidden="true">•</span>
-          </>
-        )
-      }
-      <span>{year}</span>
-    </div>
-
-    <!-- Description -->
-    <p class="text-sm text-text-secondary dark:text-text-secondary-dark line-clamp-2">
-      {description}
-    </p>
   </div>
 </article>
 

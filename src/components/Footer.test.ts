@@ -19,26 +19,25 @@ describe('Footer', () => {
     expect(result).toContain('LinkedIn');
   });
 
-  it('renders email link with mailto protocol', async () => {
-    const container = await AstroContainer.create();
-    const result = await container.renderToString(Footer);
-    expect(result).toContain('href="mailto:cris.benge@gmail.com"');
-    expect(result).toContain('Email');
-  });
+  describe('email removal verification', () => {
+    it('does NOT contain mailto link', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Footer);
+      expect(result).not.toContain('mailto:');
+    });
 
-  it('email link does not have external arrow icon', async () => {
-    const container = await AstroContainer.create();
-    const result = await container.renderToString(Footer);
-    // Email link should not have target="_blank" since it's not external
-    // Extract email link section and verify no arrow
-    expect(result).toContain('data-testid="footer-email-link"');
-    // The email link should have isExternal: false, so no ↗ icon inside it
-  });
+    it('does NOT contain email label', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Footer);
+      expect(result).not.toContain('>Email<');
+      expect(result).not.toContain('data-testid="footer-email-link"');
+    });
 
-  it('email link has correct aria-label', async () => {
-    const container = await AstroContainer.create();
-    const result = await container.renderToString(Footer);
-    expect(result).toContain('aria-label="Send email"');
+    it('does NOT contain email aria-label', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Footer);
+      expect(result).not.toContain('aria-label="Send email"');
+    });
   });
 
   it('external links have target="_blank" attribute', async () => {
@@ -104,12 +103,18 @@ describe('Footer', () => {
     expect(result).toContain('data-component="footer"');
   });
 
-  it('includes tech credit with Astro link', async () => {
-    const container = await AstroContainer.create();
-    const result = await container.renderToString(Footer);
-    expect(result).toContain('Built with');
-    expect(result).toContain('Astro');
-    expect(result).toContain('href="https://astro.build"');
+  describe('Astro tech credit removal verification (Story 6.4)', () => {
+    it('does NOT contain Built with text', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Footer);
+      expect(result).not.toContain('Built with');
+    });
+
+    it('does NOT contain Astro link', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(Footer);
+      expect(result).not.toContain('href="https://astro.build"');
+    });
   });
 
   it('has responsive layout classes', async () => {
@@ -158,6 +163,5 @@ describe('Footer', () => {
     const result = await container.renderToString(Footer);
     expect(result).toContain('dark:text-text-dark');
     expect(result).toContain('dark:hover:text-accent-dark');
-    expect(result).toContain('dark:text-text-secondary-dark');
   });
 });
