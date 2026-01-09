@@ -15,7 +15,7 @@ const {class: className, ...attrs} = Astro.props;
   data-component="theme-toggle"
   type="button"
   class:list={[
-    'relative w-11 h-11 flex items-center justify-center',
+    'relative w-11 h-11 flex items-center justify-center cursor-pointer',
     'focus-ring',
     className,
   ]}
@@ -90,15 +90,15 @@ const {class: className, ...attrs} = Astro.props;
   }
 
   function updateAriaLabel(isDark: boolean): void {
-    const toggle = document.querySelector('[data-component="theme-toggle"]');
-    if (toggle) {
-      const currentMode = isDark ? 'dark' : 'light';
-      const targetMode = isDark ? 'light' : 'dark';
+    const toggles = document.querySelectorAll('[data-component="theme-toggle"]');
+    const currentMode = isDark ? 'dark' : 'light';
+    const targetMode = isDark ? 'light' : 'dark';
+    toggles.forEach((toggle) => {
       toggle.setAttribute(
         'aria-label',
         `Currently ${currentMode} mode. Switch to ${targetMode} mode`
       );
-    }
+    });
   }
 
   function toggleTheme(): void {
@@ -117,7 +117,9 @@ const {class: className, ...attrs} = Astro.props;
   // Initialize memory theme from current state (for private browsing)
   memoryTheme = getTheme() ?? (isDarkOnLoad ? 'dark' : 'light');
 
-  // Attach click handler
-  const toggle = document.querySelector('[data-component="theme-toggle"]');
-  toggle?.addEventListener('click', toggleTheme);
+  // Attach click handler to ALL theme toggle buttons (desktop + mobile)
+  const toggles = document.querySelectorAll('[data-component="theme-toggle"]');
+  toggles.forEach((toggle) => {
+    toggle.addEventListener('click', toggleTheme);
+  });
 </script>

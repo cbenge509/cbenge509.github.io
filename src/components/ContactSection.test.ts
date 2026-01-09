@@ -74,28 +74,14 @@ describe('ContactSection', () => {
     });
   });
 
-  describe('Email Link', () => {
-    it('renders email link with mailto protocol', async () => {
+  describe('email removal verification', () => {
+    it('does NOT contain any email-related content', async () => {
       const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('mailto:');
-    });
-
-    it('renders "Email Me" button text', async () => {
-      const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('Email Me');
-    });
-
-    it('renders email link with data-testid', async () => {
-      const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('data-testid="email-link"');
-    });
-
-    it('hides email link when showEmail=false', async () => {
-      const result = await container.renderToString(ContactSection, {
-        props: {showEmail: false},
-      });
+      // Verify all email references are removed
       expect(result).not.toContain('mailto:');
       expect(result).not.toContain('Email Me');
+      expect(result).not.toContain('data-testid="email-link"');
+      expect(result).not.toContain('cris.benge@gmail.com');
     });
   });
 
@@ -134,37 +120,44 @@ describe('ContactSection', () => {
     });
   });
 
-  describe('GitHub Link', () => {
-    it('renders GitHub link with correct URL', async () => {
+  describe('GitHub Button [data-testid="github-button"]', () => {
+    it('renders GitHub button with correct URL', async () => {
       const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('github.com/cbenge509');
+      expect(result).toContain('href="https://github.com/cbenge509"');
     });
 
-    it('renders GitHub text', async () => {
+    it('renders "View GitHub" button text', async () => {
       const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('GitHub');
+      expect(result).toContain('View GitHub');
     });
 
-    it('renders GitHub link with external link icon', async () => {
+    it('renders GitHub button with external link icon', async () => {
       const result = await container.renderToString(ContactSection, {});
       expect(result).toContain('↗');
     });
 
-    it('renders GitHub link with correct security attributes', async () => {
+    it('renders GitHub button with correct security attributes', async () => {
       const result = await container.renderToString(ContactSection, {});
+      expect(result).toContain('target="_blank"');
       expect(result).toContain('rel="noopener noreferrer"');
     });
 
-    it('renders GitHub link with aria-label', async () => {
+    it('renders GitHub button with aria-label', async () => {
       const result = await container.renderToString(ContactSection, {});
       expect(result).toContain(
         'aria-label="GitHub profile (opens in new tab)"',
       );
     });
 
-    it('renders GitHub link with data-testid', async () => {
+    it('renders GitHub button with data-testid', async () => {
       const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('data-testid="github-link"');
+      expect(result).toContain('data-testid="github-button"');
+    });
+
+    it('renders GitHub button with secondary styling (border)', async () => {
+      const result = await container.renderToString(ContactSection, {});
+      expect(result).toContain('border-border');
+      expect(result).toContain('dark:border-border-dark');
     });
   });
 
@@ -199,9 +192,9 @@ describe('ContactSection', () => {
   describe('Accessibility', () => {
     it('includes focus-ring class on all interactive elements', async () => {
       const result = await container.renderToString(ContactSection, {});
-      // Count focus-ring occurrences (should be at least 4: LinkedIn, Email, CV, GitHub)
+      // Count focus-ring occurrences (should be at least 3: LinkedIn, GitHub, CV)
       const focusRingCount = (result.match(/focus-ring/g) || []).length;
-      expect(focusRingCount).toBeGreaterThanOrEqual(4);
+      expect(focusRingCount).toBeGreaterThanOrEqual(3);
     });
 
     it('has 44px minimum touch targets (min-h-11)', async () => {
@@ -281,15 +274,14 @@ describe('ContactSection', () => {
       expect(result).toContain('bg-surface'); // Still has base classes
     });
 
-    it('can hide both email and CV', async () => {
+    it('can hide CV while keeping other links', async () => {
       const result = await container.renderToString(ContactSection, {
-        props: {showEmail: false, showCV: false},
+        props: {showCV: false},
       });
-      expect(result).not.toContain('mailto:');
       expect(result).not.toContain('View CV');
       // Should still render LinkedIn and GitHub
       expect(result).toContain('Connect on LinkedIn');
-      expect(result).toContain('GitHub');
+      expect(result).toContain('View GitHub');
     });
   });
 });

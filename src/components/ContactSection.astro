@@ -6,9 +6,13 @@ import SectionHeading from './SectionHeading.astro';
  * ContactSection displays contact options and CV download link.
  * Positioned as a prominent call-to-action section on the About page.
  *
- * LinkedIn is styled as the primary CTA (recruiter journey), with email
- * and CV as secondary options. All external links open in new tabs with
- * proper security attributes.
+ * Button layout:
+ * - LinkedIn (primary CTA, accent background) - recruiter journey
+ * - GitHub (secondary, bordered) - developer/portfolio journey
+ * - CV (secondary, bordered, optional) - download resume
+ *
+ * All external links open in new tabs with proper security attributes
+ * (target="_blank", rel="noopener noreferrer").
  *
  * @example
  * ```astro
@@ -21,16 +25,13 @@ import SectionHeading from './SectionHeading.astro';
  * ```
  */
 interface Props extends HTMLAttributes<'section'> {
-  /** Whether to show the email link (default: true) */
-  showEmail?: boolean;
   /** Whether to show the CV download link (default: true) */
   showCV?: boolean;
 }
 
-const {showEmail = true, showCV = true, class: className, ...attrs} = Astro.props;
+const {showCV = true, class: className, ...attrs} = Astro.props;
 
-// Contact information - replace with actual email when available
-const email = 'cris.benge@gmail.com';
+// Contact information
 const linkedInUrl = 'https://www.linkedin.com/in/crisbenge/';
 const githubUrl = 'https://github.com/cbenge509';
 const cvUrl = '/cris-benge-cv.pdf';
@@ -53,7 +54,7 @@ const shouldShowCV = showCV;
     <SectionHeading id="contact-heading">
       Get In Touch
       <span slot="subtitle">
-        Interested in connecting? Reach out via email or LinkedIn.
+        Interested in connecting? Reach out on LinkedIn or check out my work on GitHub.
       </span>
     </SectionHeading>
 
@@ -71,18 +72,18 @@ const shouldShowCV = showCV;
         <span aria-hidden="true">↗</span>
       </a>
 
-      <!-- Secondary: Email -->
-      {
-        showEmail && (
-          <a
-            href={`mailto:${email}`}
-            class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
-            data-testid="email-link"
-          >
-            Email Me
-          </a>
-        )
-      }
+      <!-- Secondary: GitHub -->
+      <a
+        href={githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
+        aria-label="GitHub profile (opens in new tab)"
+        data-testid="github-button"
+      >
+        View GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
 
       <!-- CV Download -->
       {
@@ -101,20 +102,5 @@ const shouldShowCV = showCV;
         )
       }
     </div>
-
-    <!-- GitHub link in secondary text -->
-    <p class="mt-6 text-text-secondary dark:text-text-secondary-dark">
-      Or check out my work on{' '}
-      <a
-        href={githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="text-accent dark:text-accent-dark underline underline-offset-2 hover:no-underline focus-ring rounded"
-        aria-label="GitHub profile (opens in new tab)"
-        data-testid="github-link"
-      >
-        GitHub<span aria-hidden="true" class="text-xs ml-0.5">↗</span>
-      </a>
-    </p>
   </div>
 </section>

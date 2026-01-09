@@ -77,7 +77,7 @@ interface Props extends HTMLAttributes<'section'> {
 const { title, class: className, ...attrs } = Astro.props;
 ```
 
-**Dark Mode**: Class-based using `data-theme` attribute on `<html>`, inline script in `<head>` prevents FOUC. Use `dark:` prefix for all color utilities.
+**Dark Mode**: Class-based using `.dark` class on `<html>`, inline script in `<head>` prevents FOUC. Use `dark:` prefix for all color utilities.
 
 **Hydration**: Only `ThemeToggle` uses `client:load`. All other interactivity uses vanilla JS with `<script>` tags and `data-component` attributes.
 
