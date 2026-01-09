@@ -26,6 +26,10 @@ _bmad-output/
 .agent/
 .claude/
 .gemini/
+undefined:/
+.playwright-mcp/
+playwright-report/
+test-results/
 
 
 # macOS-specific files
