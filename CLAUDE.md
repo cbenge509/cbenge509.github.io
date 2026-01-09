@@ -9,8 +9,8 @@ Personal portfolio website for Cris Benge (AI Researcher) built with Astro 5.x, 
 ## Commands
 
 ```bash
-# Development
-npm run dev              # Start dev server at localhost:4321
+# Development (dev server runs at http://localhost:4321)
+npm run dev              # Start dev server
 npm run build            # Build for production
 npm run preview          # Preview production build
 
@@ -101,10 +101,10 @@ test.beforeEach(async ({ page }) => {
 });
 ```
 
-**Coverage thresholds**: 90% for statements, branches, functions, lines
+**Coverage thresholds**: 90% for statements, branches, functions, lines. Coverage excludes `src/scripts/` (runtime scripts tested via E2E), `src/content/` (data), and `src/pages/` (routes).
 
-### CI Pipeline (GitHub Actions)
-Runs security (npm audit, Semgrep), lint, build, unit tests, E2E tests (all browsers), Lighthouse CI. Deploy to GitHub Pages on master push.
+### CI Pipeline (GitHub Actions - deploy.yml)
+Runs in stages: security (npm audit, Semgrep) → lint/type check → build + unit tests → E2E tests (all browsers) + Lighthouse CI → deploy to GitHub Pages on master push. PRs run all checks except deploy.
 
 ### Pre-commit Hooks
 Husky runs: `gts lint`, `gts check`, npm audit (warn), Semgrep (if installed)
