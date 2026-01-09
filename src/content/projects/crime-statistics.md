@@ -1,7 +1,7 @@
 ---
 title: "North Carolina Crime Analysis"
 description: "Statistical analysis of NC criminal data using linear regression models to provide evidence-based policy recommendations for crime reduction."
-image: "../../assets/images/projects/placeholder.svg"
+image: "../../assets/images/projects/crime_analysis.jpg"
 githubUrl: "https://github.com/cbenge509/w203_Final"
 skills:
   - "Statistical Inference"

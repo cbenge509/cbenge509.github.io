@@ -82,15 +82,17 @@ const certifications = defineCollection({
 
 const awards = defineCollection({
   type: 'data',
-  schema: z.object({
-    title: z.string(),
-    year: z.number(),
-    category: z.enum(['competition', 'professional']),
-    description: z.string(),
-    placement: z.string().optional(),
-    organization: z.string().optional(),
-    order: z.number(),
-  }),
+  schema: ({image}: SchemaContext) =>
+    z.object({
+      title: z.string(),
+      year: z.number(),
+      category: z.enum(['competition', 'professional']),
+      description: z.string(),
+      placement: z.string().optional(),
+      organization: z.string().optional(),
+      logoImage: image().optional(),
+      order: z.number(),
+    }),
 });
 
 export const collections = {

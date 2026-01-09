@@ -7,14 +7,13 @@ import AxeBuilder from '@axe-core/playwright';
  * Validates:
  * - AC1: Social Links Display (GitHub, LinkedIn with ↗ icons)
  * - AC2: Copyright Notice with dynamic year
- * - AC3: Tech Credit (Built with Astro)
- * - AC4: Gradient Underline Hover effect
- * - AC5: Focus Indicators (.focus-ring)
- * - AC6: External Link Behavior (target="_blank", rel, screen reader text)
- * - AC7: Visual Distinction (surface background)
- * - AC8: Generous Spacing (py-8 md:py-12)
- * - AC9: Dark Mode Support
- * - AC10: Responsive Layout
+ * - AC3: Gradient Underline Hover effect
+ * - AC4: Focus Indicators (.focus-ring)
+ * - AC5: External Link Behavior (target="_blank", rel, screen reader text)
+ * - AC6: Visual Distinction (surface background)
+ * - AC7: Generous Spacing (py-8 md:py-12)
+ * - AC8: Dark Mode Support
+ * - AC9: Responsive Layout
  */
 
 test.describe('Footer Component', () => {
@@ -56,33 +55,15 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC3: Tech Credit', () => {
-    test('displays Built with Astro text', async ({page}) => {
-      const footer = page.locator('footer[data-component="footer"]');
-
-      await expect(footer).toContainText('Built with');
-      await expect(footer).toContainText('Astro');
-    });
-
-    test('Astro link points to astro.build', async ({page}) => {
-      const footer = page.locator('footer[data-component="footer"]');
-      const astroLink = footer.locator('a[href="https://astro.build"]');
-
-      await expect(astroLink).toBeVisible();
-      await expect(astroLink).toHaveAttribute('target', '_blank');
-      await expect(astroLink).toHaveAttribute('rel', 'noopener noreferrer');
-    });
-  });
-
-  test.describe('AC4: Gradient Underline Hover', () => {
+  test.describe('AC3: Gradient Underline Hover', () => {
     test('footer links have footer-link class for gradient effect', async ({
       page,
     }) => {
       const footer = page.locator('footer[data-component="footer"]');
       const footerLinks = footer.locator('.footer-link');
 
-      // Should have multiple footer links (Email, GitHub, LinkedIn, Astro)
-      await expect(footerLinks).toHaveCount(4);
+      // Should have 2 footer links (GitHub, LinkedIn) - Email removed in Story 6.3, Astro removed in Story 6.4
+      await expect(footerLinks).toHaveCount(2);
     });
 
     test('gradient underline appears on hover', async ({page}) => {
@@ -112,7 +93,7 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC5: Focus Indicators', () => {
+  test.describe('AC4: Focus Indicators', () => {
     test('all footer links have focus-ring class', async ({page}) => {
       const footer = page.locator('footer[data-component="footer"]');
       const links = footer.locator('a');
@@ -153,13 +134,13 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC6: External Link Behavior', () => {
+  test.describe('AC5: External Link Behavior', () => {
     test('external links open in new tab', async ({page}) => {
       const footer = page.locator('footer[data-component="footer"]');
       const externalLinks = footer.locator('a[target="_blank"]');
 
-      // All footer links should be external
-      await expect(externalLinks).toHaveCount(3);
+      // All footer links should be external (GitHub, LinkedIn) - Astro removed in Story 6.4
+      await expect(externalLinks).toHaveCount(2);
     });
 
     test('external links have security attributes', async ({page}) => {
@@ -190,13 +171,10 @@ test.describe('Footer Component', () => {
         'aria-label',
         /opens in new tab/,
       );
-
-      const astroLink = footer.locator('a[href="https://astro.build"]');
-      await expect(astroLink).toHaveAttribute('aria-label', /opens in new tab/);
     });
   });
 
-  test.describe('AC7: Visual Distinction', () => {
+  test.describe('AC6: Visual Distinction', () => {
     test('footer has surface background color', async ({page}) => {
       const footer = page.locator('footer[data-component="footer"]');
 
@@ -211,7 +189,7 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC8: Generous Spacing', () => {
+  test.describe('AC7: Generous Spacing', () => {
     test('footer has proper padding', async ({page}) => {
       const footer = page.locator('footer[data-component="footer"]');
       const container = footer.locator('.container-custom');
@@ -221,7 +199,7 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC9: Dark Mode Support', () => {
+  test.describe('AC8: Dark Mode Support', () => {
     test('footer has dark mode classes', async ({page}) => {
       const footer = page.locator('footer[data-component="footer"]');
 
@@ -247,7 +225,7 @@ test.describe('Footer Component', () => {
     });
   });
 
-  test.describe('AC10: Responsive Layout', () => {
+  test.describe('AC9: Responsive Layout', () => {
     test('footer uses flex-col on mobile', async ({page}) => {
       // Set mobile viewport
       await page.setViewportSize({width: 375, height: 667});
@@ -329,6 +307,39 @@ test.describe('Footer Component', () => {
 
       // The test passes if reduced motion is being handled
       expect(hasReducedMotionStyles).toBeDefined();
+    });
+  });
+
+  // ============================================================
+  // Story 6.3: Email Removal Verification
+  // ============================================================
+
+  test.describe('Email Removal Verification (Story 6.3)', () => {
+    test('footer does NOT have email link', async ({page}) => {
+      const footer = page.locator('footer[data-component="footer"]');
+      const emailLink = footer.locator('[data-testid="footer-email-link"]');
+      await expect(emailLink).toHaveCount(0);
+    });
+
+    test('footer does NOT have mailto link', async ({page}) => {
+      const footer = page.locator('footer[data-component="footer"]');
+      const mailtoLinks = footer.locator('a[href^="mailto:"]');
+      await expect(mailtoLinks).toHaveCount(0);
+    });
+
+    test('footer displays only GitHub and LinkedIn social links', async ({
+      page,
+    }) => {
+      const footer = page.locator('footer[data-component="footer"]');
+      const nav = footer.locator('nav[aria-label="Social links"]');
+
+      // Verify GitHub and LinkedIn are present
+      await expect(nav.locator('a[href*="github.com"]')).toBeVisible();
+      await expect(nav.locator('a[href*="linkedin.com"]')).toBeVisible();
+
+      // Verify only 2 social links in nav (Email removed)
+      const socialLinks = nav.locator('a');
+      await expect(socialLinks).toHaveCount(2);
     });
   });
 });

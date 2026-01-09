@@ -107,9 +107,13 @@ development_status:
   epic-5-retrospective: optional
 
   # ═══════════════════════════════════════════════════════════════
-  # Epic 6: Post-Release Polish (1 story)
-  # Goal: Address code review findings from external LLM review
-  # Source: code_review_findings_01072026.md
+  # Epic 6: Post-Release Polish (5 stories)
+  # Goal: Address code review findings and visual polish enhancements
+  # Source: code_review_findings_01072026.md, user request 2026-01-09
   # ═══════════════════════════════════════════════════════════════
-  epic-6: done  # All 1 story completed 2026-01-07
+  epic-6: done  # All 5 stories completed 2026-01-09
   6-1-code-review-findings-resolution: done  # Adversarial code review passed 2026-01-07: 1 HIGH, 4 MEDIUM, 2 LOW issues fixed (touch targets, documentation, test fixes)
+  6-2-professional-recognition-logos: done  # Adversarial code review passed 2026-01-09: 2 MEDIUM issues fixed (TypeScript import, edge case tests) - 25 unit tests, 6 E2E tests
+  6-3-remove-email-references: done  # Adversarial code review passed 2026-01-09: 3 MEDIUM, 2 LOW issues fixed (test consolidation, JSDoc update, footer E2E tests) - 348 unit tests
+  6-4-remove-built-with-astro: done  # Adversarial code review passed 2026-01-09: 0 HIGH, 3 MEDIUM (docs), 2 LOW issues fixed - 349 unit tests, 24 footer E2E tests
+  6-5-fix-theme-toggle: done  # Adversarial code review passed 2026-01-09: 1 HIGH, 3 MEDIUM issues fixed (cursor-pointer, docs, unit tests) - 351 unit tests, 68 theme E2E tests

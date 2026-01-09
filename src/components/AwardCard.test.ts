@@ -2,6 +2,14 @@ import {experimental_AstroContainer as AstroContainer} from 'astro/container';
 import {describe, it, expect} from 'vitest';
 import AwardCard from './AwardCard.astro';
 
+// Mock image metadata for testing logo rendering
+const mockLogoImage = {
+  src: '/mock-microsoft-logo.svg',
+  width: 64,
+  height: 64,
+  format: 'svg' as const,
+};
+
 describe('AwardCard', () => {
   it('renders award title and description', async () => {
     const container = await AstroContainer.create();
@@ -237,5 +245,158 @@ describe('AwardCard', () => {
     });
     expect(result).toContain('13th Place');
     expect(result).toContain('bg-gray-200'); // Silver style for non-top-3
+  });
+
+  // Story 6.2: Logo rendering tests
+  describe('Logo rendering (Story 6.2)', () => {
+    it('renders organization logo when logoImage is provided', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Circle of Excellence',
+          year: 2020,
+          category: 'professional',
+          description: 'Exceptional performance award',
+          organization: 'Microsoft',
+          logoImage: mockLogoImage,
+        },
+      });
+      expect(result).toContain('alt="Microsoft logo"');
+      expect(result).toContain('width="64"');
+      expect(result).toContain('height="64"');
+      expect(result).toContain('rounded-lg');
+    });
+
+    it('renders without logo when logoImage is not provided', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          organization: 'TestOrg',
+        },
+      });
+      // Should not contain any logo-related elements
+      expect(result).not.toContain('alt="TestOrg logo"');
+      expect(result).not.toContain('flex-shrink-0');
+    });
+
+    it('uses organization name in logo alt text', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          organization: 'Microsoft',
+          logoImage: mockLogoImage,
+        },
+      });
+      expect(result).toContain('alt="Microsoft logo"');
+    });
+
+    it('uses default alt text when organization is not provided', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          logoImage: mockLogoImage,
+        },
+      });
+      expect(result).toContain('alt="Organization logo"');
+    });
+
+    it('maintains backward compatibility - competition awards without logo render correctly', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Data Science Bowl',
+          year: 2018,
+          category: 'competition',
+          description: 'Competition achievement',
+          placement: '1st Place',
+          organization: 'Kaggle',
+        },
+      });
+      expect(result).toContain('Data Science Bowl');
+      expect(result).toContain('Kaggle');
+      expect(result).toContain('1st Place');
+      expect(result).not.toContain('alt="Kaggle logo"');
+    });
+
+    it('applies flex layout with gap when logo is present', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          organization: 'Microsoft',
+          logoImage: mockLogoImage,
+        },
+      });
+      expect(result).toContain('items-start');
+      expect(result).toContain('gap-4');
+    });
+
+    it('applies column layout when logo is not present', async () => {
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'competition',
+          description: 'Test description',
+        },
+      });
+      expect(result).toContain('flex-col');
+      expect(result).toContain('gap-3');
+    });
+
+    it('handles very long organization names in alt text', async () => {
+      const container = await AstroContainer.create();
+      const longOrgName =
+        'International Association of Very Long Organization Names Inc.';
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          organization: longOrgName,
+          logoImage: mockLogoImage,
+        },
+      });
+      expect(result).toContain(`alt="${longOrgName} logo"`);
+    });
+
+    it('renders logo correctly when logoImage has different formats', async () => {
+      const pngLogoImage = {
+        src: '/mock-logo.png',
+        width: 64,
+        height: 64,
+        format: 'png' as const,
+      };
+      const container = await AstroContainer.create();
+      const result = await container.renderToString(AwardCard, {
+        props: {
+          title: 'Test Award',
+          year: 2020,
+          category: 'professional',
+          description: 'Test description',
+          organization: 'TestOrg',
+          logoImage: pngLogoImage,
+        },
+      });
+      expect(result).toContain('alt="TestOrg logo"');
+      expect(result).toContain('width="64"');
+    });
   });
 });

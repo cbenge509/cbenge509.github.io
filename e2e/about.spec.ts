@@ -900,59 +900,76 @@ test.describe('About Page', () => {
     });
   });
 
-  test.describe('Email Link (Story 4-3, AC1)', () => {
-    test('email link is visible', async ({page}) => {
+  test.describe('Email Removal Verification (Story 6.3)', () => {
+    test('ContactSection does NOT have email link', async ({page}) => {
       await page.goto('/about');
 
       const emailLink = page.locator('[data-testid="email-link"]');
-      await expect(emailLink).toBeVisible();
+      await expect(emailLink).toHaveCount(0);
     });
 
-    test('email link has mailto protocol', async ({page}) => {
+    test('ContactSection does NOT have mailto link', async ({page}) => {
       await page.goto('/about');
 
-      const emailLink = page.locator('[data-testid="email-link"]');
-      await expect(emailLink).toHaveAttribute('href', /^mailto:/);
+      const mailtoLinks = page.locator(
+        '[data-testid="contact-section"] a[href^="mailto:"]',
+      );
+      await expect(mailtoLinks).toHaveCount(0);
     });
 
-    test('email link displays "Email Me" text', async ({page}) => {
+    test('ContactSection does NOT display "Email Me" text', async ({page}) => {
       await page.goto('/about');
 
-      const emailLink = page.locator('[data-testid="email-link"]');
-      await expect(emailLink).toContainText('Email Me');
+      const section = page.locator('[data-testid="contact-section"]');
+      await expect(section.getByText('Email Me')).toHaveCount(0);
     });
   });
 
-  test.describe('GitHub Link (Story 4-3, AC1)', () => {
-    test('GitHub link is visible', async ({page}) => {
+  test.describe('GitHub Button [data-testid="github-button"] (Story 6.3)', () => {
+    test('GitHub button is visible', async ({page}) => {
       await page.goto('/about');
 
-      const githubLink = page.locator('[data-testid="github-link"]');
-      await expect(githubLink).toBeVisible();
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toBeVisible();
     });
 
-    test('GitHub link has correct URL', async ({page}) => {
+    test('GitHub button has correct URL', async ({page}) => {
       await page.goto('/about');
 
-      const githubLink = page.locator('[data-testid="github-link"]');
-      await expect(githubLink).toHaveAttribute(
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toHaveAttribute(
         'href',
         /github\.com\/cbenge509/,
       );
     });
 
-    test('GitHub link opens in new tab', async ({page}) => {
+    test('GitHub button opens in new tab', async ({page}) => {
       await page.goto('/about');
 
-      const githubLink = page.locator('[data-testid="github-link"]');
-      await expect(githubLink).toHaveAttribute('target', '_blank');
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toHaveAttribute('target', '_blank');
     });
 
-    test('GitHub link has security attributes', async ({page}) => {
+    test('GitHub button has security attributes', async ({page}) => {
       await page.goto('/about');
 
-      const githubLink = page.locator('[data-testid="github-link"]');
-      await expect(githubLink).toHaveAttribute('rel', /noopener/);
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toHaveAttribute('rel', /noopener/);
+      await expect(githubButton).toHaveAttribute('rel', /noreferrer/);
+    });
+
+    test('GitHub button displays "View GitHub" text', async ({page}) => {
+      await page.goto('/about');
+
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toContainText('View GitHub');
+    });
+
+    test('GitHub button has external link icon', async ({page}) => {
+      await page.goto('/about');
+
+      const githubButton = page.locator('[data-testid="github-button"]');
+      await expect(githubButton).toContainText('↗');
     });
   });
 
@@ -985,11 +1002,11 @@ test.describe('About Page', () => {
       expect(box?.height).toBeGreaterThanOrEqual(44);
     });
 
-    test('email button has proper touch target', async ({page}) => {
+    test('GitHub button has proper touch target', async ({page}) => {
       await page.goto('/about');
 
-      const emailLink = page.locator('[data-testid="email-link"]');
-      const box = await emailLink.boundingBox();
+      const githubButton = page.locator('[data-testid="github-button"]');
+      const box = await githubButton.boundingBox();
       expect(box?.height).toBeGreaterThanOrEqual(44);
     });
   });
@@ -1013,7 +1030,7 @@ test.describe('About Page', () => {
         '[data-testid="contact-section"] .focus-ring',
       );
       const count = await focusRingElements.count();
-      expect(count).toBeGreaterThanOrEqual(3); // LinkedIn, Email, GitHub
+      expect(count).toBeGreaterThanOrEqual(2); // LinkedIn, GitHub (CV hidden in test)
     });
 
     test('section has proper aria-labelledby', async ({page}) => {
@@ -1067,36 +1084,123 @@ test.describe('About Page', () => {
     });
   });
 
-  test.describe('Footer Email Link (Story 4-3, AC7)', () => {
-    test('footer has email link', async ({page}) => {
-      await page.goto('/about');
+  // ============================================================
+  // Story 6.2: Professional Recognition Logos
+  // ============================================================
 
-      const emailLink = page.locator('[data-testid="footer-email-link"]');
-      await expect(emailLink).toBeVisible();
-    });
-
-    test('footer email link has mailto protocol', async ({page}) => {
-      await page.goto('/about');
-
-      const emailLink = page.locator('[data-testid="footer-email-link"]');
-      await expect(emailLink).toHaveAttribute('href', /^mailto:/);
-    });
-
-    test('footer email link displays "Email" text', async ({page}) => {
-      await page.goto('/about');
-
-      const emailLink = page.locator('[data-testid="footer-email-link"]');
-      await expect(emailLink).toContainText('Email');
-    });
-
-    test('footer email link does not have external link icon', async ({
+  test.describe('Professional Recognition Logos (Story 6.2)', () => {
+    test('Professional Recognition cards display organization logos', async ({
       page,
     }) => {
       await page.goto('/about');
 
+      const profGrid = page.locator('[data-testid="professional-awards-grid"]');
+      const logos = profGrid.locator('img[alt*="logo"]');
+
+      // All 4 professional awards should have logos
+      const count = await logos.count();
+      expect(count).toBe(4);
+    });
+
+    test('Professional Recognition logos have correct alt text', async ({
+      page,
+    }) => {
+      await page.goto('/about');
+
+      const profGrid = page.locator('[data-testid="professional-awards-grid"]');
+      const logos = profGrid.locator('img[alt*="logo"]');
+      const count = await logos.count();
+
+      for (let i = 0; i < count; i++) {
+        const alt = await logos.nth(i).getAttribute('alt');
+        expect(alt).toBe('Microsoft logo');
+      }
+    });
+
+    test('Professional Recognition logos have correct dimensions', async ({
+      page,
+    }) => {
+      await page.goto('/about');
+
+      const profGrid = page.locator('[data-testid="professional-awards-grid"]');
+      const logos = profGrid.locator('img[alt*="logo"]');
+      const firstLogo = logos.first();
+
+      await expect(firstLogo).toHaveAttribute('width', '64');
+      await expect(firstLogo).toHaveAttribute('height', '64');
+    });
+
+    test('Competition Honors cards do NOT display logos', async ({page}) => {
+      await page.goto('/about');
+
+      const compGrid = page.locator('[data-testid="competition-awards-grid"]');
+      const logos = compGrid.locator('img[alt*="logo"]');
+
+      // Competition awards should have no logos
+      const count = await logos.count();
+      expect(count).toBe(0);
+    });
+
+    test('Professional Recognition logos are visible in dark mode', async ({
+      page,
+    }) => {
+      await page.addInitScript(() => {
+        localStorage.setItem('theme', 'dark');
+      });
+      await page.goto('/about');
+
+      await expect(page.locator('html')).toHaveClass(/dark/);
+
+      const profGrid = page.locator('[data-testid="professional-awards-grid"]');
+      const logos = profGrid.locator('img[alt*="logo"]');
+      const firstLogo = logos.first();
+
+      await expect(firstLogo).toBeVisible();
+    });
+
+    test('Professional Recognition logos have rounded-lg styling', async ({
+      page,
+    }) => {
+      await page.goto('/about');
+
+      const profGrid = page.locator('[data-testid="professional-awards-grid"]');
+      const logos = profGrid.locator('img[alt*="logo"]');
+      const firstLogo = logos.first();
+
+      const className = await firstLogo.getAttribute('class');
+      expect(className).toContain('rounded-lg');
+    });
+  });
+
+  test.describe('Footer Email Removal Verification (Story 6.3)', () => {
+    test('footer does NOT have email link', async ({page}) => {
+      await page.goto('/about');
+
       const emailLink = page.locator('[data-testid="footer-email-link"]');
-      // Email is not external, should not have the arrow icon
-      await expect(emailLink).not.toContainText('↗');
+      await expect(emailLink).toHaveCount(0);
+    });
+
+    test('footer does NOT have mailto link', async ({page}) => {
+      await page.goto('/about');
+
+      const footerMailtoLinks = page.locator('footer a[href^="mailto:"]');
+      await expect(footerMailtoLinks).toHaveCount(0);
+    });
+
+    test('footer displays only GitHub and LinkedIn social links', async ({
+      page,
+    }) => {
+      await page.goto('/about');
+
+      // Verify GitHub and LinkedIn are present
+      const githubLink = page.locator('[data-testid="footer-github-link"]');
+      const linkedInLink = page.locator('[data-testid="footer-linkedin-link"]');
+      await expect(githubLink).toBeVisible();
+      await expect(linkedInLink).toBeVisible();
+
+      // Verify email is NOT present
+      const emailLink = page.locator('[data-testid="footer-email-link"]');
+      await expect(emailLink).toHaveCount(0);
     });
   });
 
@@ -1113,10 +1217,9 @@ test.describe('About Page', () => {
       await page.setViewportSize({width: 375, height: 667});
       await page.goto('/about');
 
-      // All CTAs should be visible
+      // All CTAs should be visible (LinkedIn, GitHub - no email)
       await expect(page.locator('[data-testid="linkedin-link"]')).toBeVisible();
-      await expect(page.locator('[data-testid="email-link"]')).toBeVisible();
-      await expect(page.locator('[data-testid="github-link"]')).toBeVisible();
+      await expect(page.locator('[data-testid="github-button"]')).toBeVisible();
     });
 
     test('touch targets meet 44px minimum on mobile', async ({page}) => {
