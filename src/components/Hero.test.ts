@@ -18,9 +18,10 @@ describe('Hero', () => {
   it('renders credential badges', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Hero);
-    expect(result).toContain('Columbia University');
-    expect(result).toContain('UC Berkeley');
-    expect(result).toContain('TS/SCI');
+    expect(result).toContain('Senior Leadership');
+    expect(result).toContain('Research');
+    expect(result).toContain('Data Science');
+    expect(result).toContain('TS/SCI w/ Polygraph');
   });
 
   it('renders LinkedIn and GitHub CTAs', async () => {
@@ -73,10 +74,11 @@ describe('Hero', () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Hero);
     // Credential badges animate after image (0-300ms) and name (100-500ms)
-    // Starting at 500ms with 150ms stagger: 500ms, 650ms, 800ms
+    // Starting at 500ms with 150ms stagger: 500ms, 650ms, 800ms, 950ms
     expect(result).toContain('animation-delay: 500ms');
     expect(result).toContain('animation-delay: 650ms');
     expect(result).toContain('animation-delay: 800ms');
+    expect(result).toContain('animation-delay: 950ms');
   });
 
   it('has data-testid attributes for testing', async () => {
