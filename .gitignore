@@ -18,6 +18,16 @@ pnpm-debug.log*
 .env.production
 .env.local
 
+# Coding Stuff
+CLAUDE.md
+.mcp.json
+_bmad/
+_bmad-output/
+.agent/
+.claude/
+.gemini/
+
+
 # macOS-specific files
 .DS_Store
 
