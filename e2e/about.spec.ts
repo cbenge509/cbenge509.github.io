@@ -78,9 +78,11 @@ test.describe('About Page', () => {
     test('education cards display degree type', async ({page}) => {
       await page.goto('/about');
 
-      await expect(page.getByText('MS')).toBeVisible();
-      await expect(page.getByText('Masters')).toBeVisible();
-      await expect(page.getByText('BS')).toBeVisible();
+      // Scope to education grid to avoid matching 'MS' in other text (e.g., "Systems", bio paragraphs)
+      const grid = page.locator('[data-testid="education-grid"]');
+      await expect(grid.getByText('MS', {exact: true})).toBeVisible();
+      await expect(grid.getByText('Masters')).toBeVisible();
+      await expect(grid.getByText('BS', {exact: true})).toBeVisible();
     });
 
     test('education cards display field of study', async ({page}) => {
