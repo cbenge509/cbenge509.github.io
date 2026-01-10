@@ -217,8 +217,6 @@ npm run build
 npm run preview
 ```
 
-> **Note:** See [`CLAUDE.md`](./CLAUDE.md) for detailed development guidance, architecture decisions, and coding standards.
-
 ---
 
 ## License
