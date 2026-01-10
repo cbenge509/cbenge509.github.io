@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+  <!-- 16:9 placeholder with subtle pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#e5e7eb" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8fafc;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg-gradient)"/>
+  <rect width="800" height="450" fill="url(#grid)"/>
+
+  <!-- Center icon placeholder -->
+  <g transform="translate(350, 175)">
+    <!-- Image icon -->
+    <rect x="0" y="0" width="100" height="100" rx="8" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>
+    <circle cx="30" cy="30" r="10" fill="#94a3b8"/>
+    <path d="M 10 70 L 35 45 L 55 65 L 70 50 L 90 70 L 90 90 L 10 90 Z" fill="#94a3b8"/>
+  </g>
+
+  <!-- Text label -->
+  <text x="400" y="310" font-family="Inter, system-ui, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">
+    Project Image
+  </text>
+</svg>
