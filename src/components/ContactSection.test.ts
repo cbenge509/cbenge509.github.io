@@ -46,7 +46,8 @@ describe('ContactSection', () => {
     it('renders LinkedIn as primary CTA with accent background', async () => {
       const result = await container.renderToString(ContactSection, {});
       expect(result).toContain('bg-accent');
-      expect(result).toContain('dark:bg-accent-dark');
+      // Uses dark:bg-accent (not accent-dark) for proper contrast with white text
+      expect(result).toContain('dark:bg-accent');
     });
 
     it('renders LinkedIn link with external link icon', async () => {
@@ -179,8 +180,9 @@ describe('ContactSection', () => {
 
     it('includes dark mode classes for accent colors', async () => {
       const result = await container.renderToString(ContactSection, {});
-      expect(result).toContain('dark:bg-accent-dark');
-      expect(result).toContain('dark:hover:bg-accent-hover-dark');
+      // Uses dark:bg-accent (not accent-dark) for proper contrast with white text (4.6:1)
+      expect(result).toContain('dark:bg-accent');
+      expect(result).toContain('dark:hover:bg-accent-hover');
     });
 
     it('includes dark mode classes for secondary text', async () => {
