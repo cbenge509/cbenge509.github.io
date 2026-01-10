@@ -30,7 +30,7 @@ undefined:/
 .playwright-mcp/
 playwright-report/
 test-results/
-
+spec_files.md
 
 # macOS-specific files
 .DS_Store
