@@ -72,17 +72,15 @@ test.describe('About Page', () => {
 
       await expect(page.getByText('Columbia University')).toBeVisible();
       await expect(page.getByText('UC Berkeley')).toBeVisible();
-      await expect(
-        page.getByText('Illinois Wesleyan University'),
-      ).toBeVisible();
+      await expect(page.getByText('Indiana Wesleyan University')).toBeVisible();
     });
 
     test('education cards display degree type', async ({page}) => {
       await page.goto('/about');
 
-      await expect(page.getByText('M.S.')).toBeVisible();
-      await expect(page.getByText('MIDS')).toBeVisible();
-      await expect(page.getByText('B.S.')).toBeVisible();
+      await expect(page.getByText('MS')).toBeVisible();
+      await expect(page.getByText('Masters')).toBeVisible();
+      await expect(page.getByText('BS')).toBeVisible();
     });
 
     test('education cards display field of study', async ({page}) => {
@@ -90,9 +88,9 @@ test.describe('About Page', () => {
 
       // Use education grid scope to find specific field text in cards
       const grid = page.locator('[data-testid="education-grid"]');
-      await expect(grid.getByText('Applied Analytics')).toBeVisible();
-      await expect(grid.getByText('Data Science')).toBeVisible();
       await expect(grid.getByText('Computer Science')).toBeVisible();
+      await expect(grid.getByText('Data Science')).toBeVisible();
+      await expect(grid.getByText('Information Systems')).toBeVisible();
     });
 
     test('education cards display graduation year', async ({page}) => {
@@ -100,9 +98,9 @@ test.describe('About Page', () => {
 
       // Use education grid scope to avoid conflicts with award years
       const grid = page.locator('[data-testid="education-grid"]');
-      await expect(grid.getByText('2020')).toBeVisible();
-      await expect(grid.getByText('2019')).toBeVisible();
-      await expect(grid.getByText('1998')).toBeVisible();
+      await expect(grid.getByText('2025')).toBeVisible();
+      await expect(grid.getByText('2021')).toBeVisible();
+      await expect(grid.getByText('2012')).toBeVisible();
     });
 
     test('education cards display institution logos', async ({page}) => {
@@ -123,7 +121,7 @@ test.describe('About Page', () => {
 
       // Columbia has honors
       await expect(
-        page.getByText('Graduate Certificate in Machine Learning'),
+        page.getByText('Machine Learning Specialization'),
       ).toBeVisible();
     });
   });

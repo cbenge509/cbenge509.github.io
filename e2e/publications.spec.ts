@@ -670,7 +670,8 @@ test.describe('Publications Page', () => {
         .locator('[data-testid="patent-number"]')
         .first();
       await expect(patentNumber).toBeVisible();
-      await expect(patentNumber).toContainText(/US\s*[\d,]+/);
+      // Match both granted patents (US 12,345,678) and applications (US-2025-0217177A1)
+      await expect(patentNumber).toContainText(/US[-\s]?\d/);
     });
 
     test('patent displays date', async ({page}) => {

@@ -41,9 +41,10 @@ test.describe('Hero Section', () => {
       await page.goto('/');
       const credentials = page.locator('[data-testid="hero-credentials"]');
       await expect(credentials).toBeVisible();
-      await expect(credentials).toContainText('Columbia University');
-      await expect(credentials).toContainText('UC Berkeley');
-      await expect(credentials).toContainText('TS/SCI');
+      await expect(credentials).toContainText('Senior Leadership');
+      await expect(credentials).toContainText('Research');
+      await expect(credentials).toContainText('Data Science');
+      await expect(credentials).toContainText('TS/SCI w/ Polygraph');
     });
 
     test('displays CTA buttons', async ({page}) => {
