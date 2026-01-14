@@ -2,7 +2,7 @@
 title: "Spatial-temporal memory uncorrectable error prediction system"
 patentNumber: "US-2025-0272192A1"
 filingDate: 2024-02-23
-grantDate: 2025-08-28
+grantDate: 2025-08-25
 url: "https://patents.google.com/patent/US20250272192A1/en"
 status: granted
 ---
