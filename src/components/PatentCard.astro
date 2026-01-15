@@ -3,6 +3,7 @@ import type {HTMLAttributes} from 'astro/types';
 import {cardSurfaceContainerClasses} from '../utils/card-styles';
 import {BADGE_BASE_CLASSES, PATENT_STATUS_COLORS} from '../utils/badge';
 import {cn} from '../utils/cn';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * PatentCard displays a single patent with status badge and external link.
@@ -121,31 +122,17 @@ const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
   {
     url && (
       <div class="mt-4">
-        <a
+        <ExternalLink
           href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded px-1 -mx-1 min-h-11"
-          aria-label={`View patent ${patentNumber} on USPTO/Google Patents (opens in new tab)`}
+          variant="card-action"
+          size="sm"
+          prefixIcon="external"
+          ariaLabel={`View patent ${patentNumber} on USPTO/Google Patents`}
+          class="min-h-11"
           data-testid="patent-link"
         >
-          <svg
-            class="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-            />
-          </svg>
           View Patent
-          <span aria-hidden="true" class="text-xs">↗</span>
-        </a>
+        </ExternalLink>
       </div>
     )
   }

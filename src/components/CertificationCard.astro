@@ -3,6 +3,7 @@ import type {HTMLAttributes} from 'astro/types';
 import {cardContainerClasses, BULLET_SEPARATOR} from '../utils/card-styles';
 import {BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS} from '../utils/badge';
 import {cn} from '../utils/cn';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * CertificationCard displays a single certification with issuer details.
@@ -90,18 +91,15 @@ const categoryLabels: Record<string, string> = {
     <!-- Verification Link (if available) -->
     {
       verificationUrl && (
-        <a
+        <ExternalLink
           href={verificationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1 min-h-11 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded w-fit"
+          variant="card-action"
+          size="sm"
+          ariaLabel={`Verify ${name} credential`}
+          class="min-h-11 w-fit"
         >
           Verify Credential
-          <span aria-hidden="true" class="text-xs opacity-70">
-            ↗
-          </span>
-          <span class="sr-only">(opens in new tab)</span>
-        </a>
+        </ExternalLink>
       )
     }
   </div>
