@@ -1,5 +1,6 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * Footer component with social links and copyright notice
@@ -23,14 +24,12 @@ const socialLinks = [
   {
     label: 'GitHub',
     href: 'https://github.com/cbenge509',
-    ariaLabel: 'GitHub profile (opens in new tab)',
-    isExternal: true,
+    ariaLabel: 'GitHub profile',
   },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/crisbenge/',
-    ariaLabel: 'LinkedIn profile (opens in new tab)',
-    isExternal: true,
+    ariaLabel: 'LinkedIn profile',
   },
 ];
 
@@ -54,21 +53,16 @@ const currentYear = new Date().getFullYear();
       <nav aria-label="Social links" class="flex items-center gap-4">
         {
           socialLinks.map((link) => (
-            <a
+            <ExternalLink
               href={link.href}
-              target={link.isExternal ? '_blank' : undefined}
-              rel={link.isExternal ? 'noopener noreferrer' : undefined}
-              class="footer-link relative min-h-11 min-w-11 px-3 py-3 text-body text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded flex items-center justify-center gap-1"
-              aria-label={link.ariaLabel}
+              variant="text"
+              size="sm"
+              ariaLabel={link.ariaLabel}
+              class="footer-link relative min-h-11 min-w-11 px-3 py-3 text-body flex items-center justify-center"
               data-testid={`footer-${link.label.toLowerCase()}-link`}
             >
               {link.label}
-              {link.isExternal && (
-                <span aria-hidden="true" class="text-xs">
-                  ↗
-                </span>
-              )}
-            </a>
+            </ExternalLink>
           ))
         }
       </nav>

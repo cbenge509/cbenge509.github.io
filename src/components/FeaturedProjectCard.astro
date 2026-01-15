@@ -2,6 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
 import ProjectTag from './ProjectTag.astro';
+import ExternalLink from './ExternalLink.astro';
 import placeholderImage from '../assets/images/projects/placeholder.svg';
 import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../utils/project-categories';
 
@@ -134,22 +135,16 @@ const hasValidImage = !!project.image;
   {
     project.githubUrl && (
       <div class="absolute top-4 right-4">
-        <a
+        <ExternalLink
           href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="github-link inline-flex items-center gap-1 px-3 py-2.5 rounded-full text-xs font-medium
-                 bg-bg/90 dark:bg-bg-dark/90 backdrop-blur-sm
-                 text-text dark:text-text-dark
-                 hover:bg-accent hover:text-white dark:hover:bg-accent-dark
-                 transition-colors duration-150
-                 focus-ring min-h-11"
-          aria-label={`View ${project.title} on GitHub (opens in new tab)`}
+          variant="badge"
+          size="xs"
+          ariaLabel={`View ${project.title} on GitHub`}
+          class="min-h-11"
           data-github-link
         >
           GitHub
-          <span aria-hidden="true">↗</span>
-        </a>
+        </ExternalLink>
       </div>
     )
   }
