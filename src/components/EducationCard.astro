@@ -4,6 +4,7 @@ import {Image} from 'astro:assets';
 import {cardContainerClasses} from '../utils/card-styles';
 import {BADGE_BASE_CLASSES} from '../utils/badge';
 import {cn} from '../utils/cn';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * EducationCard displays a single education entry with institution details.
@@ -76,18 +77,14 @@ const {
       <!-- Institution Name (with external link if URL provided) -->
       {
         institutionUrl ? (
-          <a
+          <ExternalLink
             href={institutionUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1 min-h-11 text-lg font-semibold text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+            variant="text"
+            ariaLabel={`${institution} website`}
+            class="min-h-11 text-lg font-semibold"
           >
             {institution}
-            <span aria-hidden="true" class="text-sm opacity-70">
-              ↗
-            </span>
-            <span class="sr-only">(opens in new tab)</span>
-          </a>
+          </ExternalLink>
         ) : (
           <h3 class="text-lg font-semibold text-text dark:text-text-dark">
             {institution}

@@ -2,6 +2,8 @@
 import {getCollection, type CollectionEntry} from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectTag from '../../components/ProjectTag.astro';
+import ExternalLink from '../../components/ExternalLink.astro';
+import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../../utils/project-categories';
 
 /**
  * Project Detail Page
@@ -24,29 +26,6 @@ interface Props {
 
 const {project} = Astro.props;
 const {Content} = await project.render();
-
-/**
- * Map content collection category to tag variant
- */
-const categoryToVariant: Record<
-  'leader' | 'builder' | 'winner' | 'research',
-  'leadership' | 'technical' | 'winner' | 'research'
-> = {
-  leader: 'leadership',
-  builder: 'technical',
-  winner: 'winner',
-  research: 'research',
-};
-
-const categoryLabels: Record<
-  'leader' | 'builder' | 'winner' | 'research',
-  string
-> = {
-  leader: 'Leadership',
-  builder: 'Technical',
-  winner: 'Winner',
-  research: 'Research',
-};
 ---
 
 <BaseLayout
@@ -79,8 +58,8 @@ const categoryLabels: Record<
 
       <!-- Tags and links -->
       <div class="mt-6 flex flex-wrap items-center gap-4">
-        <ProjectTag variant={categoryToVariant[project.data.category]}>
-          {categoryLabels[project.data.category]}
+        <ProjectTag variant={CATEGORY_TO_VARIANT[project.data.category]}>
+          {CATEGORY_LABELS[project.data.category]}
         </ProjectTag>
 
         {
@@ -104,36 +83,29 @@ const categoryLabels: Record<
       <div class="mt-6 flex flex-wrap gap-4">
         {
           project.data.githubUrl && (
-            <a
+            <ExternalLink
               href={project.data.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
-                     bg-surface dark:bg-surface-dark
-                     text-text dark:text-text-dark
-                     hover:bg-accent hover:text-white dark:hover:bg-accent-dark
-                     transition-colors duration-150 focus-ring"
+              variant="button"
+              colorScheme="neutral"
+              ariaLabel={`View ${project.data.title} on GitHub`}
+              class="px-4 py-2 min-h-0"
             >
               View on GitHub
-              <span aria-hidden="true">↗</span>
-            </a>
+            </ExternalLink>
           )
         }
 
         {
           project.data.liveUrl && (
-            <a
+            <ExternalLink
               href={project.data.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
-                     bg-accent dark:bg-accent text-white
-                     hover:bg-accent-hover dark:hover:bg-accent-hover
-                     transition-colors duration-150 focus-ring"
+              variant="button"
+              colorScheme="accent"
+              ariaLabel={`View ${project.data.title} live demo`}
+              class="px-4 py-2 min-h-0"
             >
               View Live
-              <span aria-hidden="true">↗</span>
-            </a>
+            </ExternalLink>
           )
         }
       </div>

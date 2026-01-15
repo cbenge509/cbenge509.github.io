@@ -1,6 +1,7 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import ThemeToggle from './ThemeToggle.astro';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * Main navigation component with desktop and mobile layouts
@@ -35,12 +36,12 @@ const socialLinks = [
   {
     label: 'GitHub',
     href: 'https://github.com/cbenge509',
-    ariaLabel: 'GitHub profile (opens in new tab)',
+    ariaLabel: 'GitHub profile',
   },
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/crisbenge/',
-    ariaLabel: 'LinkedIn profile (opens in new tab)',
+    ariaLabel: 'LinkedIn profile',
   },
 ];
 
@@ -111,18 +112,15 @@ function isActive(href: string, current: string): boolean {
       <div class="flex items-center gap-4">
         {
           socialLinks.map((link) => (
-            <a
+            <ExternalLink
               href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="nav-link relative py-2 text-body text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded flex items-center gap-1"
-              aria-label={link.ariaLabel}
+              variant="text"
+              size="sm"
+              ariaLabel={link.ariaLabel}
+              class="nav-link relative py-2 text-body"
             >
               {link.label}
-              <span aria-hidden="true" class="text-xs">
-                ↗
-              </span>
-            </a>
+            </ExternalLink>
           ))
         }
       </div>
@@ -232,19 +230,16 @@ function isActive(href: string, current: string): boolean {
         <div class="flex flex-col gap-4">
           {
             socialLinks.map((link) => (
-              <a
+              <ExternalLink
                 href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                variant="text"
+                size="sm"
+                ariaLabel={link.ariaLabel}
                 tabindex="-1"
-                class="mobile-menu-link flex items-center gap-2 py-2 text-body-lg text-text dark:text-text-dark hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
-                aria-label={link.ariaLabel}
+                class="mobile-menu-link py-2 text-body-lg"
               >
                 {link.label}
-                <span aria-hidden="true" class="text-sm">
-                  ↗
-                </span>
-              </a>
+              </ExternalLink>
             ))
           }
         </div>
