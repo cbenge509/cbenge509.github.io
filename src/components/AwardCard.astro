@@ -2,11 +2,22 @@
 import type {HTMLAttributes} from 'astro/types';
 import type {ImageMetadata} from 'astro';
 import {Image} from 'astro:assets';
+import {cardContainerClasses, BULLET_SEPARATOR} from '../utils/card-styles';
+import {BADGE_BASE_CLASSES, AWARD_CATEGORY_COLORS, getPlacementBadgeColor} from '../utils/badge';
+import {cn} from '../utils/cn';
 
 /**
  * AwardCard displays a single award or competition honor with visual distinction.
  * Competition honors have placement badges (gold/silver/bronze).
  * Professional awards have a distinct professional badge and optional organization logo.
+ *
+ * Uses utilities:
+ * - cardContainerClasses() for consistent card styling
+ * - AWARD_CATEGORY_COLORS for category badge colors
+ * - getPlacementBadgeColor() for placement badge styling
+ * - BADGE_BASE_CLASSES for badge styling
+ * - BULLET_SEPARATOR for accessible metadata separator
+ * - Global line-clamp-2 utility for description truncation
  *
  * @example
  * ```astro
@@ -61,39 +72,11 @@ const {
   ...attrs
 } = Astro.props;
 
-/**
- * Determines the placement badge style based on the ranking.
- * - Gold: 1st place
- * - Silver: 2nd place, Top X%, or other rankings
- * - Bronze: 3rd place
- */
-function getPlacementStyle(placement: string): string {
-  const lowerPlacement = placement.toLowerCase();
-  if (lowerPlacement.includes('1st') || lowerPlacement.includes('first')) {
-    return 'bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200';
-  }
-  if (lowerPlacement.includes('2nd') || lowerPlacement.includes('second')) {
-    return 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200';
-  }
-  if (lowerPlacement.includes('3rd') || lowerPlacement.includes('third')) {
-    return 'bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-200';
-  }
-  // For "Top X%" or other rankings, use silver style
-  return 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-200';
-}
-
 const isCompetition = category === 'competition';
 ---
 
 <article
-  class:list={[
-    'award-card group',
-    'rounded-xl bg-white dark:bg-gray-900/50',
-    'border border-gray-200 dark:border-gray-800',
-    'p-6 transition-all duration-200',
-    'hover:shadow-md hover:-translate-y-1',
-    className,
-  ]}
+  class={cardContainerClasses(cn('award-card group', className))}
   data-testid="award-card"
   {...attrs}
 >
@@ -118,32 +101,18 @@ const isCompetition = category === 'competition';
       <!-- Badge Row: Category + Placement -->
       <div class="flex flex-wrap items-center gap-2">
         {/* Category Badge */}
-        {
-          isCompetition ? (
-            <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
-              data-testid="category-badge"
-            >
-              Competition
-            </span>
-          ) : (
-            <span
-              class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200"
-              data-testid="category-badge"
-            >
-              Professional
-            </span>
-          )
-        }
+        <span
+          class={cn(BADGE_BASE_CLASSES, AWARD_CATEGORY_COLORS[category])}
+          data-testid="category-badge"
+        >
+          {isCompetition ? 'Competition' : 'Professional'}
+        </span>
 
         {/* Placement Badge (competitions only) */}
         {
           placement && isCompetition && (
             <span
-              class:list={[
-                'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-                getPlacementStyle(placement),
-              ]}
+              class={cn(BADGE_BASE_CLASSES, getPlacementBadgeColor(placement))}
               data-testid="placement-badge"
             >
               {placement}
@@ -163,7 +132,7 @@ const isCompetition = category === 'competition';
           organization && (
             <>
               <span class="font-medium">{organization}</span>
-              <span aria-hidden="true">•</span>
+              <Fragment set:html={BULLET_SEPARATOR} />
             </>
           )
         }
@@ -177,25 +146,3 @@ const isCompetition = category === 'competition';
     </div>
   </div>
 </article>
-
-<style>
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .award-card {
-      transition: none;
-      transform: none !important;
-    }
-
-    .award-card:hover {
-      transform: none;
-    }
-  }
-
-  /* Line clamp for description */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>

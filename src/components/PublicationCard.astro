@@ -1,9 +1,13 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import {cardSurfaceContainerClasses} from '../utils/card-styles';
 
 /**
  * PublicationCard displays a single academic publication with expandable abstract.
  * Follows progressive enhancement: abstracts visible by default, JS adds toggle.
+ *
+ * Uses utilities:
+ * - cardSurfaceContainerClasses() for consistent surface-based card styling
  *
  * @example
  * ```astro
@@ -64,14 +68,7 @@ const hasLinks = pdfUrl || codeUrl || doiUrl;
 
 <article
   data-component="publication-card"
-  class:list={[
-    'publication-card rounded-xl',
-    'bg-surface dark:bg-surface-dark',
-    'border border-gray-200 dark:border-gray-700',
-    'p-6 transition-shadow duration-150',
-    'hover:shadow-md',
-    className,
-  ]}
+  class={cardSurfaceContainerClasses(`publication-card ${className || ''}`)}
   {...attrs}
 >
   <!-- Header: Year and Venue -->

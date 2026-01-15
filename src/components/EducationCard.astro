@@ -1,10 +1,17 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
+import {cardContainerClasses} from '../utils/card-styles';
+import {BADGE_BASE_CLASSES} from '../utils/badge';
+import {cn} from '../utils/cn';
 
 /**
  * EducationCard displays a single education entry with institution details.
  * Follows project card styling patterns with dark mode support.
+ *
+ * Uses utilities:
+ * - cardContainerClasses() for consistent card styling
+ * - BADGE_BASE_CLASSES for honor badge styling
  *
  * @example
  * ```astro
@@ -49,14 +56,7 @@ const {
 ---
 
 <article
-  class:list={[
-    'education-card group',
-    'rounded-xl bg-white dark:bg-gray-900/50',
-    'border border-gray-200 dark:border-gray-800',
-    'p-6 transition-all duration-200',
-    'hover:shadow-md hover:-translate-y-1',
-    className,
-  ]}
+  class={cardContainerClasses(cn('education-card group', className))}
   {...attrs}
 >
   <div class="flex items-start gap-4">
@@ -110,7 +110,7 @@ const {
         honors.length > 0 && (
           <ul class="mt-2 flex flex-wrap gap-2">
             {honors.map((honor) => (
-              <li class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200">
+              <li class={cn(BADGE_BASE_CLASSES, 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200')}>
                 {honor}
               </li>
             ))}
@@ -120,17 +120,3 @@ const {
     </div>
   </div>
 </article>
-
-<style>
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .education-card {
-      transition: none;
-      transform: none !important;
-    }
-
-    .education-card:hover {
-      transform: none;
-    }
-  }
-</style>

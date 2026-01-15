@@ -3,10 +3,16 @@ import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
 import ProjectTag from './ProjectTag.astro';
 import placeholderImage from '../assets/images/projects/placeholder.svg';
+import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../utils/project-categories';
 
 /**
  * Featured Project Card component for displaying highlighted projects
  * Displays full 16:9 image, title, description, tags, and optional GitHub link
+ *
+ * Uses utilities:
+ * - CATEGORY_TO_VARIANT for mapping categories to tag variants
+ * - CATEGORY_LABELS for display labels
+ * - Global line-clamp utilities for text truncation
  *
  * @example
  * ```astro
@@ -37,30 +43,6 @@ export interface Props extends HTMLAttributes<'article'> {
 }
 
 const {project, slug, class: className, ...attrs} = Astro.props;
-
-/**
- * Map content collection category to tag variant
- * leader → Leadership (blue)
- * builder → Technical (green)
- * winner → Winner (amber)
- * research → Research (purple)
- */
-const categoryToVariant: Record<
-  Props['project']['category'],
-  'leadership' | 'technical' | 'winner' | 'research'
-> = {
-  leader: 'leadership',
-  builder: 'technical',
-  winner: 'winner',
-  research: 'research',
-};
-
-const categoryLabels: Record<Props['project']['category'], string> = {
-  leader: 'Leadership',
-  builder: 'Technical',
-  winner: 'Winner',
-  research: 'Research',
-};
 
 // Use project image directly (now ImageMetadata from content collection)
 const imageSource = project.image || placeholderImage;
@@ -132,8 +114,8 @@ const hasValidImage = !!project.image;
       <!-- Tags and GitHub link row -->
       <div class="mt-4 flex flex-wrap items-center gap-2">
         <!-- Primary category tag -->
-        <ProjectTag variant={categoryToVariant[project.category]}>
-          {categoryLabels[project.category]}
+        <ProjectTag variant={CATEGORY_TO_VARIANT[project.category]}>
+          {CATEGORY_LABELS[project.category]}
         </ProjectTag>
 
         <!-- Achievement tag if winner -->
@@ -172,43 +154,6 @@ const hasValidImage = !!project.image;
     )
   }
 </article>
-
-<style>
-  /* Line clamp utilities for description truncation */
-  .line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Ensure smooth transform animation */
-  article {
-    will-change: transform, box-shadow;
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    article {
-      transition: box-shadow 150ms ease-out;
-    }
-
-    article:hover {
-      transform: none;
-    }
-
-    .group:hover img {
-      transform: none;
-    }
-  }
-</style>
 
 <script>
   // Stop propagation on GitHub links to prevent card navigation
