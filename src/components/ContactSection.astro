@@ -1,6 +1,7 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import SectionHeading from './SectionHeading.astro';
+import ExternalLink from './ExternalLink.astro';
 
 /**
  * ContactSection displays contact options and CV download link.
@@ -60,45 +61,37 @@ const shouldShowCV = showCV;
 
     <div class="flex flex-wrap justify-center gap-4">
       <!-- Primary CTA: LinkedIn (recruiter journey) -->
-      <a
+      <ExternalLink
         href={linkedInUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-6 py-3 min-h-11 bg-accent dark:bg-accent text-white rounded-lg font-medium hover:bg-accent-hover dark:hover:bg-accent-hover transition-colors duration-150 focus-ring"
-        aria-label="Connect on LinkedIn (opens in new tab)"
+        variant="button"
+        colorScheme="accent"
+        ariaLabel="Connect on LinkedIn"
         data-testid="linkedin-link"
       >
         Connect on LinkedIn
-        <span aria-hidden="true">↗</span>
-      </a>
+      </ExternalLink>
 
       <!-- Secondary: GitHub -->
-      <a
+      <ExternalLink
         href={githubUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
-        aria-label="GitHub profile (opens in new tab)"
+        variant="button-outlined"
+        ariaLabel="GitHub profile"
         data-testid="github-button"
       >
         View GitHub
-        <span aria-hidden="true">↗</span>
-      </a>
+      </ExternalLink>
 
       <!-- CV Download -->
       {
         shouldShowCV && (
-          <a
+          <ExternalLink
             href={cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 px-6 py-3 min-h-11 border border-border dark:border-border-dark text-text dark:text-text-dark rounded-lg hover:bg-surface-dark/5 dark:hover:bg-surface/5 transition-colors duration-150 focus-ring"
-            aria-label="View CV (opens in new tab)"
+            variant="button-outlined"
+            ariaLabel="View CV"
             data-testid="cv-link"
           >
             View CV
-            <span aria-hidden="true">↗</span>
-          </a>
+          </ExternalLink>
         )
       }
     </div>
