@@ -1,9 +1,17 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import {cardSurfaceContainerClasses} from '../utils/card-styles';
+import {BADGE_BASE_CLASSES, PATENT_STATUS_COLORS} from '../utils/badge';
+import {cn} from '../utils/cn';
 
 /**
  * PatentCard displays a single patent with status badge and external link.
  * Follows the same styling patterns as PublicationCard for consistency.
+ *
+ * Uses utilities:
+ * - cardSurfaceContainerClasses() for consistent surface-based card styling
+ * - PATENT_STATUS_COLORS for status badge colors
+ * - BADGE_BASE_CLASSES for badge styling
  *
  * @example
  * ```astro
@@ -56,29 +64,13 @@ const formattedDate = displayDate.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-// Status badge colors
-const statusColors: Record<string, string> = {
-  granted:
-    'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-  pending:
-    'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
-  filed: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
-};
-
 // Capitalize first letter for display
 const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
 ---
 
 <article
   data-component="patent-card"
-  class:list={[
-    'patent-card rounded-xl',
-    'bg-surface dark:bg-surface-dark',
-    'border border-gray-200 dark:border-gray-700',
-    'p-6 transition-shadow duration-150',
-    'hover:shadow-md',
-    className,
-  ]}
+  class={cardSurfaceContainerClasses(cn('patent-card', className))}
   {...attrs}
 >
   <!-- Header: Date and Status Badge -->
@@ -90,10 +82,7 @@ const statusLabel = status.charAt(0).toUpperCase() + status.slice(1);
       {dateLabel}: {formattedDate}
     </span>
     <span
-      class:list={[
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-        statusColors[status],
-      ]}
+      class={cn(BADGE_BASE_CLASSES, PATENT_STATUS_COLORS[status])}
       data-testid="patent-status"
     >
       {statusLabel}

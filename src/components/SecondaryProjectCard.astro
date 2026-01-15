@@ -3,10 +3,16 @@ import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
 import ProjectTag from './ProjectTag.astro';
 import placeholderImage from '../assets/images/projects/placeholder.svg';
+import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../utils/project-categories';
 
 /**
  * Secondary Project Card component for displaying non-featured projects
  * Horizontal layout with square thumbnail, title, single-line description, and one tag
+ *
+ * Uses utilities:
+ * - CATEGORY_TO_VARIANT for mapping categories to tag variants
+ * - CATEGORY_LABELS for display labels
+ * - Global line-clamp-1 utility for text truncation
  *
  * @example
  * ```astro
@@ -43,26 +49,6 @@ export interface Props extends HTMLAttributes<'article'> {
 }
 
 const {project, slug, imageImport, class: className, ...attrs} = Astro.props;
-
-/**
- * Map content collection category to tag variant
- */
-const categoryToVariant: Record<
-  Props['project']['category'],
-  'leadership' | 'technical' | 'winner' | 'research'
-> = {
-  leader: 'leadership',
-  builder: 'technical',
-  winner: 'winner',
-  research: 'research',
-};
-
-const categoryLabels: Record<Props['project']['category'], string> = {
-  leader: 'Leadership',
-  builder: 'Technical',
-  winner: 'Winner',
-  research: 'Research',
-};
 
 // Use imported image if available, otherwise fallback to placeholder
 const imageSource = imageImport || placeholderImage;
@@ -136,40 +122,10 @@ const hasValidImage = !!imageImport || (project.image && project.image !== '');
 
       <!-- Single tag only -->
       <div class="mt-2">
-        <ProjectTag variant={categoryToVariant[project.category]}>
-          {categoryLabels[project.category]}
+        <ProjectTag variant={CATEGORY_TO_VARIANT[project.category]}>
+          {CATEGORY_LABELS[project.category]}
         </ProjectTag>
       </div>
     </div>
   </a>
 </article>
-
-<style>
-  /* Line clamp for single line truncation */
-  .line-clamp-1 {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* Ensure smooth transform animation */
-  article {
-    will-change: transform, box-shadow;
-  }
-
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    article {
-      transition: box-shadow 150ms ease-out;
-    }
-
-    article:hover {
-      transform: none;
-    }
-
-    .group:hover img {
-      transform: none;
-    }
-  }
-</style>

@@ -1,9 +1,18 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
+import {cardContainerClasses, BULLET_SEPARATOR} from '../utils/card-styles';
+import {BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS} from '../utils/badge';
+import {cn} from '../utils/cn';
 
 /**
  * CertificationCard displays a single certification with issuer details.
  * Follows project card styling patterns with dark mode support.
+ *
+ * Uses utilities:
+ * - cardContainerClasses() for consistent card styling
+ * - CERTIFICATION_BADGE_COLORS for category badge colors
+ * - BADGE_BASE_CLASSES for badge styling
+ * - BULLET_SEPARATOR for accessible metadata separator
  *
  * @example
  * ```astro
@@ -41,15 +50,6 @@ const {
   ...attrs
 } = Astro.props;
 
-// Category badge styles
-const categoryStyles: Record<string, string> = {
-  cloud: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200',
-  data: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200',
-  database:
-    'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-200',
-  other: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
-};
-
 // Category labels for display
 const categoryLabels: Record<string, string> = {
   cloud: 'Cloud',
@@ -60,14 +60,7 @@ const categoryLabels: Record<string, string> = {
 ---
 
 <article
-  class:list={[
-    'certification-card group',
-    'rounded-xl bg-white dark:bg-gray-900/50',
-    'border border-gray-200 dark:border-gray-800',
-    'p-6 transition-all duration-200',
-    'hover:shadow-md hover:-translate-y-1',
-    className,
-  ]}
+  class={cardContainerClasses(cn('certification-card group', className))}
   data-testid="certification-card"
   {...attrs}
 >
@@ -75,10 +68,7 @@ const categoryLabels: Record<string, string> = {
     <!-- Category Badge -->
     <div>
       <span
-        class:list={[
-          'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
-          categoryStyles[category],
-        ]}
+        class={cn(BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS[category])}
         data-testid="category-badge"
       >
         {categoryLabels[category]}
@@ -93,7 +83,7 @@ const categoryLabels: Record<string, string> = {
     <!-- Issuer and Year -->
     <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-text-secondary dark:text-text-secondary-dark">
       <span class="font-medium">{issuer}</span>
-      <span aria-hidden="true">•</span>
+      <Fragment set:html={BULLET_SEPARATOR} />
       <span>{year}</span>
     </div>
 
@@ -116,17 +106,3 @@ const categoryLabels: Record<string, string> = {
     }
   </div>
 </article>
-
-<style>
-  /* Reduced motion support */
-  @media (prefers-reduced-motion: reduce) {
-    .certification-card {
-      transition: none;
-      transform: none !important;
-    }
-
-    .certification-card:hover {
-      transform: none;
-    }
-  }
-</style>
