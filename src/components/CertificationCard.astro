@@ -1,7 +1,7 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import {cardContainerClasses, BULLET_SEPARATOR} from '../utils/card-styles';
-import {BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS} from '../utils/badge';
+import {BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS, CERTIFICATION_CATEGORY_LABELS} from '../utils/badge';
 import {cn} from '../utils/cn';
 import ExternalLink from './ExternalLink.astro';
 
@@ -34,8 +34,6 @@ interface Props extends HTMLAttributes<'article'> {
   year: number;
   /** Certification category */
   category: 'cloud' | 'data' | 'database' | 'other';
-  /** Optional badge/logo URL */
-  badgeUrl?: string;
   /** Optional verification URL */
   verificationUrl?: string;
 }
@@ -45,19 +43,10 @@ const {
   issuer,
   year,
   category,
-  badgeUrl,
   verificationUrl,
   class: className,
   ...attrs
 } = Astro.props;
-
-// Category labels for display
-const categoryLabels: Record<string, string> = {
-  cloud: 'Cloud',
-  data: 'Data',
-  database: 'Database',
-  other: 'Other',
-};
 ---
 
 <article
@@ -72,7 +61,7 @@ const categoryLabels: Record<string, string> = {
         class={cn(BADGE_BASE_CLASSES, CERTIFICATION_BADGE_COLORS[category])}
         data-testid="category-badge"
       >
-        {categoryLabels[category]}
+        {CERTIFICATION_CATEGORY_LABELS[category]}
       </span>
     </div>
 

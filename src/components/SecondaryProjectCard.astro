@@ -1,9 +1,10 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
-import {Image} from 'astro:assets';
 import ProjectTag from './ProjectTag.astro';
-import placeholderImage from '../assets/images/projects/placeholder.svg';
+import ProjectImage from './ProjectImage.astro';
 import {CATEGORY_TO_VARIANT, CATEGORY_LABELS, type ProjectData} from '../utils/project-categories';
+import {interactiveCardClasses} from '../utils/card-styles';
+import {cn} from '../utils/cn';
 
 /**
  * Secondary Project Card component for displaying non-featured projects
@@ -12,6 +13,7 @@ import {CATEGORY_TO_VARIANT, CATEGORY_LABELS, type ProjectData} from '../utils/p
  * Uses utilities:
  * - CATEGORY_TO_VARIANT for mapping categories to tag variants
  * - CATEGORY_LABELS for display labels
+ * - ProjectImage for consistent image rendering
  * - Global line-clamp-1 utility for text truncation
  *
  * @example
@@ -37,26 +39,11 @@ export interface Props extends HTMLAttributes<'article'> {
 }
 
 const {project, slug, class: className, ...attrs} = Astro.props;
-
-// Use project image directly (now ImageMetadata from content collection)
-const imageSource = project.image || placeholderImage;
-const hasValidImage = !!project.image;
 ---
 
 <article
   data-component="secondary-project-card"
-  class:list={[
-    'group relative flex items-stretch rounded-lg overflow-hidden',
-    'bg-surface dark:bg-surface-dark',
-    'shadow-sm hover:shadow-md',
-    'transition-all duration-150 ease-out',
-    'hover:-translate-y-1',
-    'active:scale-[0.98]',
-    'focus-within:ring-2 focus-within:ring-accent dark:focus-within:ring-accent-dark',
-    'focus-within:ring-offset-2 focus-within:ring-offset-bg dark:focus-within:ring-offset-bg-dark',
-    'min-h-11',
-    className,
-  ]}
+  class={interactiveCardClasses(cn('group relative flex items-stretch min-h-11', className))}
   {...attrs}
 >
   <a
@@ -65,31 +52,11 @@ const hasValidImage = !!project.image;
     aria-labelledby={`secondary-project-title-${slug}`}
   >
     <!-- Square thumbnail on left -->
-    <div
-      class="flex-shrink-0 w-20 h-20 md:w-24 md:h-24 overflow-hidden bg-surface dark:bg-surface-dark"
-    >
-      {
-        hasValidImage ? (
-          <Image
-            src={imageSource}
-            alt={`Thumbnail of ${project.title} project`}
-            width={96}
-            height={96}
-            loading="lazy"
-            class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <Image
-            src={placeholderImage}
-            alt={project.title}
-            width={96}
-            height={96}
-            loading="lazy"
-            class="w-full h-full object-cover"
-          />
-        )
-      }
-    </div>
+    <ProjectImage
+      image={project.image}
+      alt={`Thumbnail of ${project.title} project`}
+      variant="thumbnail"
+    />
 
     <!-- Content on right -->
     <div class="flex flex-col justify-center p-3 md:p-4 flex-1 min-w-0">
