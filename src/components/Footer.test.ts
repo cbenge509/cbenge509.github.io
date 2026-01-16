@@ -138,10 +138,11 @@ describe('Footer', () => {
     expect(result).toContain('container-custom');
   });
 
-  it('has footer-link class for gradient underline styling', async () => {
+  it('has link-underline-gradient class for gradient underline styling', async () => {
     const container = await AstroContainer.create();
     const result = await container.renderToString(Footer);
-    expect(result).toContain('footer-link');
+    // The actual CSS for link-underline-gradient is in global.css
+    expect(result).toContain('link-underline-gradient');
   });
 
   it('applies custom class when provided', async () => {

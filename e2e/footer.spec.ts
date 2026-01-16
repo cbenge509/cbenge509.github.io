@@ -56,11 +56,11 @@ test.describe('Footer Component', () => {
   });
 
   test.describe('AC3: Gradient Underline Hover', () => {
-    test('footer links have footer-link class for gradient effect', async ({
+    test('footer links have link-underline-gradient class for gradient effect', async ({
       page,
     }) => {
       const footer = page.locator('footer[data-component="footer"]');
-      const footerLinks = footer.locator('.footer-link');
+      const footerLinks = footer.locator('.link-underline-gradient');
 
       // Should have 2 footer links (GitHub, LinkedIn) - Email removed in Story 6.3, Astro removed in Story 6.4
       await expect(footerLinks).toHaveCount(2);
@@ -297,7 +297,7 @@ test.describe('Footer Component', () => {
 
       // Check that reduced motion styles are active
       const hasReducedMotionStyles = await page.evaluate(() => {
-        const link = document.querySelector('footer .footer-link');
+        const link = document.querySelector('footer .link-underline-gradient');
         if (!link) return false;
 
         const afterStyles = window.getComputedStyle(link, '::after');
