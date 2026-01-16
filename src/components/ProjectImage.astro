@@ -21,13 +21,9 @@ import {cn} from '../utils/cn';
  * ```
  */
 interface Props extends HTMLAttributes<'div'> {
-  /** Image metadata from content collection */
   image?: ImageMetadata;
-  /** Alt text for the image */
   alt: string;
-  /** Layout variant: 'featured' for 16:9 aspect ratio, 'thumbnail' for square */
   variant: 'featured' | 'thumbnail';
-  /** Whether to add hover scale effect (requires parent with group class) */
   hoverScale?: boolean;
 }
 
@@ -41,13 +37,65 @@ const {
 } = Astro.props;
 
 const hasValidImage = !!image;
-const imageSource = image || placeholderImage;
 
 // Base classes for all images
 const baseImageClasses = 'w-full h-full object-cover';
 const hoverClasses = hoverScale
   ? 'transition-transform duration-300 group-hover:scale-105'
   : '';
+
+// Image configuration based on variant and image availability
+type ImageConfig = {
+  src: ImageMetadata;
+  widths?: number[];
+  width?: number;
+  height?: number;
+  formats?: ('avif' | 'webp')[];
+  class: string;
+};
+
+function getImageConfig(
+  hasImage: boolean,
+  imageVariant: 'featured' | 'thumbnail',
+  imageSource: ImageMetadata
+): ImageConfig {
+  if (hasImage && imageVariant === 'featured') {
+    return {
+      src: imageSource,
+      widths: [400, 800, 1200],
+      formats: ['avif', 'webp'],
+      class: cn(baseImageClasses, hoverClasses),
+    };
+  }
+
+  if (hasImage && imageVariant === 'thumbnail') {
+    return {
+      src: imageSource,
+      width: 96,
+      height: 96,
+      class: cn(baseImageClasses, hoverClasses),
+    };
+  }
+
+  if (imageVariant === 'featured') {
+    return {
+      src: placeholderImage,
+      width: 800,
+      height: 450,
+      class: baseImageClasses,
+    };
+  }
+
+  // thumbnail placeholder
+  return {
+    src: placeholderImage,
+    width: 96,
+    height: 96,
+    class: baseImageClasses,
+  };
+}
+
+const imageConfig = getImageConfig(hasValidImage, variant, image || placeholderImage);
 
 // Container classes based on variant
 const containerClasses =
@@ -57,45 +105,14 @@ const containerClasses =
 ---
 
 <div class={cn(containerClasses, className)} {...attrs}>
-  {
-    hasValidImage ? (
-      variant === 'featured' ? (
-        <Image
-          src={imageSource}
-          alt={alt}
-          widths={[400, 800, 1200]}
-          formats={['avif', 'webp']}
-          loading="lazy"
-          class={cn(baseImageClasses, hoverClasses)}
-        />
-      ) : (
-        <Image
-          src={imageSource}
-          alt={alt}
-          width={96}
-          height={96}
-          loading="lazy"
-          class={cn(baseImageClasses, hoverClasses)}
-        />
-      )
-    ) : variant === 'featured' ? (
-      <Image
-        src={placeholderImage}
-        alt={alt}
-        width={800}
-        height={450}
-        loading="lazy"
-        class={baseImageClasses}
-      />
-    ) : (
-      <Image
-        src={placeholderImage}
-        alt={alt}
-        width={96}
-        height={96}
-        loading="lazy"
-        class={baseImageClasses}
-      />
-    )
-  }
+  <Image
+    src={imageConfig.src}
+    alt={alt}
+    widths={imageConfig.widths}
+    width={imageConfig.width}
+    height={imageConfig.height}
+    formats={imageConfig.formats}
+    loading="lazy"
+    class={imageConfig.class}
+  />
 </div>
