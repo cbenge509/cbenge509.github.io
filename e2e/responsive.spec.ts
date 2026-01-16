@@ -143,7 +143,7 @@ test.describe('Responsive Layout - AC1, AC2, AC3, AC4, AC5', () => {
 
     test('hover interactions work on cards', async ({page}) => {
       // Check that links have proper hover states
-      const navLink = page.locator('.nav-link').first();
+      const navLink = page.locator('.link-underline-gradient').first();
       if ((await navLink.count()) > 0) {
         await navLink.hover();
         // Hover should trigger transition (checking ::after pseudo-element)

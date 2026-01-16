@@ -10,6 +10,11 @@
    4. Focus Ring Utilities - Accessibility focus states
    5. Animation & Motion - Transition utilities and reduced motion
    6. Layout Utilities - Container and spacing helpers
+   7. Line Clamp Utilities - Text truncation
+   8. Card Animation Utilities - Hover effects
+   9. Scroll Reveal Animations - Fade-up on scroll
+   10. (reserved)
+   11. Link Underline Gradient - Navigation hover effects
 
    USAGE:
    - All custom values are defined in @theme { } block
@@ -698,5 +703,76 @@
   [data-reveal].revealed {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* =============================================================================
+   11. LINK UNDERLINE GRADIENT
+   ==============================================================================
+   Gradient underline hover effect for navigation-style links.
+   Animates width from 0 to 100% on hover/focus.
+
+   Usage:
+   - Add `link-underline-gradient` class to link element
+   - Element must have `position: relative` for pseudo-element positioning
+   - Combine with `[aria-current='page']` for active state
+
+   Example:
+   <a href="/about" class="relative link-underline-gradient">About</a>
+
+   Note: For active state, add aria-current="page" attribute or use
+   the `.link-underline-active` class.
+   ============================================================================= */
+
+.link-underline-gradient {
+  position: relative;
+}
+
+.link-underline-gradient::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent),
+    var(--color-accent-hover, var(--color-accent))
+  );
+  transition: width 150ms ease-out;
+}
+
+.link-underline-gradient:hover::after,
+.link-underline-gradient:focus-visible::after {
+  width: 100%;
+}
+
+/* Dark mode gradient */
+:is(.dark, .dark *) .link-underline-gradient::after {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-dark),
+    var(--color-accent-hover-dark, var(--color-accent-dark))
+  );
+}
+
+/* Active state - show underline always */
+.link-underline-gradient[aria-current='page']::after,
+.link-underline-gradient.link-underline-active::after {
+  width: 100%;
+}
+
+/* Reduced motion: use opacity instead of width animation */
+@media (prefers-reduced-motion: reduce) {
+  .link-underline-gradient::after {
+    transition: opacity 150ms ease-out;
+    width: 100%;
+    opacity: 0;
+  }
+
+  .link-underline-gradient:hover::after,
+  .link-underline-gradient:focus-visible::after {
+    opacity: 1;
   }
 }

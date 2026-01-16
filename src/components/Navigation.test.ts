@@ -165,14 +165,15 @@ describe('Navigation', () => {
       expect(result).toContain('dark:text-text-dark');
     });
 
-    it('includes nav-link class for gradient underline', async () => {
+    it('includes link-underline-gradient class for gradient underline', async () => {
       const result = await container.renderToString(Navigation);
 
-      // nav-link class is applied to links for gradient underline styling
-      // The actual CSS with linear-gradient is in the style block
-      expect(result).toContain('nav-link');
+      // link-underline-gradient class is applied to links for gradient underline styling
+      // The actual CSS is in global.css
+      expect(result).toContain('link-underline-gradient');
       // Multiple nav links should have this class
-      const navLinkCount = (result.match(/nav-link/g) || []).length;
+      const navLinkCount = (result.match(/link-underline-gradient/g) || [])
+        .length;
       expect(navLinkCount).toBeGreaterThan(4);
     });
   });

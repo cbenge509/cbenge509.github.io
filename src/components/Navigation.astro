@@ -2,6 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import ThemeToggle from './ThemeToggle.astro';
 import ExternalLink from './ExternalLink.astro';
+import {SOCIAL_LINKS} from '../data/profile';
 
 /**
  * Main navigation component with desktop and mobile layouts
@@ -30,19 +31,6 @@ const navLinks = [
   {label: 'Projects', href: '/projects'},
   {label: 'About', href: '/about'},
   {label: 'Publications', href: '/publications'},
-];
-
-const socialLinks = [
-  {
-    label: 'GitHub',
-    href: 'https://github.com/cbenge509',
-    ariaLabel: 'GitHub profile',
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/crisbenge/',
-    ariaLabel: 'LinkedIn profile',
-  },
 ];
 
 /**
@@ -89,7 +77,7 @@ function isActive(href: string, current: string): boolean {
               <a
                 href={link.href}
                 class:list={[
-                  'nav-link relative py-2',
+                  'link-underline-gradient py-2',
                   'text-body text-text dark:text-text-dark',
                   'hover:text-accent dark:hover:text-accent-dark',
                   'transition-colors duration-150',
@@ -111,13 +99,13 @@ function isActive(href: string, current: string): boolean {
       <!-- Social Links -->
       <div class="flex items-center gap-4">
         {
-          socialLinks.map((link) => (
+          SOCIAL_LINKS.map((link) => (
             <ExternalLink
               href={link.href}
               variant="text"
               size="sm"
               ariaLabel={link.ariaLabel}
-              class="nav-link relative py-2 text-body"
+              class="link-underline-gradient py-2 text-body"
             >
               {link.label}
             </ExternalLink>
@@ -229,7 +217,7 @@ function isActive(href: string, current: string): boolean {
         <!-- Social Links -->
         <div class="flex flex-col gap-4">
           {
-            socialLinks.map((link) => (
+            SOCIAL_LINKS.map((link) => (
               <ExternalLink
                 href={link.href}
                 variant="text"
@@ -285,41 +273,6 @@ function isActive(href: string, current: string): boolean {
 </noscript>
 
 <style>
-  /* Gradient underline hover effect for nav links */
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      var(--color-accent),
-      var(--color-accent-hover, var(--color-accent))
-    );
-    transition: width 150ms ease-out;
-  }
-
-  .nav-link:hover::after,
-  .nav-link:focus-visible::after {
-    width: 100%;
-  }
-
-  /* Dark mode gradient */
-  :global(.dark) .nav-link::after {
-    background: linear-gradient(
-      90deg,
-      var(--color-accent-dark),
-      var(--color-accent-hover-dark, var(--color-accent-dark))
-    );
-  }
-
-  /* Active state underline */
-  .nav-link[aria-current='page']::after {
-    width: 100%;
-  }
-
   /* Navigation hidden state (applied via JS) */
   :global([data-component='navigation'].nav-hidden) {
     transform: translateY(-100%);
@@ -348,17 +301,6 @@ function isActive(href: string, current: string): boolean {
 
   /* Reduced motion: disable transforms, keep opacity */
   @media (prefers-reduced-motion: reduce) {
-    .nav-link::after {
-      transition: opacity 150ms ease-out;
-      width: 100%;
-      opacity: 0;
-    }
-
-    .nav-link:hover::after,
-    .nav-link:focus-visible::after {
-      opacity: 1;
-    }
-
     .mobile-menu-panel {
       transition: opacity 150ms ease-out;
       transform: none !important;
