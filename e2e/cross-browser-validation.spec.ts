@@ -230,7 +230,7 @@ test.describe('Cross-Browser Validation Checklist (AC7)', () => {
       await page.goto('/');
 
       // Test nav link hover
-      const navLink = page.locator('.nav-link').first();
+      const navLink = page.locator('.link-underline-gradient').first();
       if ((await navLink.count()) > 0) {
         await navLink.hover();
         // Verify hover state is applied (link should still be visible)

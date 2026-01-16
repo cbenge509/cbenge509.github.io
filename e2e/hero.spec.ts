@@ -316,9 +316,12 @@ test.describe('Hero Section', () => {
     }) => {
       await page.goto('/');
 
-      // Check for sr-only text indicating opens in new tab
-      const srText = page.locator('[data-testid="hero-linkedin"] .sr-only');
-      await expect(srText).toContainText('opens in new tab');
+      // ExternalLink component uses aria-label with "(opens in new tab)" suffix
+      const linkedInButton = page.locator('[data-testid="hero-linkedin"]');
+      await expect(linkedInButton).toHaveAttribute(
+        'aria-label',
+        /opens in new tab/,
+      );
     });
 
     test('CTA buttons meet minimum touch target size', async ({page}) => {
