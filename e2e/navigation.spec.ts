@@ -450,7 +450,7 @@ test.describe('Navigation Component', () => {
     test('hover transitions use 150ms timing', async ({page}) => {
       await page.setViewportSize({width: 1024, height: 768});
 
-      const navLink = page.locator('.nav-link').first();
+      const navLink = page.locator('.link-underline-gradient').first();
       const transitionDuration = await navLink.evaluate(
         el => window.getComputedStyle(el).transitionDuration,
       );
