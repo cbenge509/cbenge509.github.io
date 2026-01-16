@@ -2,6 +2,18 @@
  * Scroll Reveal Animation Script
  * Uses IntersectionObserver to trigger fade-in animations on elements with [data-reveal] attribute
  *
+ * USAGE: Import this script in any page that uses [data-reveal] elements:
+ *
+ * ```astro
+ * <script>
+ *   import '../scripts/scroll-reveal';
+ * </script>
+ * ```
+ *
+ * NOTE: This script is intentionally NOT in BaseLayout to enable
+ * optimal code splitting. Only pages with [data-reveal] elements
+ * should import this script.
+ *
  * Features:
  * - Observes elements with [data-reveal] attribute
  * - Adds 'revealed' class when element enters viewport (10% visible)

@@ -1,6 +1,7 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import {cardSurfaceContainerClasses} from '../utils/card-styles';
+import {toSlugId} from '../utils/id-utils';
 import ExternalLink from './ExternalLink.astro';
 
 /**
@@ -9,6 +10,7 @@ import ExternalLink from './ExternalLink.astro';
  *
  * Uses utilities:
  * - cardSurfaceContainerClasses() for consistent surface-based card styling
+ * - toSlugId() for generating accessible abstract element IDs
  *
  * @example
  * ```astro
@@ -157,7 +159,7 @@ const hasLinks = pdfUrl || codeUrl || doiUrl;
           type="button"
           data-toggle
           aria-expanded="true"
-          aria-controls={`abstract-${title.replace(/\s+/g, '-').toLowerCase()}`}
+          aria-controls={toSlugId(title, 'abstract')}
           class="abstract-toggle inline-flex items-center gap-1 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded px-2 -mx-2 min-h-11"
         >
           <svg
@@ -178,7 +180,7 @@ const hasLinks = pdfUrl || codeUrl || doiUrl;
         </button>
 
         <div
-          id={`abstract-${title.replace(/\s+/g, '-').toLowerCase()}`}
+          id={toSlugId(title, 'abstract')}
           data-abstract
           class="abstract-container expanded mt-3 text-sm text-text-secondary dark:text-text-secondary-dark leading-relaxed"
         >

@@ -88,3 +88,37 @@ export function cardSurfaceContainerClasses(className?: string): string {
  * ```
  */
 export const BULLET_SEPARATOR = '<span aria-hidden="true">•</span>' as const;
+
+/**
+ * Interactive card container for clickable project cards.
+ * Includes focus-within ring, active scale, and elevated hover effect.
+ * Uses surface tokens for semantic color theming.
+ *
+ * Use this for: Project cards, clickable items with focus-within support
+ *
+ * @param className - Optional additional classes to merge
+ * @returns Merged class string with interactive card styles
+ *
+ * @example
+ * ```astro
+ * ---
+ * import {interactiveCardClasses} from '../utils/card-styles';
+ * ---
+ * <article class={interactiveCardClasses('featured-card')}>
+ *   Card content with nested link
+ * </article>
+ * ```
+ */
+export function interactiveCardClasses(className?: string): string {
+  return cn(
+    'rounded-lg overflow-hidden',
+    'bg-surface dark:bg-surface-dark',
+    'shadow-sm hover:shadow-lg',
+    'transition-all duration-150 ease-out',
+    'hover:-translate-y-1',
+    'active:scale-[0.98]',
+    'focus-within:ring-2 focus-within:ring-accent dark:focus-within:ring-accent-dark',
+    'focus-within:ring-offset-2 focus-within:ring-offset-bg dark:focus-within:ring-offset-bg-dark',
+    className,
+  );
+}
