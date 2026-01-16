@@ -2,6 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import SectionHeading from './SectionHeading.astro';
 import ExternalLink from './ExternalLink.astro';
+import {getSocialLink, CV_URL} from '../data/profile';
 
 /**
  * ContactSection displays contact options and CV download link.
@@ -31,15 +32,6 @@ interface Props extends HTMLAttributes<'section'> {
 }
 
 const {showCV = true, class: className, ...attrs} = Astro.props;
-
-// Contact information
-const linkedInUrl = 'https://www.linkedin.com/in/crisbenge/';
-const githubUrl = 'https://github.com/cbenge509';
-const cvUrl = '/cris-benge-cv.pdf';
-
-// Check if CV file exists at build time by checking if it should be rendered
-// The showCV prop can be used to conditionally hide the CV link
-const shouldShowCV = showCV;
 ---
 
 <section
@@ -62,7 +54,7 @@ const shouldShowCV = showCV;
     <div class="flex flex-wrap justify-center gap-4">
       <!-- Primary CTA: LinkedIn (recruiter journey) -->
       <ExternalLink
-        href={linkedInUrl}
+        href={getSocialLink('LinkedIn').href}
         variant="button"
         colorScheme="accent"
         ariaLabel="Connect on LinkedIn"
@@ -73,7 +65,7 @@ const shouldShowCV = showCV;
 
       <!-- Secondary: GitHub -->
       <ExternalLink
-        href={githubUrl}
+        href={getSocialLink('GitHub').href}
         variant="button-outlined"
         ariaLabel="GitHub profile"
         data-testid="github-button"
@@ -83,9 +75,9 @@ const shouldShowCV = showCV;
 
       <!-- CV Download -->
       {
-        shouldShowCV && (
+        showCV && (
           <ExternalLink
-            href={cvUrl}
+            href={CV_URL}
             variant="button-outlined"
             ariaLabel="View CV"
             data-testid="cv-link"
