@@ -180,12 +180,17 @@ test.describe('About Page', () => {
     }) => {
       await page.goto('/about');
 
-      const srOnlyText = page.locator('.education-card .sr-only');
-      const count = await srOnlyText.count();
+      // ExternalLink component uses aria-label instead of sr-only spans
+      const externalLinks = page.locator(
+        '.education-card a[aria-label*="opens in new tab"]',
+      );
+      const count = await externalLinks.count();
       expect(count).toBeGreaterThanOrEqual(3);
 
-      const firstSrText = await srOnlyText.first().textContent();
-      expect(firstSrText).toContain('opens in new tab');
+      const firstAriaLabel = await externalLinks
+        .first()
+        .getAttribute('aria-label');
+      expect(firstAriaLabel).toContain('opens in new tab');
     });
   });
 
