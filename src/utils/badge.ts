@@ -1,6 +1,10 @@
 /**
  * Badge utility functions for consistent badge styling across card components.
  * Provides type-safe color mappings for common badge patterns.
+ *
+ * NOTE: Explicit color strings are intentionally used rather than a factory function.
+ * This design choice keeps colors readable, customizable, and compatible with
+ * Tailwind's JIT purging (dynamic class strings may not be detected).
  */
 
 /**

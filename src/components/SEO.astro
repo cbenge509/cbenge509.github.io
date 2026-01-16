@@ -1,4 +1,6 @@
 ---
+import {PROFILE_DATA} from '../data/profile';
+
 /**
  * SEO component for managing page metadata, Open Graph, Twitter cards, and JSON-LD
  * Handles all SEO-related meta tags in one place
@@ -17,17 +19,11 @@
  * ```
  */
 interface Props {
-  /** Page title (will have " | Cris Benge" appended) */
   title: string;
-  /** Meta description for SEO (max ~155 characters recommended) */
   description: string;
-  /** OG image path (defaults to /og-default.png) */
   image?: string;
-  /** Canonical URL (defaults to current page URL) */
   canonical?: string;
-  /** Prevent indexing (for draft pages) */
   noIndex?: boolean;
-  /** Include JSON-LD Person schema (home page only) */
   includePersonSchema?: boolean;
 }
 
@@ -40,9 +36,9 @@ const {
   includePersonSchema = false,
 } = Astro.props;
 
-// Site configuration
-const siteUrl = import.meta.env.SITE || 'https://cbenge509.github.io';
-const siteName = 'Cris Benge';
+// Site configuration from centralized profile data
+const siteUrl = import.meta.env.SITE || PROFILE_DATA.siteUrl;
+const siteName = PROFILE_DATA.name;
 
 // Computed values
 const fullTitle = `${title} | ${siteName}`;
@@ -50,32 +46,22 @@ const ogImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
 // Use site config + pathname for canonical URL (not Astro.url.href which uses localhost in dev)
 const canonicalUrl = canonical || `${siteUrl}${Astro.url.pathname}`;
 
-// JSON-LD Person schema for the home page
+// JSON-LD Person schema for the home page (built from centralized profile data)
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Cris Benge',
-  jobTitle: 'Head of Federal Innovation',
+  name: PROFILE_DATA.name,
+  jobTitle: PROFILE_DATA.jobTitle,
   worksFor: {
     '@type': 'Organization',
-    name: 'Google',
+    name: PROFILE_DATA.employer,
   },
   url: siteUrl,
-  sameAs: [
-    'https://github.com/cbenge509',
-    'https://www.linkedin.com/in/crisbenge/',
-    // Google Scholar URL to be added when available
-  ],
-  alumniOf: [
-    {
-      '@type': 'CollegeOrUniversity',
-      name: 'Columbia University',
-    },
-    {
-      '@type': 'CollegeOrUniversity',
-      name: 'UC Berkeley',
-    },
-  ],
+  sameAs: PROFILE_DATA.socialProfiles,
+  alumniOf: PROFILE_DATA.education.map((edu) => ({
+    '@type': 'CollegeOrUniversity',
+    name: edu.name,
+  })),
 };
 ---
 

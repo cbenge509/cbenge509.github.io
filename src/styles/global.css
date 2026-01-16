@@ -488,30 +488,9 @@
    should also respect prefers-reduced-motion for smooth fallbacks.
    ============================================================================= */
 
-/* Transition utility classes with standard timing */
-.transition-fast {
-  transition-duration: var(--transition-fast);
-  transition-timing-function: var(--ease-out);
-}
-
-.transition-medium {
-  transition-duration: var(--transition-medium);
-  transition-timing-function: var(--ease-out);
-}
-
-.transition-slow {
-  transition-duration: var(--transition-slow);
-  transition-timing-function: var(--ease-out);
-}
-
-/* Easing utility classes */
-.ease-out-custom {
-  transition-timing-function: var(--ease-out);
-}
-
-.ease-in-out-custom {
-  transition-timing-function: var(--ease-in-out);
-}
+/* Note: Transition and easing utilities removed - using inline Tailwind classes instead.
+   Standard timing tokens (--transition-fast, --transition-medium, --transition-slow)
+   and easing tokens (--ease-out, --ease-in-out) remain available for direct use. */
 
 /* =============================================================================
    REDUCED MOTION SAFETY NET
@@ -557,29 +536,9 @@
   padding-right: var(--spacing-container-padding);
 }
 
-/* Section spacing utility (use with Tailwind responsive prefixes) */
-.section-padding {
-  padding-top: var(--spacing-section-mobile);
-  padding-bottom: var(--spacing-section-mobile);
-}
-
-@media (min-width: 768px) {
-  .section-padding {
-    padding-top: var(--spacing-section);
-    padding-bottom: var(--spacing-section);
-  }
-}
-
-/* Card grid gap utility */
-.card-grid-gap {
-  gap: var(--spacing-card-gap-mobile);
-}
-
-@media (min-width: 768px) {
-  .card-grid-gap {
-    gap: var(--spacing-card-gap);
-  }
-}
+/* Note: section-padding and card-grid-gap utilities removed - using inline Tailwind
+   responsive classes (py-16 md:py-24, gap-6 md:gap-8) instead. Spacing tokens
+   (--spacing-section, --spacing-card-gap) remain available for direct use. */
 
 /* =============================================================================
    8. LINE CLAMP UTILITIES - Text Truncation

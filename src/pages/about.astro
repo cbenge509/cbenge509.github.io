@@ -9,6 +9,7 @@ import CertificationCard from '../components/CertificationCard.astro';
 import AwardCard from '../components/AwardCard.astro';
 import ContactSection from '../components/ContactSection.astro';
 import {byOrder} from '../utils/collection-sort';
+import {PROFILE_DATA} from '../data/profile';
 import profileImage from '../assets/images/profile/portfolio_image.jpg';
 
 /**
@@ -76,21 +77,13 @@ const hasAwards = sortedAwards.length > 0;
         <!-- Bio Text -->
         <div class="flex-1 prose prose-lg dark:prose-invert max-w-none">
           <p class="text-lg text-text dark:text-text-dark leading-relaxed">
-            I'm <strong>Cris Benge</strong>, Head of Federal Innovation at
-            Google, where I lead AI/ML prototype initiatives that transform how 
-            U.S. federal agencies leverage cutting-edge technology to solve
-            complex mission problems.
+            {PROFILE_DATA.bio.intro}
           </p>
           <p class="text-text-secondary dark:text-text-secondary-dark leading-relaxed mt-4">
-            With over two decades of experience in software engineering, data
-            science, and technical leadership, I specialize in building scalable
-            machine learning systems and driving innovation at the intersection
-            of technology and public service.
+            {PROFILE_DATA.bio.experience}
           </p>
           <p class="text-text-secondary dark:text-text-secondary-dark leading-relaxed mt-4">
-            I'm passionate about mentoring the next generation of technologists
-            and contributing to open-source projects and research that advance
-            the field of artificial intelligence.
+            {PROFILE_DATA.bio.passion}
           </p>
         </div>
       </div>
