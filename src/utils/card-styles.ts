@@ -6,9 +6,11 @@ import {cn} from './cn';
  */
 
 /**
- * Standard card container classes used across card components.
- * Includes rounded corners, background, border, padding, and hover effects.
- * Uses white background with gray-900 for dark mode.
+ * Card container with elevated hover effect (lift + shadow).
+ * Best for interactive cards that benefit from visual lift feedback.
+ * Uses white/gray-900 background for maximum contrast.
+ *
+ * Use this for: Interactive cards, clickable items, cards in grids
  *
  * @param className - Optional additional classes to merge
  * @returns Merged class string with card base styles
@@ -37,9 +39,11 @@ export function cardContainerClasses(className?: string): string {
 }
 
 /**
- * Card container classes for cards using surface colors.
- * Used by PatentCard, PublicationCard, and project cards.
- * Surface colors provide semantic alternatives to white/gray-900.
+ * Card container with subtle hover effect (shadow only, no lift).
+ * Best for content cards where lift animation would be distracting.
+ * Uses surface tokens for semantic color theming.
+ *
+ * Use this for: Content-heavy cards, publication cards, patent cards
  *
  * @param className - Optional additional classes to merge
  * @returns Merged class string with surface-based card styles
@@ -65,25 +69,6 @@ export function cardSurfaceContainerClasses(className?: string): string {
     className,
   );
 }
-
-/**
- * External link classes for consistent styling.
- * Provides standard accent color, hover underline, and focus ring.
- *
- * @example
- * ```astro
- * <a
- *   href={url}
- *   target="_blank"
- *   rel="noopener noreferrer"
- *   class={EXTERNAL_LINK_CLASSES}
- * >
- *   Link text
- * </a>
- * ```
- */
-export const EXTERNAL_LINK_CLASSES =
-  'inline-flex items-center gap-1 text-sm text-accent dark:text-accent-dark hover:underline focus-ring rounded' as const;
 
 /**
  * Bullet separator for metadata sections.

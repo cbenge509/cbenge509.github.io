@@ -4,12 +4,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import FeaturedProjectCard from '../components/FeaturedProjectCard.astro';
+import {byOrder} from '../utils/collection-sort';
 
 // Get featured projects, sorted by order, limited to 3
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects
   .filter((project) => project.data.isFeatured)
-  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999))
+  .sort(byOrder)
   .slice(0, 3);
 ---
 

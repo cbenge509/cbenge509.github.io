@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import FeaturedProjectCard from '../../components/FeaturedProjectCard.astro';
 import SecondaryProjectCard from '../../components/SecondaryProjectCard.astro';
 import SectionHeading from '../../components/SectionHeading.astro';
+import {byOrder, byPublishDateDesc} from '../../utils/collection-sort';
 
 /**
  * Projects Gallery Page
@@ -20,13 +21,11 @@ import SectionHeading from '../../components/SectionHeading.astro';
 const allProjects = await getCollection('projects');
 
 // Separate featured and secondary projects
-const featuredProjects = allProjects
-  .filter((p) => p.data.isFeatured)
-  .sort((a, b) => (a.data.order ?? 999) - (b.data.order ?? 999));
+const featuredProjects = allProjects.filter((p) => p.data.isFeatured).sort(byOrder);
 
 const secondaryProjects = allProjects
   .filter((p) => !p.data.isFeatured)
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+  .sort(byPublishDateDesc);
 
 const hasProjects = allProjects.length > 0;
 ---

@@ -1,35 +1,32 @@
 import {experimental_AstroContainer as AstroContainer} from 'astro/container';
 import {describe, it, expect} from 'vitest';
 import SecondaryProjectCard from './SecondaryProjectCard.astro';
+import {createMockProject} from '../../test/fixtures/props';
 
-// Mock project data for testing
-const mockProject = {
+// Mock project data for testing (using shared fixtures)
+const mockProject = createMockProject({
   title: 'Secondary Test Project',
   description:
     'A utility tool for data analysis and visualization with comprehensive features.',
-  image: '/images/secondary-project.png',
-  category: 'research' as const,
+  category: 'research',
   skills: ['Python', 'Pandas'],
   tools: ['Jupyter'],
-};
+});
 
-const mockProjectBuilder = {
-  ...mockProject,
-  category: 'builder' as const,
+const mockProjectBuilder = createMockProject({
+  category: 'builder',
   title: 'Builder Project',
-};
+});
 
-const mockProjectLeader = {
-  ...mockProject,
-  category: 'leader' as const,
+const mockProjectLeader = createMockProject({
+  category: 'leader',
   title: 'Leader Project',
-};
+});
 
-const mockProjectWinner = {
-  ...mockProject,
-  category: 'winner' as const,
+const mockProjectWinner = createMockProject({
+  category: 'winner',
   title: 'Winner Project',
-};
+});
 
 describe('SecondaryProjectCard', () => {
   describe('Content Rendering', () => {

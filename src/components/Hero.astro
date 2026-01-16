@@ -2,7 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
 import profileImage from '../assets/images/profile/portfolio_image.jpg';
-import {getSocialLink} from '../data/profile';
+import {getSocialLink, HERO_PROFILE} from '../data/profile';
 import ExternalLink from './ExternalLink.astro';
 
 /**
@@ -30,17 +30,8 @@ interface Props extends HTMLAttributes<'section'> {
 
 const {class: className, showImage = true, ...attrs} = Astro.props;
 
-// Profile data - could be externalized to content collection later
-const profile = {
-  name: 'Cris Benge',
-  role: 'Head of Federal Innovation, Google',
-  credentials: [
-    {label: 'Senior Leadership', type: 'education' as const},
-    {label: 'Research', type: 'education' as const},
-    {label: 'Data Science', type: 'education' as const},
-    {label: 'TS/SCI w/ Polygraph', type: 'clearance' as const},
-  ],
-};
+// Profile data from centralized source
+const profile = HERO_PROFILE;
 ---
 
 <section
