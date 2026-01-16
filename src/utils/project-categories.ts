@@ -57,3 +57,19 @@ export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
   winner: 'Winner',
   research: 'Research',
 } as const;
+
+/**
+ * Project data shape from content collection.
+ * Used by FeaturedProjectCard and SecondaryProjectCard components.
+ */
+export interface ProjectData {
+  title: string;
+  description: string;
+  image: ImageMetadata;
+  category: ProjectCategory;
+  skills: string[];
+  tools: string[];
+  githubUrl?: string;
+  achievement?: string;
+  affiliation?: string;
+}

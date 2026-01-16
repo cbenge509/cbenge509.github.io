@@ -7,12 +7,27 @@ import {cn} from '../utils/cn';
  *
  * Features:
  * - Always opens in new tab with security attributes
- * - Automatic aria-label enhancement
+ * - Automatic aria-label enhancement with "(opens in new tab)"
  * - Multiple visual variants and sizes
  * - Optional prefix icons (PDF, GitHub, external)
  * - Arrow suffix indicator
  * - Dark mode support
  * - Focus ring for keyboard navigation
+ *
+ * VARIANTS:
+ * - `text`: Inline link within text, subtle hover. Use in paragraphs.
+ * - `button`: Solid filled button. Use for primary CTAs (Hero, Contact).
+ * - `button-outlined`: Border button. Use for secondary CTAs next to solid buttons.
+ * - `card-action`: Small link in cards. Use for PDF/Code/DOI links in cards.
+ * - `badge`: Pill-shaped with backdrop blur. Use for floating overlays on images.
+ *
+ * SIZES: xs | sm | base | lg
+ * - Button variants: affect padding and min-height
+ * - Text/card-action: affect gap and font-size only
+ *
+ * COLOR SCHEMES (button variant only):
+ * - `accent`: Blue background, white text (primary CTA)
+ * - `neutral`: Surface background, text color, accent hover
  *
  * @example
  * ```astro
@@ -85,52 +100,43 @@ const {
   ...attrs
 } = Astro.props;
 
+// Base classes shared by button variants
+const buttonBase = 'inline-flex items-center justify-center rounded-lg transition-colors duration-150';
+
+// Button color schemes
+const buttonColors: Record<string, string> = {
+  accent: 'bg-accent dark:bg-accent text-white hover:bg-accent-hover dark:hover:bg-accent-hover',
+  neutral: cn(
+    'bg-surface dark:bg-surface-dark',
+    'text-text dark:text-text-dark',
+    'hover:bg-accent hover:text-white dark:hover:bg-accent-dark'
+  ),
+};
+
 // Variant-specific classes (including rounding - don't add generic rounded later)
 const variantClasses: Record<string, string> = {
   text: cn(
-    'inline-flex items-center',
+    'inline-flex items-center rounded',
     'text-text dark:text-text-dark',
     'hover:text-accent dark:hover:text-accent-dark',
-    'transition-colors duration-150',
-    'rounded'
-  ),
-  button:
-    colorScheme === 'accent'
-      ? cn(
-          'inline-flex items-center justify-center',
-          'rounded-lg font-medium',
-          'bg-accent dark:bg-accent text-white',
-          'hover:bg-accent-hover dark:hover:bg-accent-hover',
-          'transition-colors duration-150'
-        )
-      : cn(
-          'inline-flex items-center justify-center',
-          'rounded-lg font-medium',
-          'bg-surface dark:bg-surface-dark',
-          'text-text dark:text-text-dark',
-          'hover:bg-accent hover:text-white dark:hover:bg-accent-dark',
-          'transition-colors duration-150'
-        ),
-  'button-outlined': cn(
-    'inline-flex items-center justify-center',
-    'rounded-lg',
-    'border border-border dark:border-border-dark',
-    'text-text dark:text-text-dark',
-    'hover:bg-surface-dark/5 dark:hover:bg-surface/5',
     'transition-colors duration-150'
   ),
+  button: cn(buttonBase, 'font-medium', buttonColors[colorScheme]),
+  'button-outlined': cn(
+    buttonBase,
+    'border border-border dark:border-border-dark',
+    'text-text dark:text-text-dark',
+    'hover:bg-surface-dark/5 dark:hover:bg-surface/5'
+  ),
   'card-action': cn(
-    'inline-flex items-center',
+    'inline-flex items-center rounded',
     'text-accent dark:text-accent-dark',
     'hover:underline',
-    'px-1 -mx-1',
-    'rounded'
+    'px-1 -mx-1'
   ),
   badge: cn(
-    'inline-flex items-center',
-    'rounded-full font-medium',
-    'bg-bg/90 dark:bg-bg-dark/90',
-    'backdrop-blur-sm',
+    'inline-flex items-center rounded-full font-medium',
+    'bg-bg/90 dark:bg-bg-dark/90 backdrop-blur-sm',
     'text-text dark:text-text-dark',
     'hover:bg-accent hover:text-white dark:hover:bg-accent-dark',
     'transition-colors duration-150'

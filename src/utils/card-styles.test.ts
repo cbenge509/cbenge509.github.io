@@ -2,7 +2,6 @@ import {describe, it, expect} from 'vitest';
 import {
   cardContainerClasses,
   cardSurfaceContainerClasses,
-  EXTERNAL_LINK_CLASSES,
   BULLET_SEPARATOR,
 } from './card-styles';
 
@@ -71,23 +70,6 @@ describe('card-styles utilities', () => {
       const classes = cardSurfaceContainerClasses(undefined);
       expect(classes).toContain('bg-surface');
       expect(classes).not.toContain('undefined');
-    });
-  });
-
-  describe('EXTERNAL_LINK_CLASSES', () => {
-    it('provides consistent external link styling', () => {
-      expect(EXTERNAL_LINK_CLASSES).toContain('inline-flex');
-      expect(EXTERNAL_LINK_CLASSES).toContain('items-center');
-      expect(EXTERNAL_LINK_CLASSES).toContain('gap-1');
-      expect(EXTERNAL_LINK_CLASSES).toContain('text-sm');
-      expect(EXTERNAL_LINK_CLASSES).toContain('text-accent');
-      expect(EXTERNAL_LINK_CLASSES).toContain('dark:text-accent-dark');
-      expect(EXTERNAL_LINK_CLASSES).toContain('hover:underline');
-      expect(EXTERNAL_LINK_CLASSES).toContain('focus-ring');
-    });
-
-    it('is a const string', () => {
-      expect(typeof EXTERNAL_LINK_CLASSES).toBe('string');
     });
   });
 

@@ -1,9 +1,11 @@
 ---
 import {getCollection} from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import PublicationCard from '../components/PublicationCard.astro';
 import PatentCard from '../components/PatentCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import {byOrderOrYearDesc, byPatentDateDesc} from '../utils/collection-sort';
 
 /**
  * Publications Page
@@ -15,26 +17,12 @@ import SectionHeading from '../components/SectionHeading.astro';
 
 // Fetch publications from content collection
 const publicationEntries = await getCollection('publications');
-
-// Sort by order if present, otherwise by year (descending)
-const sortedPublications = publicationEntries.sort((a, b) => {
-  if (a.data.order !== undefined && b.data.order !== undefined) {
-    return a.data.order - b.data.order;
-  }
-  return b.data.year - a.data.year;
-});
-
+const sortedPublications = publicationEntries.sort(byOrderOrYearDesc);
 const hasPublications = sortedPublications.length > 0;
 
 // Fetch patents from content collection
 const patentEntries = await getCollection('patents');
-
-// Sort patents by date (most recent first) - use grantDate if present, otherwise filingDate
-const sortedPatents = patentEntries.sort((a, b) => {
-  const dateA = a.data.grantDate || a.data.filingDate;
-  const dateB = b.data.grantDate || b.data.filingDate;
-  return dateB.getTime() - dateA.getTime();
-});
+const sortedPatents = patentEntries.sort(byPatentDateDesc);
 
 const hasPatents = sortedPatents.length > 0;
 
@@ -47,25 +35,7 @@ const googleScholarUrl = 'https://scholar.google.com/citations?user=Kg3sh7QAAAAJ
   description="Academic publications and research papers by Cris Benge in machine learning, NLP, and AI systems."
 >
   <div class="container-custom py-16 md:py-24">
-    <!-- Breadcrumb Navigation -->
-    <nav aria-label="Breadcrumb" class="mb-8">
-      <ol
-        class="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark"
-      >
-        <li>
-          <a
-            href="/"
-            class="min-h-11 inline-flex items-center hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
-          >
-            Home
-          </a>
-        </li>
-        <li aria-hidden="true">/</li>
-        <li aria-current="page" class="text-text dark:text-text-dark">
-          Publications
-        </li>
-      </ol>
-    </nav>
+    <Breadcrumb currentPage="Publications" />
 
     <!-- Page Header -->
     <div class="mb-12">
