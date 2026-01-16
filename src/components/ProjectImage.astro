@@ -1,0 +1,101 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+import {Image} from 'astro:assets';
+import placeholderImage from '../assets/images/projects/placeholder.svg';
+import {cn} from '../utils/cn';
+
+/**
+ * ProjectImage component for consistent project image rendering.
+ * Handles valid images and placeholder fallback with appropriate sizing per variant.
+ *
+ * @example
+ * ```astro
+ * ---
+ * import ProjectImage from './ProjectImage.astro';
+ * ---
+ * <ProjectImage
+ *   image={project.image}
+ *   alt={`Screenshot of ${project.title}`}
+ *   variant="featured"
+ * />
+ * ```
+ */
+interface Props extends HTMLAttributes<'div'> {
+  /** Image metadata from content collection */
+  image?: ImageMetadata;
+  /** Alt text for the image */
+  alt: string;
+  /** Layout variant: 'featured' for 16:9 aspect ratio, 'thumbnail' for square */
+  variant: 'featured' | 'thumbnail';
+  /** Whether to add hover scale effect (requires parent with group class) */
+  hoverScale?: boolean;
+}
+
+const {
+  image,
+  alt,
+  variant,
+  hoverScale = true,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+const hasValidImage = !!image;
+const imageSource = image || placeholderImage;
+
+// Base classes for all images
+const baseImageClasses = 'w-full h-full object-cover';
+const hoverClasses = hoverScale
+  ? 'transition-transform duration-300 group-hover:scale-105'
+  : '';
+
+// Container classes based on variant
+const containerClasses =
+  variant === 'featured'
+    ? 'aspect-video overflow-hidden bg-surface dark:bg-surface-dark'
+    : 'flex-shrink-0 w-20 h-20 md:w-24 md:h-24 overflow-hidden bg-surface dark:bg-surface-dark';
+---
+
+<div class={cn(containerClasses, className)} {...attrs}>
+  {
+    hasValidImage ? (
+      variant === 'featured' ? (
+        <Image
+          src={imageSource}
+          alt={alt}
+          widths={[400, 800, 1200]}
+          formats={['avif', 'webp']}
+          loading="lazy"
+          class={cn(baseImageClasses, hoverClasses)}
+        />
+      ) : (
+        <Image
+          src={imageSource}
+          alt={alt}
+          width={96}
+          height={96}
+          loading="lazy"
+          class={cn(baseImageClasses, hoverClasses)}
+        />
+      )
+    ) : variant === 'featured' ? (
+      <Image
+        src={placeholderImage}
+        alt={alt}
+        width={800}
+        height={450}
+        loading="lazy"
+        class={baseImageClasses}
+      />
+    ) : (
+      <Image
+        src={placeholderImage}
+        alt={alt}
+        width={96}
+        height={96}
+        loading="lazy"
+        class={baseImageClasses}
+      />
+    )
+  }
+</div>

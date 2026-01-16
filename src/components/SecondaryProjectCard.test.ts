@@ -151,13 +151,13 @@ describe('SecondaryProjectCard', () => {
       expect(result).toContain('hover:-translate-y-1');
     });
 
-    it('has hover shadow effect (shadow-md for secondary)', async () => {
+    it('has hover shadow effect', async () => {
       const container = await AstroContainer.create();
       const result = await container.renderToString(SecondaryProjectCard, {
         props: {project: mockProject, slug: 'secondary-test'},
       });
       expect(result).toContain('shadow-sm');
-      expect(result).toContain('hover:shadow-md');
+      expect(result).toContain('hover:shadow-lg');
     });
 
     it('has active tap state', async () => {

@@ -221,7 +221,7 @@ test.describe('Project Cards', () => {
         .locator('[data-component="secondary-project-card"]')
         .first();
       await expect(card).toHaveClass(/shadow-sm/);
-      await expect(card).toHaveClass(/hover:shadow-md/);
+      await expect(card).toHaveClass(/hover:shadow-lg/);
     });
 
     test('cards have smooth transition', async ({page}) => {

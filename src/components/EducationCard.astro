@@ -2,7 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import {Image} from 'astro:assets';
 import {cardContainerClasses} from '../utils/card-styles';
-import {BADGE_BASE_CLASSES} from '../utils/badge';
+import {BADGE_BASE_CLASSES, EDUCATION_HONOR_COLORS} from '../utils/badge';
 import {cn} from '../utils/cn';
 import ExternalLink from './ExternalLink.astro';
 
@@ -107,7 +107,7 @@ const {
         honors.length > 0 && (
           <ul class="mt-2 flex flex-wrap gap-2">
             {honors.map((honor) => (
-              <li class={cn(BADGE_BASE_CLASSES, 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200')}>
+              <li class={cn(BADGE_BASE_CLASSES, EDUCATION_HONOR_COLORS)}>
                 {honor}
               </li>
             ))}
