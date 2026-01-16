@@ -143,40 +143,37 @@ const variantClasses: Record<string, string> = {
   ),
 };
 
-// Size-specific classes
-const sizeClasses: Record<string, string> = {
-  xs: 'gap-1 text-xs',
-  sm: 'gap-1.5 text-sm',
-  base: 'gap-2 px-6 py-3 min-h-11',
-  lg: 'gap-2 px-8 py-4 text-lg',
+// Consolidated size classes by variant category
+const SIZE_CLASSES: Record<string, Record<string, string>> = {
+  button: {
+    xs: 'gap-1 px-4 py-2 text-xs',
+    sm: 'gap-1.5 px-5 py-2.5 text-sm',
+    base: 'gap-2 px-6 py-3 min-h-11',
+    lg: 'gap-2 px-8 py-4 text-lg',
+  },
+  text: {
+    xs: 'gap-1 text-xs',
+    sm: 'gap-1.5 text-sm',
+    base: 'gap-1.5',
+    lg: 'gap-2 text-lg',
+  },
+  badge: {
+    xs: 'gap-1 px-3 py-2.5 text-xs',
+    sm: 'gap-1.5 px-3 py-2 text-sm',
+    base: 'gap-2 px-4 py-2.5',
+    lg: 'gap-2 px-5 py-3 text-lg',
+  },
 };
 
-// Size adjustments for non-button variants
-const textSizeClasses: Record<string, string> = {
-  xs: 'gap-1 text-xs',
-  sm: 'gap-1.5 text-sm',
-  base: 'gap-1.5',
-  lg: 'gap-2 text-lg',
-};
+// Map variant to size category
+function getSizeCategory(v: string): string {
+  if (v === 'button' || v === 'button-outlined') return 'button';
+  if (v === 'badge') return 'badge';
+  return 'text';
+}
 
-// Badge size classes
-const badgeSizeClasses: Record<string, string> = {
-  xs: 'gap-1 px-3 py-2.5 text-xs',
-  sm: 'gap-1.5 px-3 py-2 text-sm',
-  base: 'gap-2 px-4 py-2.5',
-  lg: 'gap-2 px-5 py-3 text-lg',
-};
-
-// Determine which size classes to use based on variant
-const getSizeClasses = (v: string, s: string): string => {
-  if (v === 'button' || v === 'button-outlined') {
-    return sizeClasses[s];
-  }
-  if (v === 'badge') {
-    return badgeSizeClasses[s];
-  }
-  return textSizeClasses[s];
-};
+// Get size classes for variant and size
+const sizeClass = SIZE_CLASSES[getSizeCategory(variant)][size];
 
 // Arrow size based on size variant
 const arrowSize = size === 'xs' || size === 'sm' ? 'text-xs' : '';
@@ -184,7 +181,7 @@ const arrowSize = size === 'xs' || size === 'sm' ? 'text-xs' : '';
 // Build final class string
 const classes = cn(
   variantClasses[variant],
-  getSizeClasses(variant, size),
+  sizeClass,
   'focus-ring',
   className
 );

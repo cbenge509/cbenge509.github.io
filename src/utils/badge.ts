@@ -60,6 +60,26 @@ export const AWARD_CATEGORY_COLORS = {
 } as const;
 
 /**
+ * Education honor badge colors.
+ * Blue color scheme for academic distinctions.
+ */
+export const EDUCATION_HONOR_COLORS =
+  'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200' as const;
+
+/**
+ * Display labels for certification categories.
+ */
+export const CERTIFICATION_CATEGORY_LABELS: Record<
+  'cloud' | 'data' | 'database' | 'other',
+  string
+> = {
+  cloud: 'Cloud',
+  data: 'Data',
+  database: 'Database',
+  other: 'Other',
+} as const;
+
+/**
  * Determines placement badge style based on ranking text.
  * Provides semantic color coding:
  * - Gold: 1st place

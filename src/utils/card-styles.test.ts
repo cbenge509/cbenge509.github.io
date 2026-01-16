@@ -2,6 +2,7 @@ import {describe, it, expect} from 'vitest';
 import {
   cardContainerClasses,
   cardSurfaceContainerClasses,
+  interactiveCardClasses,
   BULLET_SEPARATOR,
 } from './card-styles';
 
@@ -87,6 +88,48 @@ describe('card-styles utilities', () => {
 
     it('contains proper HTML structure', () => {
       expect(BULLET_SEPARATOR).toBe('<span aria-hidden="true">•</span>');
+    });
+  });
+
+  describe('interactiveCardClasses', () => {
+    it('provides interactive card classes with focus-within support', () => {
+      const classes = interactiveCardClasses();
+      expect(classes).toContain('rounded-lg');
+      expect(classes).toContain('overflow-hidden');
+      expect(classes).toContain('bg-surface');
+      expect(classes).toContain('dark:bg-surface-dark');
+      expect(classes).toContain('shadow-sm');
+      expect(classes).toContain('hover:shadow-lg');
+      expect(classes).toContain('transition-all');
+      expect(classes).toContain('hover:-translate-y-1');
+      expect(classes).toContain('active:scale-[0.98]');
+    });
+
+    it('includes focus-within ring styles', () => {
+      const classes = interactiveCardClasses();
+      expect(classes).toContain('focus-within:ring-2');
+      expect(classes).toContain('focus-within:ring-accent');
+      expect(classes).toContain('dark:focus-within:ring-accent-dark');
+      expect(classes).toContain('focus-within:ring-offset-2');
+      expect(classes).toContain('focus-within:ring-offset-bg');
+    });
+
+    it('merges custom classes with interactive card', () => {
+      const classes = interactiveCardClasses('featured-card custom-class');
+      expect(classes).toContain('featured-card');
+      expect(classes).toContain('custom-class');
+      expect(classes).toContain('rounded-lg');
+    });
+
+    it('handles undefined className', () => {
+      const classes = interactiveCardClasses(undefined);
+      expect(classes).toContain('rounded-lg');
+      expect(classes).not.toContain('undefined');
+    });
+
+    it('handles empty string className', () => {
+      const classes = interactiveCardClasses('');
+      expect(classes).toContain('rounded-lg');
     });
   });
 });

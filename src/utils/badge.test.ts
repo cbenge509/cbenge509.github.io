@@ -2,8 +2,10 @@ import {describe, it, expect} from 'vitest';
 import {
   BADGE_BASE_CLASSES,
   CERTIFICATION_BADGE_COLORS,
+  CERTIFICATION_CATEGORY_LABELS,
   PATENT_STATUS_COLORS,
   AWARD_CATEGORY_COLORS,
+  EDUCATION_HONOR_COLORS,
   getPlacementBadgeColor,
 } from './badge';
 
@@ -41,6 +43,24 @@ describe('badge utilities', () => {
     });
   });
 
+  describe('CERTIFICATION_CATEGORY_LABELS', () => {
+    it('provides cloud category label', () => {
+      expect(CERTIFICATION_CATEGORY_LABELS.cloud).toBe('Cloud');
+    });
+
+    it('provides data category label', () => {
+      expect(CERTIFICATION_CATEGORY_LABELS.data).toBe('Data');
+    });
+
+    it('provides database category label', () => {
+      expect(CERTIFICATION_CATEGORY_LABELS.database).toBe('Database');
+    });
+
+    it('provides other category label', () => {
+      expect(CERTIFICATION_CATEGORY_LABELS.other).toBe('Other');
+    });
+  });
+
   describe('PATENT_STATUS_COLORS', () => {
     it('provides granted status colors (green)', () => {
       expect(PATENT_STATUS_COLORS.granted).toContain('bg-green-100');
@@ -67,6 +87,15 @@ describe('badge utilities', () => {
     it('provides professional category colors (blue)', () => {
       expect(AWARD_CATEGORY_COLORS.professional).toContain('bg-blue-100');
       expect(AWARD_CATEGORY_COLORS.professional).toContain('text-blue-800');
+    });
+  });
+
+  describe('EDUCATION_HONOR_COLORS', () => {
+    it('provides blue color scheme for academic distinctions', () => {
+      expect(EDUCATION_HONOR_COLORS).toContain('bg-blue-100');
+      expect(EDUCATION_HONOR_COLORS).toContain('text-blue-800');
+      expect(EDUCATION_HONOR_COLORS).toContain('dark:bg-blue-900');
+      expect(EDUCATION_HONOR_COLORS).toContain('dark:text-blue-200');
     });
   });
 
