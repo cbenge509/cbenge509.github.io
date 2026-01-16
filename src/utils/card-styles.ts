@@ -3,6 +3,23 @@ import {cn} from './cn';
 /**
  * Card styling utilities for consistent card component appearance.
  * Provides reusable class compositions for card containers and common patterns.
+ *
+ * CARD STYLE SELECTION GUIDE:
+ *
+ * cardContainerClasses():
+ *   - Interactive cards in grids
+ *   - Cards that benefit from visual lift feedback
+ *   - Example: EducationCard, CertificationCard
+ *
+ * cardSurfaceContainerClasses():
+ *   - Content-heavy cards where lift would distract
+ *   - Cards with internal interactive elements
+ *   - Example: PublicationCard, PatentCard
+ *
+ * interactiveCardClasses():
+ *   - Clickable cards with nested links
+ *   - Cards needing focus-within support
+ *   - Example: FeaturedProjectCard, SecondaryProjectCard
  */
 
 /**

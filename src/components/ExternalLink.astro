@@ -59,31 +59,16 @@ import {cn} from '../utils/cn';
  * ```
  */
 export interface Props extends HTMLAttributes<'a'> {
-  /** External URL (required) */
   href: string;
-
-  /** Visual style variant */
   variant?: 'text' | 'button' | 'button-outlined' | 'card-action' | 'badge';
-
-  /** Size variant */
   size?: 'xs' | 'sm' | 'base' | 'lg';
-
-  /** Accessible label - automatically appends "(opens in new tab)" */
+  /** Automatically appends "(opens in new tab)" */
   ariaLabel: string;
-
-  /** Optional icon prefix */
   prefixIcon?: 'pdf' | 'github' | 'external' | 'none';
-
-  /** Show arrow suffix (default: true) */
   showArrow?: boolean;
-
-  /** Button color scheme (only for variant='button') */
+  /** Only applies to variant='button' */
   colorScheme?: 'accent' | 'neutral';
-
-  /** Additional classes via cn() utility */
   class?: string;
-
-  /** data-testid for testing */
   'data-testid'?: string;
 }
 

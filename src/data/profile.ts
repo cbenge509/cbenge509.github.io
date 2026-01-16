@@ -57,3 +57,31 @@ export const HERO_PROFILE = {
     {label: 'TS/SCI w/ Polygraph', type: 'clearance'},
   ] satisfies Credential[],
 } as const;
+
+/**
+ * Extended profile data for about page and SEO.
+ * Single source of truth for biographical and schema.org data.
+ */
+export const PROFILE_DATA = {
+  name: 'Cris Benge',
+  jobTitle: 'Head of Federal Innovation',
+  employer: 'Google',
+  siteUrl: 'https://cbenge509.github.io',
+  twitterHandle: '@cbaborern',
+
+  bio: {
+    intro:
+      "I'm Cris Benge, Head of Federal Innovation at Google, where I lead AI/ML prototype initiatives that transform how U.S. federal agencies leverage cutting-edge technology to solve complex mission problems.",
+    experience:
+      'With over two decades of experience in software engineering, data science, and technical leadership, I specialize in building scalable machine learning systems and driving innovation at the intersection of technology and public service.',
+    passion:
+      "I'm passionate about mentoring the next generation of technologists and contributing to open-source projects and research that advance the field of artificial intelligence.",
+  },
+
+  socialProfiles: [
+    'https://github.com/cbenge509',
+    'https://www.linkedin.com/in/crisbenge/',
+  ],
+
+  education: [{name: 'Columbia University'}, {name: 'UC Berkeley'}],
+} as const;

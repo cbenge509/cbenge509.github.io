@@ -32,6 +32,10 @@ const {class: className, showImage = true, ...attrs} = Astro.props;
 
 // Profile data from centralized source
 const profile = HERO_PROFILE;
+
+// Animation timing constants (matches CSS sequence)
+const ANIMATION_BASE_DELAY = 500;
+const ANIMATION_STAGGER = 150;
 ---
 
 <section
@@ -103,7 +107,7 @@ const profile = HERO_PROFILE;
                     ? 'bg-surface text-text dark:bg-surface-dark dark:text-text-dark'
                     : 'bg-accent/5 text-accent-hover dark:bg-accent-dark/15 dark:text-accent-dark',
                 ]}
-                style={`animation-delay: ${500 + index * 150}ms`}
+                style={`animation-delay: ${ANIMATION_BASE_DELAY + index * ANIMATION_STAGGER}ms`}
                 data-testid={`hero-credential-${index}`}
               >
                 {cred.label}
