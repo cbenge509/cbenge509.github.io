@@ -35,3 +35,25 @@ export function getSocialLink(label: 'GitHub' | 'LinkedIn'): SocialLink {
  * CV download URL (relative to public directory).
  */
 export const CV_URL = '/cris-benge-cv.pdf' as const;
+
+/**
+ * Professional credentials displayed in Hero component.
+ */
+export interface Credential {
+  label: string;
+  type: 'education' | 'clearance';
+}
+
+/**
+ * Hero section profile data.
+ */
+export const HERO_PROFILE = {
+  name: 'Cris Benge',
+  role: 'Head of Federal Innovation, Google',
+  credentials: [
+    {label: 'Senior Leadership', type: 'education'},
+    {label: 'Research', type: 'education'},
+    {label: 'Data Science', type: 'education'},
+    {label: 'TS/SCI w/ Polygraph', type: 'clearance'},
+  ] satisfies Credential[],
+} as const;

@@ -1,0 +1,41 @@
+---
+import type {HTMLAttributes} from 'astro/types';
+
+/**
+ * Breadcrumb navigation component for consistent page hierarchy display.
+ * Renders Home link followed by current page name.
+ *
+ * @example
+ * ```astro
+ * <Breadcrumb currentPage="About" />
+ * <Breadcrumb currentPage="Publications" class="mb-12" />
+ * ```
+ */
+interface Props extends HTMLAttributes<'nav'> {
+  /** Current page name to display */
+  currentPage: string;
+}
+
+const {currentPage, class: className, ...attrs} = Astro.props;
+---
+
+<nav
+  aria-label="Breadcrumb"
+  class:list={['mb-8', className]}
+  {...attrs}
+>
+  <ol class="flex items-center gap-2 text-sm text-text-secondary dark:text-text-secondary-dark">
+    <li>
+      <a
+        href="/"
+        class="min-h-11 inline-flex items-center hover:text-accent dark:hover:text-accent-dark transition-colors duration-150 focus-ring rounded"
+      >
+        Home
+      </a>
+    </li>
+    <li aria-hidden="true">/</li>
+    <li aria-current="page" class="text-text dark:text-text-dark">
+      {currentPage}
+    </li>
+  </ol>
+</nav>
