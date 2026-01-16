@@ -60,7 +60,8 @@ const {class: className, ...attrs} = Astro.props;
   const THEME_KEY = 'theme';
   let memoryTheme: string | null = null; // Fallback for private browsing
 
-  function isStorageAvailable(): boolean {
+  // Cache localStorage availability (only check once)
+  const storageAvailable = (() => {
     try {
       const test = '__storage_test__';
       localStorage.setItem(test, test);
@@ -69,22 +70,18 @@ const {class: className, ...attrs} = Astro.props;
     } catch {
       return false;
     }
-  }
+  })();
 
   function getTheme(): string | null {
-    if (isStorageAvailable()) {
+    if (storageAvailable) {
       return localStorage.getItem(THEME_KEY);
     }
     return memoryTheme;
   }
 
   function setTheme(theme: string): void {
-    try {
-      if (isStorageAvailable()) {
-        localStorage.setItem(THEME_KEY, theme);
-      }
-    } catch {
-      // Silently fail - use memory fallback
+    if (storageAvailable) {
+      localStorage.setItem(THEME_KEY, theme);
     }
     memoryTheme = theme;
   }
