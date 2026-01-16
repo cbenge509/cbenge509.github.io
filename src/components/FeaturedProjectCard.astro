@@ -4,7 +4,7 @@ import {Image} from 'astro:assets';
 import ProjectTag from './ProjectTag.astro';
 import ExternalLink from './ExternalLink.astro';
 import placeholderImage from '../assets/images/projects/placeholder.svg';
-import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../utils/project-categories';
+import {CATEGORY_TO_VARIANT, CATEGORY_LABELS, type ProjectData} from '../utils/project-categories';
 
 /**
  * Featured Project Card component for displaying highlighted projects
@@ -28,17 +28,7 @@ import {CATEGORY_TO_VARIANT, CATEGORY_LABELS} from '../utils/project-categories'
  */
 export interface Props extends HTMLAttributes<'article'> {
   /** Project data from content collection */
-  project: {
-    title: string;
-    description: string;
-    image: ImageMetadata;
-    category: 'leader' | 'builder' | 'winner' | 'research';
-    skills: string[];
-    tools: string[];
-    githubUrl?: string;
-    achievement?: string;
-    affiliation?: string;
-  };
+  project: ProjectData;
   /** Project slug for linking to detail page */
   slug: string;
 }
