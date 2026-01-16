@@ -1,6 +1,7 @@
 ---
 import type {HTMLAttributes} from 'astro/types';
 import ExternalLink from './ExternalLink.astro';
+import {SOCIAL_LINKS} from '../data/profile';
 
 /**
  * Footer component with social links and copyright notice
@@ -19,19 +20,6 @@ import ExternalLink from './ExternalLink.astro';
 interface Props extends HTMLAttributes<'footer'> {}
 
 const {class: className, ...attrs} = Astro.props;
-
-const socialLinks = [
-  {
-    label: 'GitHub',
-    href: 'https://github.com/cbenge509',
-    ariaLabel: 'GitHub profile',
-  },
-  {
-    label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/crisbenge/',
-    ariaLabel: 'LinkedIn profile',
-  },
-];
 
 const currentYear = new Date().getFullYear();
 ---
@@ -52,13 +40,13 @@ const currentYear = new Date().getFullYear();
       <!-- Social Links -->
       <nav aria-label="Social links" class="flex items-center gap-4">
         {
-          socialLinks.map((link) => (
+          SOCIAL_LINKS.map((link) => (
             <ExternalLink
               href={link.href}
               variant="text"
               size="sm"
               ariaLabel={link.ariaLabel}
-              class="footer-link relative min-h-11 min-w-11 px-3 py-3 text-body flex items-center justify-center"
+              class="link-underline-gradient min-h-11 min-w-11 px-3 py-3 text-body flex items-center justify-center"
               data-testid={`footer-${link.label.toLowerCase()}-link`}
             >
               {link.label}
@@ -74,49 +62,3 @@ const currentYear = new Date().getFullYear();
     </div>
   </div>
 </footer>
-
-<style>
-  /* Gradient underline hover effect for footer links */
-  .footer-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      var(--color-accent),
-      var(--color-accent-hover, var(--color-accent))
-    );
-    transition: width 150ms ease-out;
-  }
-
-  .footer-link:hover::after,
-  .footer-link:focus-visible::after {
-    width: 100%;
-  }
-
-  /* Dark mode gradient */
-  :global(.dark) .footer-link::after {
-    background: linear-gradient(
-      90deg,
-      var(--color-accent-dark),
-      var(--color-accent-hover-dark, var(--color-accent-dark))
-    );
-  }
-
-  /* Reduced motion: use opacity instead of width animation */
-  @media (prefers-reduced-motion: reduce) {
-    .footer-link::after {
-      transition: opacity 150ms ease-out;
-      width: 100%;
-      opacity: 0;
-    }
-
-    .footer-link:hover::after,
-    .footer-link:focus-visible::after {
-      opacity: 1;
-    }
-  }
-</style>
