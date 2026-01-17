@@ -6,6 +6,8 @@
  * consistent category-to-variant mapping and display labels.
  */
 
+import type {CollectionEntry} from 'astro:content';
+
 /**
  * Project category type from content collection schema.
  */
@@ -61,15 +63,6 @@ export const CATEGORY_LABELS: Record<ProjectCategory, string> = {
 /**
  * Project data shape from content collection.
  * Used by FeaturedProjectCard and SecondaryProjectCard components.
+ * Derived from the projects collection schema for type safety.
  */
-export interface ProjectData {
-  title: string;
-  description: string;
-  image: ImageMetadata;
-  category: ProjectCategory;
-  skills: string[];
-  tools: string[];
-  githubUrl?: string;
-  achievement?: string;
-  affiliation?: string;
-}
+export type ProjectData = CollectionEntry<'projects'>['data'];
