@@ -2,6 +2,7 @@
 import type {HTMLAttributes} from 'astro/types';
 import {cardSurfaceContainerClasses, BULLET_SEPARATOR} from '../utils/card-styles';
 import {toSlugId} from '../utils/id-utils';
+import {cn} from '../utils/cn';
 import ExternalLink from './ExternalLink.astro';
 
 /**
@@ -64,7 +65,7 @@ const hasLinks = pdfUrl || codeUrl || doiUrl;
 
 <article
   data-component="publication-card"
-  class={cardSurfaceContainerClasses(`publication-card ${className || ''}`)}
+  class={cardSurfaceContainerClasses(cn('publication-card', className))}
   {...attrs}
 >
   <!-- Header: Year and Venue -->
@@ -228,32 +229,5 @@ const hasLinks = pdfUrl || codeUrl || doiUrl;
 </style>
 
 <script>
-  // Progressive enhancement for abstract toggle
-  // Abstracts are visible by default (expanded), JS collapses them initially
-  document.addEventListener('DOMContentLoaded', () => {
-    document
-      .querySelectorAll('[data-component="publication-card"]')
-      .forEach((card) => {
-        const toggle = card.querySelector('[data-toggle]') as HTMLButtonElement;
-        const abstract = card.querySelector('[data-abstract]') as HTMLElement;
-        const toggleText = card.querySelector(
-          '[data-toggle-text]'
-        ) as HTMLElement;
-
-        if (!toggle || !abstract || !toggleText) return;
-
-        // Initially collapse abstracts (JS enhancement)
-        abstract.classList.remove('expanded');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggleText.textContent = 'Show Abstract';
-
-        toggle.addEventListener('click', () => {
-          const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-
-          toggle.setAttribute('aria-expanded', String(!isExpanded));
-          abstract.classList.toggle('expanded');
-          toggleText.textContent = isExpanded ? 'Show Abstract' : 'Hide Abstract';
-        });
-      });
-  });
+  import '../scripts/publication-card';
 </script>

@@ -111,13 +111,5 @@ const {project, slug, class: className, ...attrs} = Astro.props;
 </article>
 
 <script>
-  // Stop propagation on GitHub links to prevent card navigation
-  // Uses event delegation per project security standards (no inline handlers)
-  document.addEventListener('click', (event) => {
-    const target = event.target as HTMLElement;
-    const githubLink = target.closest('[data-github-link]');
-    if (githubLink) {
-      event.stopPropagation();
-    }
-  });
+  import '../scripts/featured-project-card';
 </script>
