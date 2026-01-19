@@ -3,14 +3,15 @@
  * Stops propagation on GitHub links to prevent card navigation.
  */
 
-let initialized = false;
+// Track if listener already attached
+let listenerAttached = false;
 
 function initFeaturedProjectCards(): void {
-  // Prevent multiple initializations
-  if (initialized) return;
-  initialized = true;
+  // Use event delegation for efficiency - safe to call multiple times
+  // as we only attach one delegated listener to document
+  if (listenerAttached) return;
+  listenerAttached = true;
 
-  // Use event delegation for efficiency
   document.addEventListener('click', event => {
     const target = event.target as HTMLElement;
     const githubLink = target.closest('[data-github-link]');
@@ -20,9 +21,13 @@ function initFeaturedProjectCards(): void {
   });
 }
 
-// Initialize on DOMContentLoaded
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initFeaturedProjectCards);
 } else {
   initFeaturedProjectCards();
 }
+
+// Re-initialize on page navigation (for Astro view transitions)
+// Event delegation is already set up, no need to re-attach
+document.addEventListener('astro:page-load', initFeaturedProjectCards);
