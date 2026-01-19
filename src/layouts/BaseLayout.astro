@@ -11,13 +11,9 @@ import Footer from '../components/Footer.astro';
  * @slot default - Page content (rendered inside <main>)
  * @slot head - Additional head content (rendered at end of <head>)
  *
- * NOTE: Pages using [data-reveal] elements must import scroll-reveal script:
- * ```astro
- * <script>
- *   import '../scripts/scroll-reveal';
- * </script>
- * ```
- * This enables optimal code splitting - only pages that need animations load the script.
+ * NOTE: Pages using [data-reveal] elements must import the scroll-reveal script
+ * in a script tag. This enables optimal code splitting - only pages that need
+ * animations load the script. See index.astro for an example.
  *
  * @example
  * ```astro

@@ -10,7 +10,7 @@ authors:
 venue: "Technical Report"
 year: 2021
 abstract: "We present a high-performance compression approach for transformer-based NLP models that achieves 209x reduction in parameters while maintaining accuracy comparable to full BERT models. Our method enables efficient deployment of large language models in resource-constrained environments without significant performance degradation."
-pdfUrl: "https://cbenge509.github.io/assets/pdf/High%20Performance%20Compression%20NLP.pdf"
+pdfUrl: "/papers/High%20Performance%20Compression%20NLP.pdf"
 ---
 
 This work addresses the critical challenge of deploying large transformer models in production environments where computational resources are limited.
