@@ -34,9 +34,12 @@ function initPublicationCards(): void {
     });
 }
 
-// Initialize on DOMContentLoaded
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initPublicationCards);
 } else {
   initPublicationCards();
 }
+
+// Re-initialize on page navigation (for Astro view transitions)
+document.addEventListener('astro:page-load', initPublicationCards);

@@ -209,3 +209,6 @@ if (document.readyState === 'loading') {
 } else {
   initNavigation();
 }
+
+// Re-initialize on page navigation (for Astro view transitions)
+document.addEventListener('astro:page-load', () => initNavigation());

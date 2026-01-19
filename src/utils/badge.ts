@@ -66,6 +66,11 @@ export const AWARD_CATEGORY_COLORS = {
 /**
  * Education honor badge colors.
  * Blue color scheme for academic distinctions.
+ *
+ * NOTE: Kept as named constant (not inlined) for:
+ * - Consistency with other badge color exports
+ * - Semantic clarity in component usage
+ * - Single source of truth for design changes
  */
 export const EDUCATION_HONOR_COLORS =
   'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-200' as const;
