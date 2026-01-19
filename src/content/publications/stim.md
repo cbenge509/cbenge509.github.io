@@ -7,7 +7,7 @@ authors:
 venue: "Technical Report"
 year: 2023
 abstract: "We present STIM (Spatio-Temporal Inference Model), a transformer-based approach for predicting uncorrectable memory errors in data center servers. By analyzing spatial and temporal patterns in memory telemetry data, STIM enables proactive replacement of failing memory modules before they cause server crashes, significantly improving data center reliability."
-pdfUrl: "https://cbenge509.github.io/assets/pdf/STIM.pdf"
+pdfUrl: "/papers/STIM.pdf"
 ---
 
 STIM addresses the critical challenge of memory failure prediction in large-scale data center operations.
