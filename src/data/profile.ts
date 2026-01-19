@@ -78,10 +78,8 @@ export const PROFILE_DATA = {
       "I'm passionate about mentoring the next generation of technologists and contributing to open-source projects and research that advance the field of artificial intelligence.",
   },
 
-  socialProfiles: [
-    'https://github.com/cbenge509',
-    'https://www.linkedin.com/in/crisbenge/',
-  ],
+  // Derived from SOCIAL_LINKS for single source of truth
+  socialProfiles: SOCIAL_LINKS.map(link => link.href),
 
   education: [{name: 'Columbia University'}, {name: 'UC Berkeley'}],
-} as const;
+};

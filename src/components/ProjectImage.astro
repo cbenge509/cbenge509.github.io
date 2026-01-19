@@ -54,44 +54,40 @@ type ImageConfig = {
   class: string;
 };
 
+// Image configuration lookup table
+type ConfigKey = `${'valid' | 'placeholder'}-${'featured' | 'thumbnail'}`;
+
+const IMAGE_CONFIGS: Record<ConfigKey, Omit<ImageConfig, 'src' | 'class'>> = {
+  'valid-featured': {
+    widths: [400, 800, 1200],
+    formats: ['avif', 'webp'],
+  },
+  'valid-thumbnail': {
+    width: 96,
+    height: 96,
+  },
+  'placeholder-featured': {
+    width: 800,
+    height: 450,
+  },
+  'placeholder-thumbnail': {
+    width: 96,
+    height: 96,
+  },
+};
+
 function getImageConfig(
   hasImage: boolean,
   imageVariant: 'featured' | 'thumbnail',
   imageSource: ImageMetadata
 ): ImageConfig {
-  if (hasImage && imageVariant === 'featured') {
-    return {
-      src: imageSource,
-      widths: [400, 800, 1200],
-      formats: ['avif', 'webp'],
-      class: cn(baseImageClasses, hoverClasses),
-    };
-  }
+  const configKey: ConfigKey = `${hasImage ? 'valid' : 'placeholder'}-${imageVariant}`;
+  const baseConfig = IMAGE_CONFIGS[configKey];
 
-  if (hasImage && imageVariant === 'thumbnail') {
-    return {
-      src: imageSource,
-      width: 96,
-      height: 96,
-      class: cn(baseImageClasses, hoverClasses),
-    };
-  }
-
-  if (imageVariant === 'featured') {
-    return {
-      src: placeholderImage,
-      width: 800,
-      height: 450,
-      class: baseImageClasses,
-    };
-  }
-
-  // thumbnail placeholder
   return {
-    src: placeholderImage,
-    width: 96,
-    height: 96,
-    class: baseImageClasses,
+    ...baseConfig,
+    src: hasImage ? imageSource : placeholderImage,
+    class: hasImage ? cn(baseImageClasses, hoverClasses) : baseImageClasses,
   };
 }
 
