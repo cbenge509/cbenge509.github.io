@@ -20,19 +20,43 @@ publishDate: 2020-03-01
 order: 7
 ---
 
-A statistical field experiment examining how grammar quality affects perceived intelligence in social media communications.
+A randomized controlled experiment revealing that not all spelling errors are equal—phonological errors (sound-based misspellings like "definately") reduce perceived intelligence nearly twice as much as simple typos.
 
-## Research Design
+## The Question
 
-Conducted a controlled experiment to measure the correlation between grammatical correctness in social media posts and viewer perception of the author's intelligence.
+In an era where social media posts often serve as first impressions—for employers, colleagues, and connections—does grammar actually affect how intelligent we appear? More specifically: do different *types* of errors carry different weight? We designed a rigorous field experiment to find out.
 
-## Methodology
+## Experimental Design
 
-Applied rigorous statistical methods including experimental design, hypothesis testing, and regression analysis to draw evidence-based conclusions about communication patterns in digital spaces.
+We conducted a pre-test/post-test randomized controlled experiment with 265 participants recruited from UC Berkeley's XLab. Participants were randomly assigned to one of three conditions:
 
-## Skills Applied
+- **Control**: Social media posts with correct spelling
+- **Typographical errors**: Posts with "slip of the hand" mistakes (accidental keystrokes)
+- **Phonological errors**: Posts with sound-based misspellings suggesting gaps in word knowledge
 
-- Statistical inference and experimental design
-- Data collection and analysis
-- Research methodology
-- Technical communication
+Participants rated each post's author on a 7-point scale measuring perceived intelligence, writing effectiveness, and communication quality. We employed deception to prevent response bias—participants didn't know the study's true purpose until debriefing.
+
+## Key Findings
+
+The results were striking and statistically significant (p < 0.01):
+
+| Error Type | Impact on Perceived Intelligence |
+|------------|----------------------------------|
+| Typographical errors | −0.56 points on 7-point scale |
+| Phonological errors | −1.14 points on 7-point scale |
+
+Phonological errors caused nearly **twice the negative impact** of simple typos. Our analysis suggests the mechanism: typos can be attributed to carelessness, but phonological errors signal a fundamental gap in word knowledge—a more damning inference about cognitive ability.
+
+## Practical Implications
+
+These findings extend beyond academic interest:
+
+- **Job seekers**: Employers increasingly screen social media—phonological errors may unconsciously bias hiring decisions
+- **Professionals**: Even informal posts shape perceived competence among colleagues and clients
+- **Platform designers**: Spell-check tools could differentiate between error types, prioritizing phonological corrections
+
+The study provides strong evidence that language errors function as powerful cognitive ability signals, even in casual online contexts where "perfect grammar" isn't expected.
+
+## Collaborators
+
+This research was conducted with **Stone Jiang** and **Andrew Fogarty** as part of UC Berkeley's W241: Experiments and Causal Inference course.
