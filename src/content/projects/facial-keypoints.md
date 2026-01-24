@@ -21,16 +21,18 @@ publishDate: 2020-05-15
 order: 3
 ---
 
-Developed machine learning solutions to detect up to 15 facial landmarks in grayscale facial images for a Kaggle competition.
+Built a 10-model neural network ensemble that placed 2nd in the Kaggle Facial Keypoints Detection challenge, finishing within 0.004 RMSE of first place. The system predicts 15 facial landmark coordinates on 96x96 grayscale images, handling incomplete annotations where some images contain all 15 points and others only 4.
 
-## Challenge
+## The Breakthrough
 
-The competition required handling a host of data quality issues including missing or incorrect labels, degraded images, and varied facial positioning across 1,783 grayscale images.
+Analysis revealed the training data came from two distinct sources—one with complete 15-point annotations, another with only 4. Rather than interpolating the missing labels, I split the pipeline: separate model ensembles trained on each subset, predictions merged at inference. This single decision improved RMSE by 0.2 points.
 
-## Approach
+## Architecture
 
-Collaborated with William Casey King, Ph.D. (Yale University) to develop a generalized stacking approach using convolutional neural networks. The solution addressed real-world challenges in image processing and neural network design.
+The ensemble combined 10 Level-1 models: custom Conv2D networks, NaimishNet, modified Inception V1/V3, LeNet5, ResNet50, and ResNeXt50. Each model trained with 5-fold cross-validation across 300 epochs on an RTX 4090.
 
-## Technologies
+Level-2 stacking generated 435 feature interactions per model (30 coordinates, pairwise multiplication), expanding to 3,255 total features fed into a MultiTaskElasticNet metaregressor. The linear combiner with L1 regularization outperformed neural alternatives—simpler proved more robust.
 
-Built with Python using Keras and TensorFlow for deep learning, OpenCV (cv2) for image processing, and Jupyter, Pandas, and NumPy for data manipulation and analysis.
+## Data Pipeline
+
+Manually corrected 56 mislabeled training images. Augmentation included rotations, elastic transforms, Gaussian noise, brightness/contrast scaling, CLAHE, and horizontal flips—each technique validated empirically before inclusion.
