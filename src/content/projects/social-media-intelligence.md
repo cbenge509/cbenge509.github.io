@@ -3,6 +3,7 @@ title: "Social Media Intelligence"
 description: "Statistical field experiment analyzing the impact of grammar quality on perceived intelligence in social media communications."
 image: "../../assets/images/projects/social_media_intelligence.jpg"
 githubUrl: "https://github.com/cbenge509/typos_field_experiment"
+liveUrl: "https://cbenge509.github.io/typos_field_experiment"
 skills:
   - "Statistics"
   - "Experimental Design"
