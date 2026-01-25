@@ -18,7 +18,7 @@ achievement: "2nd Place (RMSE: 1.28637)"
 affiliation: "UC Berkeley"
 isFeatured: true
 publishDate: 2020-05-15
-order: 3
+order: 9
 ---
 
 Built a 10-model neural network ensemble that placed 2nd in the Kaggle Facial Keypoints Detection challenge, finishing within 0.004 RMSE of first place. The system predicts 15 facial landmark coordinates on 96x96 grayscale images, handling incomplete annotations where some images contain all 15 points and others only 4.

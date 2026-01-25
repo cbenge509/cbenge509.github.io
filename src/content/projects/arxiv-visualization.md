@@ -16,7 +16,7 @@ tools:
   - "Power BI"
 category: "research"
 affiliation: "UC Berkeley"
-isFeatured: true
+isFeatured: false
 publishDate: 2019-11-01
 order: 6
 ---
