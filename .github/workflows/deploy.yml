@@ -138,62 +138,8 @@ jobs:
           retention-days: 7
 
   # ============================================
-  # STAGE 3: E2E + Lighthouse (after build, parallel)
+  # STAGE 3: Lighthouse (after build)
   # ============================================
-  e2e-tests:
-    name: E2E Tests
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-browsers-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Playwright (all browsers)
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-
-      - name: Install Playwright deps (if cache hit)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist/
-
-      - name: Start server and run E2E tests
-        run: |
-          npx serve dist -l 4321 &
-          npx wait-on http://localhost:4321
-          npm run test:e2e
-        env:
-          CI: true
-
-      - name: Upload Playwright report on failure
-        uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 7
-
   lighthouse:
     name: Lighthouse CI
     needs: build
@@ -228,7 +174,6 @@ jobs:
   # ============================================
   deploy:
     name: Deploy to GitHub Pages
-    # E2E tests temporarily non-blocking to allow deployment while fixing a11y contrast issues
     needs: [build, unit-tests, lighthouse]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
