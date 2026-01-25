@@ -16,9 +16,9 @@ tools:
 category: "winner"
 achievement: "1st Place (F1-micro: 0.6925)"
 affiliation: "DrivenData"
-isFeatured: true
+isFeatured: false
 publishDate: 2019-02-15
-order: 4
+order: 7
 ---
 
 A multi-label, multi-class classification challenge focused on identifying topics within World Bank publications.

@@ -15,9 +15,9 @@ tools:
   - "Plotly"
 category: "research"
 affiliation: "UC Berkeley"
-isFeatured: true
+isFeatured: false
 publishDate: 2019-12-01
-order: 9
+order: 7
 ---
 
 A comprehensive examination of criminal statistics from North Carolina (1987) employing linear regression models to provide evidence-based policy recommendations for reducing crime at county and state levels.

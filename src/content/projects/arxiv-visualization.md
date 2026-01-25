@@ -18,7 +18,7 @@ category: "research"
 affiliation: "UC Berkeley"
 isFeatured: true
 publishDate: 2019-11-01
-order: 8
+order: 6
 ---
 
 A data visualization initiative examining scholarly articles on arXiv to identify insights and industry patterns in artificial intelligence and machine learning research.

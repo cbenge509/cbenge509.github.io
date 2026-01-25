@@ -16,9 +16,9 @@ tools:
 category: "winner"
 achievement: "1st Place (RMSE: 2.9796)"
 affiliation: "DrivenData"
-isFeatured: true
+isFeatured: false
 publishDate: 2017-10-15
-order: 6
+order: 8
 ---
 
 Regression analysis predicting college graduate earnings using anonymized data from the U.S. Department of Education College Scorecard.

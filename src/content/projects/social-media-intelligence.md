@@ -17,7 +17,7 @@ category: "research"
 affiliation: "UC Berkeley"
 isFeatured: true
 publishDate: 2020-03-01
-order: 7
+order: 2
 ---
 
 A randomized controlled experiment revealing that not all spelling errors are equal—phonological errors (sound-based misspellings like "definately") reduce perceived intelligence nearly twice as much as simple typos.
