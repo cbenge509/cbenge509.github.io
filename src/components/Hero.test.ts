@@ -18,7 +18,6 @@ describe('Hero', () => {
     expect(result).toContain('Senior Leadership');
     expect(result).toContain('Research');
     expect(result).toContain('Data Science');
-    expect(result).toContain('TS/SCI w/ Polygraph');
   });
 
   it('renders LinkedIn and GitHub CTAs', async () => {
@@ -64,11 +63,10 @@ describe('Hero', () => {
   it('credential badges have staggered animation delays', async () => {
     const result = await renderComponent(Hero);
     // Credential badges animate after image (0-300ms) and name (100-500ms)
-    // Starting at 500ms with 150ms stagger: 500ms, 650ms, 800ms, 950ms
+    // Starting at 500ms with 150ms stagger: 500ms, 650ms, 800ms
     expect(result).toContain('animation-delay: 500ms');
     expect(result).toContain('animation-delay: 650ms');
     expect(result).toContain('animation-delay: 800ms');
-    expect(result).toContain('animation-delay: 950ms');
   });
 
   it('has data-testid attributes for testing', async () => {
@@ -148,13 +146,6 @@ describe('Hero', () => {
   it('image has responsive sizes attribute', async () => {
     const result = await renderComponent(Hero);
     expect(result).toContain('sizes=');
-  });
-
-  it('clearance badge has accent styling', async () => {
-    const result = await renderComponent(Hero);
-    // TS/SCI badge should have accent color styling with WCAG-compliant contrast
-    expect(result).toContain('bg-accent/5');
-    expect(result).toContain('text-accent-hover');
   });
 
   it('education badges have surface styling', async () => {
