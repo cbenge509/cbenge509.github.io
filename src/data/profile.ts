@@ -41,7 +41,7 @@ export const CV_URL = '/cris-benge-cv.pdf' as const;
  */
 export interface Credential {
   label: string;
-  type: 'education' | 'clearance';
+  type: 'education';
 }
 
 /**
@@ -54,7 +54,6 @@ export const HERO_PROFILE = {
     {label: 'Senior Leadership', type: 'education'},
     {label: 'Research', type: 'education'},
     {label: 'Data Science', type: 'education'},
-    {label: 'TS/SCI w/ Polygraph', type: 'clearance'},
   ] satisfies Credential[],
 } as const;
 
