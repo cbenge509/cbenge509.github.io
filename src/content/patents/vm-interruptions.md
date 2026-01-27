@@ -2,7 +2,7 @@
 title: "System and method for correlating virtual machine interruptions and node characteristics"
 patentNumber: "US-2025-0217177A1"
 filingDate: 2023-12-28
-grantDate: 2028-08-17
+grantDate: 2025-08-17
 url: "https://patents.google.com/patent/US20250217177A1/en"
 status: granted
 ---
