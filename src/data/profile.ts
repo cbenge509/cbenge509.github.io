@@ -49,7 +49,7 @@ export interface Credential {
  */
 export const HERO_PROFILE = {
   name: 'Cris Benge',
-  role: 'Head of Federal Innovation, Google',
+  role: 'Head of Rapid Innovation Team, Google',
   credentials: [
     {label: 'Senior Leadership', type: 'education'},
     {label: 'Research', type: 'education'},
@@ -63,14 +63,14 @@ export const HERO_PROFILE = {
  */
 export const PROFILE_DATA = {
   name: 'Cris Benge',
-  jobTitle: 'Head of Federal Innovation',
+  jobTitle: 'Head of Rapid Innovation Team',
   employer: 'Google',
   siteUrl: 'https://cbenge509.github.io',
   twitterHandle: '@cbaborern',
 
   bio: {
     intro:
-      "I'm Cris Benge, Head of Federal Innovation at Google, where I lead AI/ML prototype initiatives that transform how U.S. federal agencies leverage cutting-edge technology to solve complex mission problems.",
+      "I'm Cris Benge, Head of Rapid Innovation Team at Google, where I manage two engineering teams focused on AI/ML prototype initiatives that transform how U.S. federal and state/local agencies leverage cutting-edge technology to solve complex mission problems.",
     experience:
       'With over two decades of experience in software engineering, data science, and technical leadership, I specialize in building scalable machine learning systems and driving innovation at the intersection of technology and public service.',
     passion:

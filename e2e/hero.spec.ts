@@ -33,7 +33,7 @@ test.describe('Hero Section', () => {
       const heroRole = page.locator('[data-testid="hero-role"]');
       await expect(heroRole).toBeVisible();
       await expect(heroRole).toContainText(
-        'Head of Federal Innovation, Google',
+        'Head of Rapid Innovation Team, Google',
       );
     });
 
@@ -61,7 +61,7 @@ test.describe('Hero Section', () => {
       await expect(heroImage).toBeVisible();
       await expect(heroImage).toHaveAttribute(
         'alt',
-        'Cris Benge - Head of Federal Innovation at Google',
+        'Cris Benge - Head of Rapid Innovation Team at Google',
       );
     });
 

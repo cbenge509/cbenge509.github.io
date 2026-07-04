@@ -189,7 +189,7 @@ describe('SEO', () => {
       },
     });
 
-    expect(result).toContain('Head of Federal Innovation');
+    expect(result).toContain('Head of Rapid Innovation Team');
   });
 
   it('JSON-LD includes organization (Google)', async () => {

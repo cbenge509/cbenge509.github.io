@@ -10,7 +10,7 @@ describe('Hero', () => {
 
   it('renders role correctly', async () => {
     const result = await renderComponent(Hero);
-    expect(result).toContain('Head of Federal Innovation, Google');
+    expect(result).toContain('Head of Rapid Innovation Team, Google');
   });
 
   it('renders credential badges', async () => {
@@ -102,7 +102,7 @@ describe('Hero', () => {
     expect(result).toContain('data-testid="hero-image"');
     expect(result).toContain('data-testid="hero-image-container"');
     expect(result).toContain(
-      'alt="Cris Benge - Head of Federal Innovation at Google"',
+      'alt="Cris Benge - Head of Rapid Innovation Team at Google"',
     );
   });
 

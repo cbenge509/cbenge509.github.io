@@ -168,7 +168,7 @@ test.describe('SEO Foundation', () => {
     expect(parsed['@context']).toBe('https://schema.org');
     expect(parsed['@type']).toBe('Person');
     expect(parsed.name).toBe('Cris Benge');
-    expect(parsed.jobTitle).toBe('Head of Federal Innovation');
+    expect(parsed.jobTitle).toBe('Head of Rapid Innovation Team');
     expect(parsed.worksFor).toBeDefined();
     expect(parsed.worksFor['@type']).toBe('Organization');
     expect(parsed.worksFor.name).toBe('Google');
