@@ -1,9 +1,10 @@
 import {defineCollection, z, type SchemaContext} from 'astro:content';
+import {glob} from 'astro/loaders';
 
 // === CONTENT COLLECTIONS (Markdown with body) ===
 
 const projects = defineCollection({
-  type: 'content',
+  loader: glob({pattern: '**/*.md', base: './src/content/projects'}),
   schema: ({image}: SchemaContext) =>
     z.object({
       title: z.string(),
@@ -23,7 +24,7 @@ const projects = defineCollection({
 });
 
 const publications = defineCollection({
-  type: 'content',
+  loader: glob({pattern: '**/*.md', base: './src/content/publications'}),
   schema: z.object({
     title: z.string(),
     authors: z.array(z.string()).min(1),
@@ -38,7 +39,7 @@ const publications = defineCollection({
 });
 
 const patents = defineCollection({
-  type: 'content',
+  loader: glob({pattern: '**/*.md', base: './src/content/patents'}),
   schema: z.object({
     title: z.string(),
     patentNumber: z.string(),
@@ -52,7 +53,7 @@ const patents = defineCollection({
 // === DATA COLLECTIONS (YAML/JSON, no markdown body) ===
 
 const education = defineCollection({
-  type: 'data',
+  loader: glob({pattern: '**/*.yaml', base: './src/content/education'}),
   schema: ({image}: SchemaContext) =>
     z.object({
       institution: z.string(),
@@ -68,7 +69,7 @@ const education = defineCollection({
 });
 
 const certifications = defineCollection({
-  type: 'data',
+  loader: glob({pattern: '**/*.yaml', base: './src/content/certifications'}),
   schema: z.object({
     name: z.string(),
     issuer: z.string(),
@@ -81,7 +82,7 @@ const certifications = defineCollection({
 });
 
 const awards = defineCollection({
-  type: 'data',
+  loader: glob({pattern: '**/*.yaml', base: './src/content/awards'}),
   schema: ({image}: SchemaContext) =>
     z.object({
       title: z.string(),

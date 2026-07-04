@@ -60,7 +60,7 @@ const hasProjects = allProjects.length > 0;
                 {featuredProjects.map((project) => (
                   <FeaturedProjectCard
                     project={project.data}
-                    slug={project.slug}
+                    slug={project.id}
                     data-reveal
                   />
                 ))}
@@ -81,7 +81,7 @@ const hasProjects = allProjects.length > 0;
                 {secondaryProjects.map((project) => (
                   <SecondaryProjectCard
                     project={project.data}
-                    slug={project.slug}
+                    slug={project.id}
                     data-reveal
                   />
                 ))}

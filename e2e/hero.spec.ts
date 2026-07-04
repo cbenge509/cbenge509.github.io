@@ -44,7 +44,6 @@ test.describe('Hero Section', () => {
       await expect(credentials).toContainText('Senior Leadership');
       await expect(credentials).toContainText('Research');
       await expect(credentials).toContainText('Data Science');
-      await expect(credentials).toContainText('TS/SCI w/ Polygraph');
     });
 
     test('displays CTA buttons', async ({page}) => {

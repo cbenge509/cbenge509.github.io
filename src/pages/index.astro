@@ -43,7 +43,7 @@ const featuredProjects = allProjects
             <div data-reveal style={`transition-delay: ${index * 100}ms`}>
               <FeaturedProjectCard
                 project={project.data}
-                slug={project.slug}
+                slug={project.id}
                 data-testid={`featured-project-${index}`}
               />
             </div>

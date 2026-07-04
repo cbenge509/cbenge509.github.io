@@ -40,9 +40,13 @@ export default defineConfig({
     },
   ],
 
-  // Run dev server before tests
+  // Serve the production build before tests.
+  // Astro 7's `astro dev` auto-detaches into a background daemon in non-TTY
+  // contexts, so its foreground process exits early and Playwright's webServer
+  // manager rejects it. `astro preview` stays in the foreground and serves the
+  // built output, which is also more representative of what ships.
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run build && npm run preview',
     url: 'http://localhost:4321',
     reuseExistingServer: true,
     timeout: 120 * 1000,
